@@ -95,7 +95,7 @@ function get_dashboard_template() {
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount income">-$123</p>
+              <p class="transaction-amount income">+$123</p>
             </div>
             <div class="transaction-card">
               <div class="transaction-icon-category-type-time-container">
@@ -127,12 +127,20 @@ function get_dashboard_template() {
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount income">-$123</p>
+              <p class="transaction-amount income">+$123</p>
             </div>
           </div>
         </div>
   `;
 }
+
+function init_dashboard_template(callback) {
+  const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
+  if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
+}
+
 export default {
+  name: "dashboard",
   get: get_dashboard_template,
+  init: init_dashboard_template,
 };
