@@ -556,11 +556,40 @@ body {
 .top-incomes-top-expenses {
   display: none;
 }
+/* Tablet Navigation Sidebar */
+.tablet-navigation-sidebar {
+  position: fixed;
+  top: 8vh;
+  top: 8dvh;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 30vw;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0.6rem;
+  transform: translateX(-100%);
+}
+.navigation-button:not(.navigation-button-add).tablet {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2rem;
+  gap: 0.6rem;
+  width: 100%;
+}
+.navigation-button:not(.navigation-button-add).tablet > .icon {
+  width: unset;
+}
+
 @media (min-width: 768px) and (max-width: 1023px) {
   html {
     font-size: 20px;
   }
-  .open-sidebar-button {
+  .toggle-sidebar-button {
     display: block;
   }
   .top-incomes-top-expenses {
@@ -571,5 +600,8 @@ body {
   }
   .navigation-button-add.tablet {
     display: block;
+  }
+  .tablet-navigation-sidebar.visible {
+    transform: translateX(0);
   }
 }

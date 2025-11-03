@@ -5,12 +5,14 @@ import Budget from "./budget-template.js";
 import Statistics from "./statistics-template.js";
 
 const main = document.getElementsByClassName("main")[0];
-const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
-const dashboard_button = document.getElementsByClassName("navigation-button-dashboard")[0];
-const transactions_button = document.getElementsByClassName("navigation-button-transactions")[0];
-const budget_button = document.getElementsByClassName("navigation-button-budget")[0];
-const statistics_button = document.getElementsByClassName("navigation-button-statistics")[0];
-const navigation_buttons = [dashboard_button, transactions_button, budget_button, statistics_button];
+const current_tab_name = [...document.getElementsByClassName("current-tab-name")];
+const dashboard_button = [...document.getElementsByClassName("navigation-button-dashboard")];
+const transactions_button = [...document.getElementsByClassName("navigation-button-transactions")];
+const budget_button = [...document.getElementsByClassName("navigation-button-budget")];
+const statistics_button = [...document.getElementsByClassName("navigation-button-statistics")];
+const navigation_buttons = [...dashboard_button, ...transactions_button, ...budget_button, ...statistics_button];
+const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-button")[0];
+const tablet_navigation_sidebar = document.getElementsByClassName("tablet-navigation-sidebar")[0];
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
@@ -31,6 +33,7 @@ function init() {
       if (tab) render_tab(tab);
     });
   });
+  toggle_sidebar_button.addEventListener("click", () => tablet_navigation_sidebar.classList.toggle("visible"));
 }
 
 function render_tab(tab) {
@@ -58,9 +61,13 @@ function capitalize(string) {
   );
 }
 
-function highlight_selected_tab(tabs, selected_tab_name) {
-  tabs.map(tab => tab.classList.remove("selected"));
-  selected_tab_name.classList.add("selected");
+function highlight_selected_tab(tabs, selected_tab) {
+  tabs.map(tab => {
+    const current_tab_name = tab.dataset.navigationTab;
+    const selected_tab_name = selected_tab.dataset.navigationTab;
+    if (current_tab_name === selected_tab_name) tab.classList.add("selected");
+    else tab.classList.remove("selected");
+  });
 }
 
 init();
