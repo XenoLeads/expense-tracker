@@ -2,29 +2,53 @@ import shopping_cart_icon from "../assets/icons/transaction-category/shopping-ca
 
 function get_dashboard_template() {
   return `
-        <div class="card balance-income-expense">
-          <div class="wrapper total-balance-wrapper">
-            <p>Balance:</p>
-            <p class="total-balance">$123</p>
-          </div>
-          <div class="income-expense">
-            <div class="wrapper total-income-wrapper">
-              <p>Income:</p>
-              <p class="total-income">$123</p>
+        <div class="balance-income-expense-expense-overview-top-icomes-top-expenses">
+          <div class="balance-income-expense-expense-overview">
+            <div class="card balance-income-expense">
+              <div class="wrapper total-balance-wrapper">
+                <p>Balance:</p>
+                <p class="total-balance">$123</p>
+              </div>
+              <div class="income-expense">
+                <div class="wrapper total-income-wrapper">
+                  <p>Income:</p>
+                  <p class="total-income">$123</p>
+                </div>
+                <div class="wrapper total-expense-wrapper">
+                  <p>Expense:</p>
+                  <p class="total-expense">$123</p>
+                </div>
+              </div>
             </div>
-            <div class="wrapper total-expense-wrapper">
-              <p>Expense:</p>
-              <p class="total-expense">$123</p>
+            <div class="card expense-overview">
+              <div class="expense-details-wrapper">
+                <p class="expense-1-details">Food: $123</p>
+                <p class="expense-2-details">Travel: $123</p>
+                <p class="expense-3-details">Grocery: $123</p>
+              </div>
+              <div class="expense-pie-chart"></div>
             </div>
           </div>
-        </div>
-        <div class="card expense-overview">
-          <div class="expense-details-wrapper">
-            <p class="expense-1-details">Food: $123</p>
-            <p class="expense-2-details">Travel: $123</p>
-            <p class="expense-3-details">Grocery: $123</p>
+          <div class="card top-incomes-top-expenses">
+            <div class="top-incomes-container">
+              <h2 class="top-incomes-heading">Top Incomes</h2>
+              <div class="separator"></div>
+              <div class="top-incomes">
+                <p class="top-income">Freelance: $123</p>
+                <p class="top-income">Salary: $123</p>
+                <p class="top-income">Commission: $123</p>
+              </div>
+            </div>
+            <div class="top-expenses-container">
+              <h2 class="top-expenses-heading">Top Expenses</h2>
+              <div class="separator"></div>
+              <div class="top-expenses">
+                <p class="top-income">Rent: $123</p>
+                <p class="top-income">Groceries: $123</p>
+                <p class="top-income">Transportation: $123</p>
+              </div>
+            </div>
           </div>
-          <div class="expense-pie-chart"></div>
         </div>
         <div class="card recent-transactions-container">
           <div class="recent-transactions-heading">

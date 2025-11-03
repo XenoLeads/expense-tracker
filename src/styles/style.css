@@ -482,3 +482,62 @@ body {
   height: 100%;
   width: 100%;
 }
+
+/* Tablet */
+.balance-income-expense-expense-overview-top-icomes-top-expenses {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+}
+.balance-income-expense-expense-overview {
+  flex: 2;
+}
+.top-incomes-top-expenses {
+  flex: 1;
+}
+.balance-income-expense-expense-overview {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
+}
+.top-incomes-top-expenses {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1.4rem;
+}
+.top-incomes-heading,
+.top-expenses-heading {
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: center;
+}
+.top-income,
+.top-expenses {
+  font-size: 0.8rem;
+}
+.top-incomes,
+.top-expenses {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.top-incomes-top-expenses {
+  display: none;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  html {
+    font-size: 20px;
+  }
+  .top-incomes-top-expenses {
+    display: flex;
+  }
+}
