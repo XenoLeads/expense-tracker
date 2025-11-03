@@ -263,7 +263,9 @@ body {
   outline: none;
 }
 .transaction-filters-time,
-.transaction-filters-category {
+.transaction-filters-category,
+.all-budgets-filters,
+.statistics-time-filters {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -272,7 +274,8 @@ body {
   scrollbar-width: none;
 }
 .transaction-filter,
-.budget-filter {
+.budget-filter,
+.statistics-time-filter {
   background-color: rgba(184, 219, 217, 0.2);
   white-space: nowrap;
   padding: 0.4rem 0.6rem;
@@ -280,7 +283,8 @@ body {
   font-size: 0.8rem;
 }
 .transaction-filter.selected,
-.budget-filter.selected {
+.budget-filter.selected,
+.statistics-time-filter.selected {
   background-color: rgba(184, 219, 217, 0.3);
 }
 
@@ -425,6 +429,17 @@ body {
 .budget-progress-amount {
   font-size: 0.7rem;
   opacity: 0.8;
+}
+
+/* Tab - Statistics */
+.export-statistics-button {
+  background-color: rgba(184, 219, 217, 0.5);
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+  align-self: flex-end;
+}
+.statistics-chart {
+  aspect-ratio: 1/1;
 }
 
 .footer {

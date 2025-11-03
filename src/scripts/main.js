@@ -2,6 +2,7 @@ import "../styles/style.css";
 import Dashboard from "./dashboard-template.js";
 import Transactions from "./transactions-template.js";
 import Budget from "./budget-template.js";
+import Statistics from "./statistics-template.js";
 
 const main = document.getElementsByClassName("main")[0];
 const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
@@ -15,7 +16,7 @@ const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
   transactions: Transactions,
   budget: Budget,
-  statistics: null,
+  statistics: Statistics,
 };
 
 function init() {
