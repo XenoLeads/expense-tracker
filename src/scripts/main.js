@@ -23,8 +23,7 @@ function init() {
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {
       if (button.classList.contains("selected")) return;
-      navigation_buttons.map(button => button.classList.remove("selected"));
-      button.classList.add("selected");
+      highlight_selected_tab(navigation_buttons, button);
 
       const tab = NAVIGATION_KEYMAP[button.dataset.navigationTab];
       if (tab) render_tab(tab);
@@ -34,7 +33,10 @@ function init() {
 
 function render_tab(tab) {
   const TAB_CALLBACK_KEYMAP = {
-    dashboard: () => render_tab(Transactions),
+    dashboard: () => {
+      highlight_selected_tab(navigation_buttons, transactions_button);
+      render_tab(Transactions);
+    },
   };
 
   main.innerHTML = tab.get();
@@ -52,6 +54,11 @@ function capitalize(string) {
       .map(char => char.toLowerCase())
       .join("")
   );
+}
+
+function highlight_selected_tab(tabs, selected_tab_name) {
+  tabs.map(tab => tab.classList.remove("selected"));
+  selected_tab_name.classList.add("selected");
 }
 
 init();
