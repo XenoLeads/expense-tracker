@@ -367,7 +367,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.6rem;
 }
 .all-budgets-heading {
   font-weight: normal;
@@ -379,6 +378,8 @@ body {
   justify-content: flex-start;
   align-items: center;
   gap: 0.4rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.6rem;
 }
 .all-budgets {
   display: flex;
