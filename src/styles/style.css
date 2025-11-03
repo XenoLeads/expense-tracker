@@ -484,6 +484,29 @@ body {
 }
 
 /* Tablet */
+.open-sidebar-button {
+  display: none;
+  height: 1.8rem;
+  aspect-ratio: 1/1;
+  margin: 0 0.4rem;
+}
+.open-sidebar-icon {
+  height: 100%;
+  width: 100%;
+}
+.sidebar-button-user-logo-name {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.4rem;
+}
+.navigation-button-add.tablet {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  transform: translate(-45%, -45%);
+}
 .balance-income-expense-expense-overview-top-icomes-top-expenses {
   display: flex;
   justify-content: stretch;
@@ -537,7 +560,16 @@ body {
   html {
     font-size: 20px;
   }
+  .open-sidebar-button {
+    display: block;
+  }
   .top-incomes-top-expenses {
     display: flex;
+  }
+  .footer {
+    display: none;
+  }
+  .navigation-button-add.tablet {
+    display: block;
   }
 }
