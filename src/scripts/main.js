@@ -1,6 +1,7 @@
 import "../styles/style.css";
 import Dashboard from "./dashboard-template.js";
 import Transactions from "./transactions-template.js";
+import Budget from "./budget-template.js";
 
 const main = document.getElementsByClassName("main")[0];
 const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
@@ -13,7 +14,7 @@ const navigation_buttons = [dashboard_button, transactions_button, budget_button
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
   transactions: Transactions,
-  budget: null,
+  budget: Budget,
   statistics: null,
 };
 

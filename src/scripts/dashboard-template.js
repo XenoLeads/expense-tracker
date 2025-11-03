@@ -18,13 +18,13 @@ function get_dashboard_template() {
             </div>
           </div>
         </div>
-        <div class="card budget-overview">
-          <div class="budget-details-wrapper">
-            <p class="budget-1-details">Food: $123</p>
-            <p class="budget-2-details">Travel: $123</p>
-            <p class="budget-3-details">Grocery: $123</p>
+        <div class="card expense-overview">
+          <div class="expense-details-wrapper">
+            <p class="expense-1-details">Food: $123</p>
+            <p class="expense-2-details">Travel: $123</p>
+            <p class="expense-3-details">Grocery: $123</p>
           </div>
-          <div class="budget-pie-chart"></div>
+          <div class="expense-pie-chart"></div>
         </div>
         <div class="card recent-transactions-container">
           <div class="recent-transactions-heading">
