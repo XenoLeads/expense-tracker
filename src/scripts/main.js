@@ -5,7 +5,7 @@ import Budget from "./budget-template.js";
 import Statistics from "./statistics-template.js";
 
 const main = document.getElementsByClassName("main")[0];
-const current_tab_name = [...document.getElementsByClassName("current-tab-name")];
+const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
 const dashboard_button = [...document.getElementsByClassName("navigation-button-dashboard")];
 const transactions_button = [...document.getElementsByClassName("navigation-button-transactions")];
 const budget_button = [...document.getElementsByClassName("navigation-button-budget")];
