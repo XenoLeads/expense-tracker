@@ -6,10 +6,10 @@ function get_budget_template() {
         <div class="card remaining-budget-overview-pie-chart">
           <div class="remaining-budget-overview">
             <div class="remaining-budget-overview-heading-separator">
-              <h2 class="remaining-budget-overview-heading">Remaining Budget</h2>
+              <h2 class="remaining-budget-overview-heading">Most Used</h2>
               <div class="separator"></div>
             </div>
-            <div class="remaining-budgets">
+            <div class="most-used-budgets">
               <div class="remaining-budget">
                 <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
                 <div class="remaining-budget-type-amount-progress-bar">

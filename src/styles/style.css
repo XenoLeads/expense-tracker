@@ -313,7 +313,7 @@ body {
   flex-direction: column;
   gap: 0.6rem;
 }
-.remaining-budgets {
+.most-used-budgets {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
