@@ -484,13 +484,13 @@ body {
 }
 
 /* Tablet */
-.open-sidebar-button {
+.toggle-sidebar-button {
   display: none;
   height: 1.8rem;
   aspect-ratio: 1/1;
   margin: 0 0.4rem;
 }
-.open-sidebar-icon {
+.toggle-sidebar-icon {
   height: 100%;
   width: 100%;
 }
