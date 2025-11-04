@@ -61,12 +61,22 @@ function capitalize(string) {
   );
 }
 
-function highlight_selected_tab(tabs, selected_tab) {
+function highlight_selected_tab(tabs, selected_tab_list) {
   tabs.map(tab => {
-    const current_tab_name = tab.dataset.navigationTab;
-    const selected_tab_name = selected_tab.dataset.navigationTab;
-    if (current_tab_name === selected_tab_name) tab.classList.add("selected");
-    else tab.classList.remove("selected");
+    if (Array.isArray(selected_tab_list)) {
+      selected_tab_list.forEach(selected_tab => {
+        const current_tab_name = tab.dataset.navigationTab;
+        const selected_tab_name = selected_tab.dataset.navigationTab;
+        if (current_tab_name === selected_tab_name) tab.classList.add("selected");
+        else tab.classList.remove("selected");
+      });
+    } else {
+      const selected_tab = selected_tab_list;
+      const current_tab_name = tab.dataset.navigationTab;
+      const selected_tab_name = selected_tab.dataset.navigationTab;
+      if (current_tab_name === selected_tab_name) tab.classList.add("selected");
+      else tab.classList.remove("selected");
+    }
   });
 }
 
