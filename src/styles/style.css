@@ -591,6 +591,16 @@ body {
 .navigation-button:not(.navigation-button-add).tablet > .icon {
   width: unset;
 }
+.statistics-line-pie-chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+}
+.statistics-pie-chart {
+  display: none;
+}
 
 @media (min-width: 768px) and (max-width: 1023px) {
   html {
@@ -610,5 +620,8 @@ body {
   }
   .tablet-navigation-sidebar.visible {
     transform: translateX(0);
+  }
+  .statistics-pie-chart {
+    display: block;
   }
 }

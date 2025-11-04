@@ -10,7 +10,10 @@ function get_statistics_template() {
             <button class="button statistics-time-filter statistics-time-filter-this-year">This Year</button>
           </div>
         </div>
-        <div class="card statistics-chart statistics-line-chart"></div>
+        <div class="statistics-line-pie-chart-container">
+          <div class="card statistics-chart statistics-line-chart"></div>
+          <div class="card statistics-chart statistics-pie-chart"></div>
+        </div>
         <div class="card statistics-chart statistics-bar-chart"></div>
   `;
 }
