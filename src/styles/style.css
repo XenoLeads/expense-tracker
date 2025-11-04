@@ -79,6 +79,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -668,7 +669,6 @@ body {
   height: 2.2rem;
 }
 .desktop-add-transaction-button {
-  font-size: 1rem;
   text-align: center;
   width: 100%;
   background-color: rgba(184, 219, 217, 0.3);
