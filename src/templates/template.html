@@ -18,7 +18,31 @@
           <img src="../assets/icons/light-mode.svg" alt="Dark and light mode toggle" class="icon" />
         </button>
       </header>
-      <main class="main"></main>
+      <main class="main">
+        <aside class="card navigation-sidebar desktop-navigation-sidebar visible">
+          <div class="desktop-add-transaction-button-separator-container">
+            <button class="button desktop-add-transaction-button">Add</button>
+            <div class="separator"></div>
+          </div>
+          <button class="button navigation-button navigation-button-dashboard desktop selected" data-navigation-tab="dashboard">
+            <img src="../assets/icons/navigation/dashboard.svg" alt="" class="icon" />
+            <p class="navigation-button-text">Dashboard</p>
+          </button>
+          <button class="button navigation-button navigation-button-transactions desktop" data-navigation-tab="transactions">
+            <img src="../assets/icons/navigation/transactions.svg" alt="" class="icon" />
+            <p class="navigation-button-text">Transactions</p>
+          </button>
+          <button class="button navigation-button navigation-button-budget desktop" data-navigation-tab="budget">
+            <img src="../assets/icons/navigation/budget.svg" alt="" class="icon" />
+            <p class="navigation-button-text">Budget</p>
+          </button>
+          <button class="button navigation-button navigation-button-statistics desktop" data-navigation-tab="statistics">
+            <img src="../assets/icons/navigation/statistics.svg" alt="" class="icon" />
+            <p class="navigation-button-text">Statistics</p>
+          </button>
+        </aside>
+        <div class="main-content"></div>
+      </main>
       <footer class="footer">
         <button class="button navigation-button navigation-button-dashboard selected" data-navigation-tab="dashboard">
           <img src="../assets/icons/navigation/dashboard.svg" alt="" class="icon" />
@@ -35,7 +59,7 @@
         </button>
       </footer>
       <button class="button navigation-button navigation-button-add tablet"><img src="../assets/icons/navigation/plus.svg" alt="" /></button>
-      <aside class="card tablet-navigation-sidebar visible">
+      <aside class="card navigation-sidebar tablet-navigation-sidebar visible">
         <button class="button navigation-button navigation-button-dashboard tablet selected" data-navigation-tab="dashboard">
           <img src="../assets/icons/navigation/dashboard.svg" alt="" class="icon" />
           <p class="navigation-button-text">Dashboard</p>
