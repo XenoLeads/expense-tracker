@@ -791,6 +791,27 @@ body {
   font-weight: normal;
   text-align: center;
 }
+.budget-overviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.budget-overview {
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+.balance-line-chart-container {
+  display: none;
+}
+.balance-line-chart {
+  height: 16rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.4rem;
+}
 @media (min-width: 1440px) {
   html {
     font-size: 24px;
@@ -823,4 +844,21 @@ body {
     border-radius: unset;
     box-shadow: -0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
   }
+  .expense-overview {
+    display: none;
+  }
+  .balance-income-expense-expense-overview {
+    flex-direction: row;
+  }
+  .budget-overview {
+    display: flex;
+  }
+  .balance-line-chart-container {
+    display: flex;
+  }
+}
+
+.heading {
+  font-size: 1rem;
+  font-weight: normal;
 }
