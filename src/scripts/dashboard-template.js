@@ -1,5 +1,7 @@
 import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
+const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
 function get_dashboard_template() {
   return `
         <div class="balance-income-expense-expense-overview-top-icomes-top-expenses">
@@ -159,6 +161,29 @@ function get_dashboard_template() {
 }
 
 function init_dashboard_template(callback) {
+  desktop_quick_view_actions_sidebar.innerHTML = `
+  <div class="card top-incomes-top-expenses">
+            <div class="top-incomes-container">
+              <h2 class="top-incomes-heading">Top Incomes</h2>
+              <div class="separator"></div>
+              <div class="top-incomes">
+                <p class="top-income">Freelance: $123</p>
+                <p class="top-income">Salary: $123</p>
+                <p class="top-income">Commission: $123</p>
+              </div>
+            </div>
+            <div class="top-expenses-container">
+              <h2 class="top-expenses-heading">Top Expenses</h2>
+              <div class="separator"></div>
+              <div class="top-expenses">
+                <p class="top-income">Rent: $123</p>
+                <p class="top-income">Groceries: $123</p>
+                <p class="top-income">Transportation: $123</p>
+              </div>
+            </div>
+          </div>
+`;
+
   const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 }

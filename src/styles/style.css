@@ -687,7 +687,6 @@ body {
   height: 100%;
   z-index: 10;
   border-radius: unset;
-  box-shadow: -0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
 }
 @media (min-width: 1440px) {
   html {
@@ -699,12 +698,15 @@ body {
   .footer {
     display: none;
   }
+  .desktop-navigation-sidebar {
+    display: flex;
+  }
   .desktop-navigation-sidebar.visible {
     max-width: none;
     padding: 1rem;
     transform: translateX(0);
   }
-  .desktop-quick-view-actions-sidebar{
+  .desktop-quick-view-actions-sidebar {
     display: flex;
   }
   .desktop-navigation-sidebar.visible ~ .main-content {
@@ -713,7 +715,9 @@ body {
   .desktop-navigation-sidebar ~ .main-content {
     margin-right: 18%;
   }
-  .desktop-navigation-sidebar {
+  .desktop-quick-view-actions-sidebar > .top-incomes-top-expenses {
     display: flex;
+    border-radius: unset;
+    box-shadow: -0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
   }
 }
