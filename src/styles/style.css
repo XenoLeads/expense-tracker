@@ -588,6 +588,7 @@ body {
   gap: 0.6rem;
   transform: translateX(-101%);
   overflow-x: hidden;
+  box-shadow: 0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
 }
 .navigation-button:not(.navigation-button-add).tablet,
 .navigation-button:not(.navigation-button-add).desktop {
@@ -654,16 +655,18 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  left: 0;
   width: 18%;
   height: 100%;
   z-index: 10;
   border-radius: unset;
   overflow-x: hidden;
   max-width: 0;
-  transform: translateX(-101%);
   gap: 0.8rem;
   padding: unset;
+}
+.desktop-navigation-sidebar {
+  transform: translateX(-101%);
+  left: 0;
 }
 .navigation-button:not(.navigation-button-add).desktop {
   height: 2.2rem;
@@ -675,6 +678,15 @@ body {
   padding: 0.4rem 0.4rem;
   border-radius: 0.4rem;
   margin-bottom: 1rem;
+}
+.desktop-quick-view-actions-sidebar {
+  position: fixed;
+  right: 0;
+  width: 18%;
+  height: 100%;
+  z-index: 10;
+  border-radius: unset;
+  box-shadow: -0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
 }
 @media (min-width: 1440px) {
   html {
@@ -693,6 +705,9 @@ body {
   }
   .desktop-navigation-sidebar.visible ~ .main-content {
     margin-left: 18%;
+  }
+  .desktop-navigation-sidebar ~ .main-content {
+    margin-right: 18%;
   }
   .desktop-navigation-sidebar {
     display: flex;
