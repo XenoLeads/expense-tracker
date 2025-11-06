@@ -856,6 +856,10 @@ body {
   .balance-line-chart-container {
     display: flex;
   }
+  .transaction-filters,
+  .statistics-time-filter-container {
+    display: none;
+  }
 }
 
 .heading {
