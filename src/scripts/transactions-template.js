@@ -2,6 +2,8 @@ import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
 import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
+const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
 function get_transactions_template() {
   return `
         <div class="search-bar-container">
@@ -203,6 +205,33 @@ function get_transactions_template() {
 }
 
 function init_transactions_template() {
+  desktop_quick_view_actions_sidebar.innerHTML = `
+  <div class="transaction-filters">
+            <div class="card transaction-filters-time">
+              <div class="desktop-transaction-filters-time-heading-separator">
+                <h2 class="desktop-transaction-filters-time-heading">Time</h2>
+                <div class="separator"></div>
+              </div>
+              <button class="button transaction-filter transaction-time-filter-all selected">All Time</button>
+              <button class="button transaction-filter transaction-time-filter-today">Today</button>
+              <button class="button transaction-filter transaction-time-filter-this-week">This Week</button>
+              <button class="button transaction-filter transaction-time-filter-this-month">This Month</button>
+              <button class="button transaction-filter transaction-time-filter-this-year">This Year</button>
+            </div>
+            <div class="card transaction-filters-category">
+              <div class="desktop-transaction-filters-category-heading-separator">
+                <h2 class="desktop-transaction-filters-category-heading">Category</h2>
+                <div class="separator"></div>
+              </div>
+              <button class="button transaction-filter transaction-category-filter-all selected">All</button>
+              <button class="button transaction-filter transaction-category-filter-income">Income</button>
+              <button class="button transaction-filter transaction-category-filter-expense">Expense</button>
+              <div class="separator"></div>
+              <button class="button transaction-filter transaction-category-filter-income-expense selected">Income/Expense</button>
+            </div>
+          </div>
+  `;
+
   const clear_search_button = document.getElementsByClassName("clear-search-icon")[0];
   if (clear_search_button) {
     clear_search_button.addEventListener("click", () => {

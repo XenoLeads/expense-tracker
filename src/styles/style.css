@@ -682,11 +682,50 @@ body {
 .desktop-quick-view-actions-sidebar {
   position: fixed;
   display: none;
+  justify-content: stretch;
+  align-items: stretch;
   right: 0;
   width: 18%;
-  height: 100%;
+  height: 92vh;
+  height: 92dvh;
   z-index: 10;
   border-radius: unset;
+}
+.desktop-quick-view-actions-sidebar > .transaction-filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+.desktop-quick-view-actions-sidebar > .transaction-filters > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  flex: 1;
+  box-shadow: -0.4rem 0.4rem 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
+}
+.desktop-quick-view-actions-sidebar .transaction-filter {
+  width: 100%;
+}
+.desktop-transaction-filters-time-heading-separator,
+.desktop-transaction-filters-category-heading-separator {
+  width: 100%;
+  text-align: center;
+}
+.desktop-transaction-filters-time-heading,
+.desktop-transaction-filters-category-heading {
+  font-weight: normal;
+  font-size: 1rem;
+}
+.desktop-quick-view-actions-sidebar .transaction-filters-category {
+  overflow-y: auto;
 }
 @media (min-width: 1440px) {
   html {
