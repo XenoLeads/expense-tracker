@@ -312,7 +312,7 @@ body {
 
 /* Tab - Budget */
 .add-new-budget-button {
-  background-color: rgb(184, 219, 217, 0.5);
+  background-color: rgb(184, 219, 217, 0.3);
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
   align-self: flex-end;
