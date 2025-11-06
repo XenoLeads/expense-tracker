@@ -153,6 +153,17 @@ body {
   flex-direction: column;
   gap: 0.6rem;
 }
+.recent-transactions::after {
+  content: "No transactions yet.";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1rem;
+}
+.recent-transactions:has(.transaction-card)::after {
+  display: none;
+}
 .recent-transactions-heading {
   display: flex;
   justify-content: space-between;
@@ -863,10 +874,10 @@ body {
   .add-new-budget-button {
     display: none;
   }
-  .statistics-pie-chart{
+  .statistics-pie-chart {
     display: flex;
   }
-  .export-statistics-button{
+  .export-statistics-button {
     display: none;
   }
 }

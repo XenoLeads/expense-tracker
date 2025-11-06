@@ -1,3 +1,5 @@
+import Utils from "./utils.js";
+import Transaction from "./transaction.js";
 import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
@@ -70,104 +72,7 @@ function get_dashboard_template() {
               <button class="button recent-transactions-heading-see-all-button">See All</button>
             </div>
             <div class="separator"></div>
-            <div class="recent-transactions">
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount expense">-$123</p>
-              </div>
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount income">+$123</p>
-              </div>
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount expense">-$123</p>
-              </div>
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount income">+$123</p>
-              </div>
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount expense">-$123</p>
-              </div>
-              <div class="transaction-card">
-                <div class="transaction-icon-category-type-time-container">
-                  <div class="icon transaction-icon">
-                    <img src="${shopping_cart_icon}" alt="" />
-                  </div>
-                  <div class="transaction-category-type-time-container">
-                    <p class="transaction-category">Grocery</p>
-                    <div class="transaction-type-time-container">
-                      <p class="transaction-type">Cash</p>
-                      <p>-</p>
-                      <p class="transaction-time">10:00 AM</p>
-                    </div>
-                  </div>
-                </div>
-                <p class="transaction-amount income">+$123</p>
-              </div>
-            </div>
+            <div class="recent-transactions"></div>
           </div>
   `;
 }
@@ -196,8 +101,36 @@ function init_dashboard_template(callback) {
           </div>
 `;
 
+  display_transactions(Transaction.get());
+
   const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
+}
+
+function display_transactions(transactions) {
+  const recent_transactions = document.getElementsByClassName("recent-transactions")[0];
+  recent_transactions.innerHTML = "";
+  transactions.slice(0, 10).forEach(transaction => {
+    const transaction_card = `
+                  <div class="transaction-card">
+                    <div class="transaction-icon-category-type-time-container">
+                      <div class="icon transaction-icon">
+                        <img src="${shopping_cart_icon}" alt="" />
+                      </div>
+                      <div class="transaction-category-type-time-container">
+                        <p class="transaction-category">${Utils.capitalize(transaction.category)}</p>
+                        <div class="transaction-type-time-container">
+                          <p class="transaction-type">${Utils.capitalize(transaction.method)}</p>
+                          <p>-</p>
+                          <p class="transaction-time">${transaction.time}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="transaction-amount ${transaction.type}">${transaction.type === "income" ? "+" : "-"}${transaction.amount}</p>
+                  </div>
+    `;
+    recent_transactions.insertAdjacentHTML("beforeend", transaction_card);
+  });
 }
 
 export default {

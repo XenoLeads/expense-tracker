@@ -1,4 +1,6 @@
 import "../styles/style.css";
+
+import Utils from "./utils.js";
 import Dashboard from "./dashboard-template.js";
 import Transactions from "./transactions-template.js";
 import Budget from "./budget-template.js";
@@ -47,18 +49,7 @@ function render_tab(tab) {
   main_content.innerHTML = tab.get();
   tab.init(TAB_CALLBACK_KEYMAP[tab.name]);
 
-  current_tab_name.textContent = capitalize(tab.name);
-}
-
-function capitalize(string) {
-  return (
-    string[0].toUpperCase() +
-    string
-      .slice(1)
-      .split("")
-      .map(char => char.toLowerCase())
-      .join("")
-  );
+  current_tab_name.textContent = Utils.capitalize(tab.name);
 }
 
 function highlight_selected_tab(tabs, selected_tab_list) {
