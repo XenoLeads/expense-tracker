@@ -861,6 +861,9 @@ body {
   .remaining-budget-overview-pie-chart {
     display: none;
   }
+  .statistics-pie-chart{
+    display: flex;
+  }
 }
 
 .heading {
