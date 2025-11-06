@@ -672,7 +672,8 @@ body {
   height: 2.2rem;
 }
 .desktop-add-transaction-button,
-.desktop-add-budget-button {
+.desktop-add-budget-button,
+.desktop-export-statistics-button {
   text-align: center;
   width: 100%;
   background-color: rgba(184, 219, 217, 0.3);
@@ -764,6 +765,31 @@ body {
 }
 .desktop-most-used-budget-chart {
   height: unset;
+}
+.deskto-statistics-quick-view-actions-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 100%;
+  padding: 1rem;
+  padding-left: unset;
+}
+.deskto-statistics-quick-view-actions-container > .statistics-time-filter-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.deskto-statistics-quick-view-actions-container .statistics-time-filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.statistics-time-filter-heading {
+  font-size: 1rem;
+  font-weight: normal;
+  text-align: center;
 }
 @media (min-width: 1440px) {
   html {
