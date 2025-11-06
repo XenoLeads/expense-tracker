@@ -857,7 +857,8 @@ body {
     display: flex;
   }
   .transaction-filters,
-  .statistics-time-filter-container {
+  .statistics-time-filter-container,
+  .remaining-budget-overview-pie-chart {
     display: none;
   }
 }
