@@ -859,7 +859,8 @@ body {
   }
   .transaction-filters,
   .statistics-time-filter-container,
-  .remaining-budget-overview-pie-chart {
+  .remaining-budget-overview-pie-chart,
+  .add-new-budget-button {
     display: none;
   }
   .statistics-pie-chart{
