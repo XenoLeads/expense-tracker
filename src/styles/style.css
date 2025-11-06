@@ -864,6 +864,9 @@ body {
   .statistics-pie-chart{
     display: flex;
   }
+  .export-statistics-button{
+    display: none;
+  }
 }
 
 .heading {
