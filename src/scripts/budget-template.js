@@ -1,5 +1,7 @@
 import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
+const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
 function get_budget_template() {
   return `
   <button class="button add-new-budget-button">Add New Budget</button>
@@ -125,7 +127,52 @@ function get_budget_template() {
   `;
 }
 
-function init_budget_template(callback) {}
+function init_budget_template() {
+  desktop_quick_view_actions_sidebar.innerHTML = `
+  <div class="desktop-budget-quick-view-actions">
+            <button class="button desktop-add-budget-button">Add New Budget</button>
+            <div class="desktop-most-used-budget-overview-container">
+              <div class="card desktop-most-used-budget-overview-chart">
+                <div class="desktop-most-used-budget-overview">
+                  <h2 class="desktop-most-used-budget-overview-heading">Most Used</h2>
+                  <div class="separator"></div>
+                  <div class="remaining-budget">
+                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <div class="remaining-budget-type-amount-progress-bar">
+                      <div class="remaining-budget-type-amount">
+                        <p class="remaining-budget-type">Grocery</p>
+                        <p class="remaining-budget-amount">$123</p>
+                      </div>
+                      <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
+                    </div>
+                  </div>
+                  <div class="remaining-budget">
+                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <div class="remaining-budget-type-amount-progress-bar">
+                      <div class="remaining-budget-type-amount">
+                        <p class="remaining-budget-type">Grocery</p>
+                        <p class="remaining-budget-amount">$123</p>
+                      </div>
+                      <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
+                    </div>
+                  </div>
+                  <div class="remaining-budget">
+                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <div class="remaining-budget-type-amount-progress-bar">
+                      <div class="remaining-budget-type-amount">
+                        <p class="remaining-budget-type">Grocery</p>
+                        <p class="remaining-budget-amount">$123</p>
+                      </div>
+                      <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
+                    </div>
+                  </div>
+                </div>
+                <div class="desktop-most-used-budget-chart budget-pie-chart"></div>
+              </div>
+            </div>
+          </div>
+  `;
+}
 
 export default {
   name: "budget",
