@@ -681,6 +681,7 @@ body {
 }
 .desktop-quick-view-actions-sidebar {
   position: fixed;
+  display: none;
   right: 0;
   width: 18%;
   height: 100%;
@@ -702,6 +703,9 @@ body {
     max-width: none;
     padding: 1rem;
     transform: translateX(0);
+  }
+  .desktop-quick-view-actions-sidebar{
+    display: flex;
   }
   .desktop-navigation-sidebar.visible ~ .main-content {
     margin-left: 18%;
