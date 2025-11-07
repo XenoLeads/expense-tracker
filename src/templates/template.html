@@ -51,7 +51,7 @@
         <button class="button navigation-button navigation-button-transactions" data-navigation-tab="transactions">
           <img src="../assets/icons/navigation/transactions.svg" alt="" class="icon" />
         </button>
-        <button class="button navigation-button navigation-button-add"><img src="../assets/icons/navigation/plus.svg" alt="" /></button>
+        <button class="button navigation-button navigation-button-add mobile"><img src="../assets/icons/navigation/plus.svg" alt="" /></button>
         <button class="button navigation-button navigation-button-budget" data-navigation-tab="budget">
           <img src="../assets/icons/navigation/budget.svg" alt="" class="icon" />
         </button>
@@ -78,6 +78,110 @@
           <p class="navigation-button-text">Statistics</p>
         </button>
       </aside>
+      <div class="add-transaction-panel-container">
+        <div class="card add-transaction-panel">
+          <h2 class="heading add-transaction-heading">New Transaction</h2>
+          <div class="separator"></div>
+          <div class="add-transaction-inputs">
+            <div class="add-transaction-input add-transaction-input-type-container">
+              <label class="income-expense-label">
+                Income
+                <input type="radio" name="income-expense" id="transaction-input-type-income" />
+              </label>
+              <label class="income-expense-label">
+                Expense
+                <input type="radio" name="income-expense" id="transaction-input-type-expense" checked />
+              </label>
+            </div>
+            <div class="add-transaction-input add-transaction-input-amount-currency-container">
+              <label class="transaction-input-label">
+                Amount:
+                <input type="number" name="" id="add-transaction-input-amount" class="transaction-input" />
+              </label>
+              <div class="add-transaction-input transaction-input-currency-container">
+                <select name="" id="add-transaction-input-currency" class="add-transaction-select-input">
+                  <option value="$">$ USD</option>
+                  <option value="€">€ EUR</option>
+                  <option value="£">£ GBP</option>
+                  <option value="¥">¥ JPY</option>
+                  <option value="₩">₩ KRW</option>
+                  <option value="₹">₹ INR</option>
+                  <option value="₽">₽ RUB</option>
+                  <option value="₺">₺ TRY</option>
+                  <option value="₫">₫ VND</option>
+                  <option value="R$">R$ BRL</option>
+                  <option value="C$">C$ CAD</option>
+                  <option value="A$">A$ AUD</option>
+                  <option value="CHF">CHF CHF</option>
+                  <option value="HK$">HK$ HKD</option>
+                  <option value="NZ$">NZ$ NZD</option>
+                  <option value="SG$">SG$ SGD</option>
+                </select>
+              </div>
+            </div>
+            <div class="add-transaction-input add-transaction-input-description">
+              <label class="transaction-input-label">
+                Description:
+                <input type="text" id="add-transaction-input-description" class="transaction-input" />
+              </label>
+            </div>
+            <div class="add-transaction-input add-transaction-input-method">
+              <label class="transaction-input-label">
+                Method:
+                <select id="add-transaction-input-method" class="transaction-input add-transaction-select-input">
+                  <option value="cash">Cash</option>
+                  <option value="card">Card</option>
+                  <option value="bank-transfer">Bank Transfer</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+            </div>
+            <div class="add-transaction-input add-transaction-input-category">
+              <label class="transaction-input-label">
+                Category:
+                <select id="add-transaction-input-category" class="transaction-input add-transaction-select-input">
+                  <option value="food-dining">Food & Dining</option>
+                  <option value="transportation">Transportation</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="bills-utilities">Bills & Utilities</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="healthcare">Healthcare</option>
+                  <option value="travel">Travel</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+            </div>
+            <div class="add-transaction-input add-transaction-input-category">
+              <label class="transaction-input-label">
+                Time:
+                <input type="datetime-local" id="add-transaction-input-time" class="transaction-input" />
+              </label>
+            </div>
+            <div class="add-transaction-input-preview">
+              <div class="transaction-card income">
+                <div class="transaction-icon-category-method-time-container">
+                  <div class="icon transaction-icon">
+                    <img src="../assets/icons/transaction-category/shopping-cart.svg" alt="" />
+                  </div>
+                  <div class="transaction-category-method-time-container">
+                    <p class="transaction-category">Category</p>
+                    <div class="transaction-method-time-container">
+                      <p class="transaction-method">Method</p>
+                      <p>-</p>
+                      <p class="transaction-time">Time</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="transaction-amount">+$123</p>
+              </div>
+            </div>
+            <div class="add-transaction-action-buttons-container">
+              <button class="button add-transaction-action-button discard-transaction-button">Discard</button>
+              <button class="button add-transaction-action-button add-transaction-button">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

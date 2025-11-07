@@ -40,13 +40,13 @@ function get_transactions_template() {
           </div>
           <div class="all-transactions">
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -56,13 +56,13 @@ function get_transactions_template() {
               <p class="transaction-amount expense">-$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -72,13 +72,13 @@ function get_transactions_template() {
               <p class="transaction-amount income">+$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -88,13 +88,13 @@ function get_transactions_template() {
               <p class="transaction-amount expense">-$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -104,13 +104,13 @@ function get_transactions_template() {
               <p class="transaction-amount income">+$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -120,13 +120,13 @@ function get_transactions_template() {
               <p class="transaction-amount expense">-$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -136,13 +136,13 @@ function get_transactions_template() {
               <p class="transaction-amount income">+$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -152,13 +152,13 @@ function get_transactions_template() {
               <p class="transaction-amount expense">-$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -168,13 +168,13 @@ function get_transactions_template() {
               <p class="transaction-amount income">+$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>
@@ -184,13 +184,13 @@ function get_transactions_template() {
               <p class="transaction-amount expense">-$123</p>
             </div>
             <div class="transaction-card">
-              <div class="transaction-icon-category-type-time-container">
+              <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
                   <img src="${shopping_cart_icon}" alt="" />
                 </div>
-                <div class="transaction-category-type-time-container">
+                <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
-                  <div class="transaction-type-time-container">
+                  <div class="transaction-method-time-container">
                     <p class="transaction-type">Cash</p>
                     <p>-</p>
                     <p class="transaction-time">10:00 AM</p>

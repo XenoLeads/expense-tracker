@@ -112,21 +112,21 @@ function display_transactions(transactions) {
   recent_transactions.innerHTML = "";
   transactions.slice(0, 10).forEach(transaction => {
     const transaction_card = `
-                  <div class="transaction-card">
-                    <div class="transaction-icon-category-type-time-container">
+                  <div class="transaction-card ${transaction.type}">
+                    <div class="transaction-icon-category-method-time-container">
                       <div class="icon transaction-icon">
                         <img src="${shopping_cart_icon}" alt="" />
                       </div>
-                      <div class="transaction-category-type-time-container">
+                      <div class="transaction-category-method-time-container">
                         <p class="transaction-category">${Utils.capitalize(transaction.category)}</p>
-                        <div class="transaction-type-time-container">
-                          <p class="transaction-type">${Utils.capitalize(transaction.method)}</p>
+                        <div class="transaction-method-time-container">
+                          <p class="transaction-method">${Utils.capitalize(transaction.method)}</p>
                           <p>-</p>
                           <p class="transaction-time">${transaction.time}</p>
                         </div>
                       </div>
                     </div>
-                    <p class="transaction-amount ${transaction.type}">${transaction.type === "income" ? "+" : "-"}${transaction.amount}</p>
+                    <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${transaction.amount}</p>
                   </div>
     `;
     recent_transactions.insertAdjacentHTML("beforeend", transaction_card);

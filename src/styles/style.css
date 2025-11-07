@@ -216,16 +216,16 @@ body {
   aspect-ratio: 1/1;
   object-fit: contain;
 }
-.transaction-icon-category-type-time-container {
+.transaction-icon-category-method-time-container {
   display: flex;
   gap: 0.5rem;
 }
-.transaction-category-type-time-container {
+.transaction-category-method-time-container {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
 }
-.transaction-type-time-container {
+.transaction-method-time-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -234,10 +234,10 @@ body {
   color: var(--primary-text-color);
   opacity: 0.8;
 }
-.transaction-amount.expense {
+.transaction-card.expense .transaction-amount {
   color: red;
 }
-.transaction-amount.income {
+.transaction-card.income .transaction-amount {
   color: lime;
 }
 
@@ -507,6 +507,130 @@ body {
 .navigation-button > .icon {
   height: 100%;
   width: 100%;
+}
+
+/* Transaction Input Panel */
+.add-transaction-panel-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 15;
+  pointer-events: none;
+}
+.add-transaction-panel {
+  height: 95%;
+  width: 90%;
+  border-bottom-left-radius: unset;
+  border-bottom-right-radius: unset;
+  pointer-events: none;
+  transform: translateY(-150%);
+}
+.add-transaction-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding-top: 0.6rem;
+  height: 85%;
+}
+.add-transaction-input {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.4rem;
+}
+#transaction-input-type-income,
+#transaction-input-type-expense {
+  display: none;
+}
+.income-expense-label {
+  background-color: rgba(184, 219, 217, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+}
+.income-expense-label:has(#transaction-input-type-income:checked),
+.income-expense-label:has(#transaction-input-type-expense:checked) {
+  background-color: rgba(184, 219, 217, 0.2);
+}
+.income-expense-label:has(#transaction-input-type-income:checked) {
+  color: rgb(50, 255, 50);
+}
+.income-expense-label:has(#transaction-input-type-expense:checked) {
+  color: rgb(255, 50, 50);
+}
+.add-transaction-input-amount-currency-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+}
+.transaction-input-label {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.transaction-input {
+  background: none;
+  outline: none;
+  border: 0.1rem solid white;
+  border-radius: 0.1rem;
+  height: 100%;
+  width: 100%;
+  color: var(--primary-text-color);
+  font-size: 1rem;
+  padding: 0.2rem 0.4rem;
+}
+.add-transaction-select-input {
+  background: none;
+  background-color: rgba(184, 219, 217, 0.2);
+  color: var(--primary-text-color);
+  border-radius: 0.1rem;
+  border: 0.1rem solid white;
+  font-size: 1rem;
+  outline: none;
+}
+.add-transaction-select-input > option {
+  background-color: #1c1c1c;
+}
+.add-transaction-input,
+#add-transaction-input-currency {
+  height: 1.6rem;
+}
+#add-transaction-input-time {
+  background-color: rgba(184, 219, 217, 0.2);
+}
+.add-transaction-action-buttons-container {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  gap: 1rem;
+}
+.add-transaction-action-button {
+  flex: 1;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
+}
+.discard-transaction-button {
+  border: 0.14rem solid rgba(184, 219, 217, 0.5);
+}
+.add-transaction-button {
+  background-color: rgba(184, 219, 217, 0.2);
+}
+
+@media (max-width: 375px) {
+  .add-transaction-panel.visible {
+    transform: translateY(0);
+    pointer-events: all;
+  }
 }
 
 /* Tablet */

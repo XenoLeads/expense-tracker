@@ -15,6 +15,9 @@ const statistics_button = [...document.getElementsByClassName("navigation-button
 const navigation_buttons = [...dashboard_button, ...transactions_button, ...budget_button, ...statistics_button];
 const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-button")[0];
 const navigation_sidebar = [...document.getElementsByClassName("navigation-sidebar")];
+const add_transaction_panel = document.getElementsByClassName("add-transaction-panel")[0];
+const mobile_add_transaction_button = document.getElementsByClassName("navigation-button-add mobile")[0];
+const mobile_discard_transaction_button = document.getElementsByClassName("discard-transaction-button")[0];
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
@@ -36,6 +39,13 @@ function init() {
     });
   });
   toggle_sidebar_button.addEventListener("click", () => navigation_sidebar.map(sidebar => sidebar.classList.toggle("visible")));
+
+  mobile_add_transaction_button.addEventListener("click", () => {
+    add_transaction_panel.classList.add("visible");
+  });
+  mobile_discard_transaction_button.addEventListener("click", () => {
+    add_transaction_panel.classList.remove("visible");
+  });
 }
 
 function render_tab(tab) {
