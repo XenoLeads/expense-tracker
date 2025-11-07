@@ -227,7 +227,7 @@ body {
 }
 .transaction-method-time-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 0.3rem;
   font-size: 0.6rem;
