@@ -626,7 +626,7 @@ body {
   background-color: rgba(184, 219, 217, 0.2);
 }
 
-@media (max-width: 375px) {
+@media (max-width: 767px) {
   .add-transaction-panel.visible {
     transform: translateY(0);
     pointer-events: all;
