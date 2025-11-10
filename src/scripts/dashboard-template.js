@@ -133,8 +133,13 @@ function display_transactions(transactions) {
   });
 }
 
+function refresh() {
+  display_transactions(Transaction.get());
+}
+
 export default {
   name: "dashboard",
   get: get_dashboard_template,
   init: init_dashboard_template,
+  refresh,
 };

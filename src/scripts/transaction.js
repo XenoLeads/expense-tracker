@@ -12,4 +12,5 @@ add_transaction("income", "$123", "First Client", "cash", "freelance", "6/11/202
 
 export default {
   get: () => transactions,
+  add: add_transaction,
 };

@@ -79,27 +79,27 @@
         </button>
       </aside>
       <div class="add-transaction-panel-container">
-        <div class="card add-transaction-panel">
+        <div class="card add-transaction-panel visible">
           <h2 class="heading add-transaction-heading">New Transaction</h2>
           <div class="separator"></div>
           <div class="add-transaction-inputs">
             <div class="add-transaction-input add-transaction-input-type-container">
               <label class="income-expense-label">
                 Income
-                <input type="radio" name="income-expense" id="transaction-input-type-income" />
+                <input type="radio" name="income-expense" id="transaction-input-type-income" data-type="income" />
               </label>
               <label class="income-expense-label">
                 Expense
-                <input type="radio" name="income-expense" id="transaction-input-type-expense" checked />
+                <input type="radio" name="income-expense" id="transaction-input-type-expense" data-type="expense" />
               </label>
             </div>
             <div class="add-transaction-input add-transaction-input-amount-currency-container">
               <label class="transaction-input-label">
                 Amount:
-                <input type="number" name="" id="add-transaction-input-amount" class="transaction-input" />
+                <input type="number" name="" id="add-transaction-input-amount" class="transaction-input" data-type="amount" />
               </label>
               <div class="add-transaction-input transaction-input-currency-container">
-                <select name="" id="add-transaction-input-currency" class="add-transaction-select-input">
+                <select name="" id="add-transaction-input-currency" class="add-transaction-select-input" data-type="currency">
                   <option value="$">$ USD</option>
                   <option value="€">€ EUR</option>
                   <option value="£">£ GBP</option>
@@ -122,13 +122,13 @@
             <div class="add-transaction-input add-transaction-input-description">
               <label class="transaction-input-label">
                 Description:
-                <input type="text" id="add-transaction-input-description" class="transaction-input" />
+                <input type="text" id="add-transaction-input-description" class="transaction-input" data-type="description" />
               </label>
             </div>
             <div class="add-transaction-input add-transaction-input-method">
               <label class="transaction-input-label">
                 Method:
-                <select id="add-transaction-input-method" class="transaction-input add-transaction-select-input">
+                <select id="add-transaction-input-method" class="transaction-input add-transaction-select-input" data-type="method">
                   <option value="cash">Cash</option>
                   <option value="card">Card</option>
                   <option value="bank-transfer">Bank Transfer</option>
@@ -139,7 +139,8 @@
             <div class="add-transaction-input add-transaction-input-category">
               <label class="transaction-input-label">
                 Category:
-                <select id="add-transaction-input-category" class="transaction-input add-transaction-select-input">
+                <select id="add-transaction-input-category" class="transaction-input add-transaction-select-input" data-type="category">
+                  <option value="default">Default</option>
                   <option value="food-dining">Food & Dining</option>
                   <option value="transportation">Transportation</option>
                   <option value="shopping">Shopping</option>
@@ -154,25 +155,25 @@
             <div class="add-transaction-input add-transaction-input-category">
               <label class="transaction-input-label">
                 Time:
-                <input type="datetime-local" id="add-transaction-input-time" class="transaction-input" />
+                <input type="datetime-local" id="add-transaction-input-time" class="transaction-input" data-type="time" />
               </label>
             </div>
             <div class="add-transaction-input-preview">
-              <div class="transaction-card income">
+              <div class="transaction-card">
                 <div class="transaction-icon-category-method-time-container">
                   <div class="icon transaction-icon">
                     <img src="../assets/icons/transaction-category/shopping-cart.svg" alt="" />
                   </div>
                   <div class="transaction-category-method-time-container">
-                    <p class="transaction-category">Category</p>
+                    <p class="transaction-category transaction-preview" data-type="category">Category</p>
                     <div class="transaction-method-time-container">
-                      <p class="transaction-method">Method</p>
+                      <p class="transaction-method transaction-preview" data-type="method">Method</p>
                       <p>-</p>
-                      <p class="transaction-time">Time</p>
+                      <p class="transaction-time transaction-preview" data-type="time">Time</p>
                     </div>
                   </div>
                 </div>
-                <p class="transaction-amount">+$123</p>
+                <p class="transaction-amount transaction-preview" data-type="amount">$0</p>
               </div>
             </div>
             <div class="add-transaction-action-buttons-container">
