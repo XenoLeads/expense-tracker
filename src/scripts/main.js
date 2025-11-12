@@ -1,5 +1,6 @@
 import "../styles/style.css";
 
+import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Dashboard from "./dashboard-template.js";
 import Transactions from "./transactions-template.js";
@@ -17,10 +18,10 @@ const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-bu
 const navigation_sidebar = [...document.getElementsByClassName("navigation-sidebar")];
 const add_transaction_panel = document.getElementsByClassName("add-transaction-panel")[0];
 const mobile_add_transaction_navigation_button = document.getElementsByClassName("navigation-button-add mobile")[0];
-const mobile_add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
 const mobile_discard_transaction_button = document.getElementsByClassName("discard-transaction-button")[0];
 const transaction_preview = [...document.getElementsByClassName("transaction-preview")];
 const transaction_preview_container = document.querySelector(".add-transaction-input-preview > .transaction-card");
+const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
@@ -49,19 +50,6 @@ function init() {
   });
   mobile_discard_transaction_button.addEventListener("click", () => {
     add_transaction_panel.classList.remove("visible");
-  });
-  mobile_add_transaction_button.addEventListener("click", () => {
-    const income_option = document.getElementById("transaction-input-type-income");
-    const expense_option = document.getElementById("transaction-input-type-expense");
-    const seleted_type = income_option.checked === true ? income_option : expense_option;
-    const seleted_type_name = seleted_type.dataset.type;
-    const amount = document.getElementById("add-transaction-input-amount");
-    const currency = document.getElementById("add-transaction-input-currency");
-    const description = document.getElementById("add-transaction-input-description");
-    const method = document.getElementById("add-transaction-input-method");
-    const category = document.getElementById("add-transaction-input-category");
-    const time = document.getElementById("add-transaction-input-time");
-    const transaction_inputs = [amount, currency, description, method, category, time];
   });
 
   init_mobile_add_transaction_inputs();
@@ -162,6 +150,9 @@ function init_mobile_add_transaction_inputs() {
           break;
         case "category":
           preview_input.textContent = Utils.capitalize(input.value, " & ");
+          Icon.get(get_selected_input_type(), input.value).then(icon_url => {
+            transaction_icon_preview.src = icon_url;
+          });
           break;
         case "time":
           preview_input.textContent = format_transaction_time(input.value);

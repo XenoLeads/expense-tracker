@@ -1,6 +1,5 @@
 import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
-import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
@@ -42,7 +41,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -58,7 +57,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -74,7 +73,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -90,7 +89,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -106,7 +105,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -122,7 +121,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -138,7 +137,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -154,7 +153,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -170,7 +169,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>
@@ -186,7 +185,7 @@ function get_transactions_template() {
             <div class="transaction-card">
               <div class="transaction-icon-category-method-time-container">
                 <div class="icon transaction-icon">
-                  <img src="${shopping_cart_icon}" alt="" />
+                  <img src="${"#"}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
                   <p class="transaction-category">Grocery</p>

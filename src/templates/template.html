@@ -90,7 +90,7 @@
               </label>
               <label class="income-expense-label">
                 Expense
-                <input type="radio" name="income-expense" id="transaction-input-type-expense" data-type="expense" />
+                <input type="radio" name="income-expense" id="transaction-input-type-expense" data-type="expense" checked />
               </label>
             </div>
             <div class="add-transaction-input add-transaction-input-amount-currency-container">
@@ -159,21 +159,21 @@
               </label>
             </div>
             <div class="add-transaction-input-preview">
-              <div class="transaction-card">
+              <div class="transaction-card expense">
                 <div class="transaction-icon-category-method-time-container">
                   <div class="icon transaction-icon">
-                    <img src="../assets/icons/transaction-category/shopping-cart.svg" alt="" />
+                    <img src="../assets/icons/transaction-category/expense/expense.svg" alt="" class="transaction-icon-preview" />
                   </div>
                   <div class="transaction-category-method-time-container">
-                    <p class="transaction-category transaction-preview" data-type="category">Category</p>
+                    <p class="transaction-category transaction-preview" data-type="category">Default</p>
                     <div class="transaction-method-time-container">
-                      <p class="transaction-method transaction-preview" data-type="method">Method</p>
+                      <p class="transaction-method transaction-preview" data-type="method">Cash</p>
                       <p>-</p>
-                      <p class="transaction-time transaction-preview" data-type="time">Time</p>
+                      <p class="transaction-time transaction-preview" data-type="time">Now</p>
                     </div>
                   </div>
                 </div>
-                <p class="transaction-amount transaction-preview" data-type="amount">$0</p>
+                <p class="transaction-amount transaction-preview" data-type="amount">-$0</p>
               </div>
             </div>
             <div class="add-transaction-action-buttons-container">

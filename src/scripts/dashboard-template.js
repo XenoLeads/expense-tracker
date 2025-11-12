@@ -1,6 +1,6 @@
+import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
-import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
@@ -107,15 +107,17 @@ function init_dashboard_template(callback) {
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 }
 
-function display_transactions(transactions) {
+async function display_transactions(transactions) {
   const recent_transactions = document.getElementsByClassName("recent-transactions")[0];
   recent_transactions.innerHTML = "";
-  transactions.slice(0, 10).forEach(transaction => {
+  const recent_10_transactions = transactions.slice(0, 10);
+  recent_10_transactions.forEach(async transaction => {
+    const icon_url = await Icon.get(transaction.type, transaction.category);
     const transaction_card = `
                   <div class="transaction-card ${transaction.type}">
                     <div class="transaction-icon-category-method-time-container">
                       <div class="icon transaction-icon">
-                        <img src="${shopping_cart_icon}" alt="" />
+                        <img src="${icon_url}" alt="" />
                       </div>
                       <div class="transaction-category-method-time-container">
                         <p class="transaction-category">${Utils.capitalize(transaction.category)}</p>

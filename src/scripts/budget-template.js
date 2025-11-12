@@ -1,5 +1,3 @@
-import shopping_cart_icon from "../assets/icons/transaction-category/shopping-cart.svg";
-
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
 function get_budget_template() {
@@ -13,7 +11,7 @@ function get_budget_template() {
             </div>
             <div class="most-used-budgets">
               <div class="remaining-budget">
-                <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">Grocery</p>
@@ -23,7 +21,7 @@ function get_budget_template() {
                 </div>
               </div>
               <div class="remaining-budget">
-                <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">Grocery</p>
@@ -33,7 +31,7 @@ function get_budget_template() {
                 </div>
               </div>
               <div class="remaining-budget">
-                <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">Grocery</p>
@@ -59,7 +57,7 @@ function get_budget_template() {
           <div class="all-budgets">
             <div class="budget-card">
               <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${shopping_cart_icon}" alt="" class="icon budget-icon" />
+                <img src="${"#"}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
                   <div class="budget-type-progress-amount">
                     <p class="budget-type">Grocery</p>
@@ -72,7 +70,7 @@ function get_budget_template() {
             </div>
             <div class="budget-card">
               <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${shopping_cart_icon}" alt="" class="icon budget-icon" />
+                <img src="${"#"}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
                   <div class="budget-type-progress-amount">
                     <p class="budget-type">Grocery</p>
@@ -85,7 +83,7 @@ function get_budget_template() {
             </div>
             <div class="budget-card">
               <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${shopping_cart_icon}" alt="" class="icon budget-icon" />
+                <img src="${"#"}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
                   <div class="budget-type-progress-amount">
                     <p class="budget-type">Grocery</p>
@@ -98,7 +96,7 @@ function get_budget_template() {
             </div>
             <div class="budget-card">
               <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${shopping_cart_icon}" alt="" class="icon budget-icon" />
+                <img src="${"#"}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
                   <div class="budget-type-progress-amount">
                     <p class="budget-type">Grocery</p>
@@ -111,7 +109,7 @@ function get_budget_template() {
             </div>
             <div class="budget-card">
               <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${shopping_cart_icon}" alt="" class="icon budget-icon" />
+                <img src="${"#"}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
                   <div class="budget-type-progress-amount">
                     <p class="budget-type">Grocery</p>
@@ -137,7 +135,7 @@ function init_budget_template() {
                   <h2 class="desktop-most-used-budget-overview-heading">Most Used</h2>
                   <div class="separator"></div>
                   <div class="remaining-budget">
-                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                     <div class="remaining-budget-type-amount-progress-bar">
                       <div class="remaining-budget-type-amount">
                         <p class="remaining-budget-type">Grocery</p>
@@ -147,7 +145,7 @@ function init_budget_template() {
                     </div>
                   </div>
                   <div class="remaining-budget">
-                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                     <div class="remaining-budget-type-amount-progress-bar">
                       <div class="remaining-budget-type-amount">
                         <p class="remaining-budget-type">Grocery</p>
@@ -157,7 +155,7 @@ function init_budget_template() {
                     </div>
                   </div>
                   <div class="remaining-budget">
-                    <img src="${shopping_cart_icon}" alt="" class="icon remaining-budget-icon" />
+                    <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
                     <div class="remaining-budget-type-amount-progress-bar">
                       <div class="remaining-budget-type-amount">
                         <p class="remaining-budget-type">Grocery</p>
