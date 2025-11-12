@@ -4,6 +4,7 @@ import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Dashboard from "./dashboard-template.js";
 import Transactions from "./transactions-template.js";
+import Transaction from "./transaction.js";
 import Budget from "./budget-template.js";
 import Statistics from "./statistics-template.js";
 
@@ -18,7 +19,17 @@ const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-bu
 const navigation_sidebar = [...document.getElementsByClassName("navigation-sidebar")];
 const add_transaction_panel = document.getElementsByClassName("add-transaction-panel")[0];
 const mobile_add_transaction_navigation_button = document.getElementsByClassName("navigation-button-add mobile")[0];
+const mobile_add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
 const mobile_discard_transaction_button = document.getElementsByClassName("discard-transaction-button")[0];
+const income_option = document.getElementById("transaction-input-type-income");
+const expense_option = document.getElementById("transaction-input-type-expense");
+const amount = document.getElementById("add-transaction-input-amount");
+const currency = document.getElementById("add-transaction-input-currency");
+const description = document.getElementById("add-transaction-input-description");
+const method = document.getElementById("add-transaction-input-method");
+const category = document.getElementById("add-transaction-input-category");
+const time = document.getElementById("add-transaction-input-time");
+const transaction_inputs = [amount, currency, description, method, category, time];
 const transaction_preview = [...document.getElementsByClassName("transaction-preview")];
 const transaction_preview_container = document.querySelector(".add-transaction-input-preview > .transaction-card");
 const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
@@ -47,12 +58,46 @@ function init() {
   mobile_add_transaction_navigation_button.addEventListener("click", () => {
     add_transaction_panel.classList.add("visible");
     reset_add_transaction_inputs();
+    amount.select();
   });
   mobile_discard_transaction_button.addEventListener("click", () => {
     add_transaction_panel.classList.remove("visible");
   });
+  mobile_add_transaction_button.addEventListener("click", () => {
+    const transaction_type = get_selected_input_type();
+    const { amount, currency, description, method, category, time } = get_transaction_inputs();
+    if (![transaction_type, currency, amount, description, method, category, time].some(input => input === "")) {
+      Transaction.add(transaction_type, `${currency}${amount}`, description, method, category, time);
+      Dashboard.refresh();
+      add_transaction_panel.classList.remove("visible");
+    }
+  });
 
   init_mobile_add_transaction_inputs();
+}
+
+function get_transaction_inputs() {
+  const [amount_value, currency_value, description_value, method_value, category_value, time_value] = [
+    get_value(amount),
+    get_value(currency),
+    get_value(description),
+    get_value(method),
+    get_value(category),
+    get_value(time),
+  ];
+
+  return {
+    amount: amount_value,
+    currency: currency_value,
+    description: description_value,
+    method: method_value,
+    category: category_value,
+    time: time_value,
+  };
+
+  function get_value(element) {
+    return element.value.trim();
+  }
 }
 
 function reset_add_transaction_inputs() {
@@ -67,7 +112,7 @@ function reset_add_transaction_inputs() {
   const method = document.getElementById("add-transaction-input-method");
   method.value = "cash";
   const category = document.getElementById("add-transaction-input-category");
-  category.value = "none";
+  category.value = "default";
   const time = document.getElementById("add-transaction-input-time");
   time.value = get_current_iso_formatted_time();
 }
@@ -84,28 +129,7 @@ function get_current_iso_formatted_time() {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-function format_transaction_time(iso_format) {
-  if (isWithin12Hours(iso_format)) {
-    const [hour, minute] = iso_format.split("T")[1].split(":");
-    if (parseInt(hour) > 12) return `${parseInt(hour) - 12}:${minute} PM`;
-    else return `${parseInt(hour)}:${minute} AM`;
-  } else {
-    const [year, month, day] = iso_format.split("T")[0].split("-");
-    return `${day}/${month}/${year}`;
-  }
-}
-
 function init_mobile_add_transaction_inputs() {
-  const income_option = document.getElementById("transaction-input-type-income");
-  const expense_option = document.getElementById("transaction-input-type-expense");
-  const amount = document.getElementById("add-transaction-input-amount");
-  const currency = document.getElementById("add-transaction-input-currency");
-  const description = document.getElementById("add-transaction-input-description");
-  const method = document.getElementById("add-transaction-input-method");
-  const category = document.getElementById("add-transaction-input-category");
-  const time = document.getElementById("add-transaction-input-time");
-  const transaction_inputs = [amount, currency, description, method, category, time];
-
   transaction_inputs.map(transaction_input => {
     transaction_input.addEventListener("input", () => {
       const input = transaction_input;
@@ -132,15 +156,6 @@ function init_mobile_add_transaction_inputs() {
     });
   });
 
-  function get_selected_input_type() {
-    const income_option = document.getElementById("transaction-input-type-income");
-    const expense_option = document.getElementById("transaction-input-type-expense");
-    const selected_type = income_option.checked === true ? income_option : expense_option.checked === true ? expense_option : null;
-    if (selected_type === null) return selected_type;
-    const selected_type_name = selected_type.dataset.type;
-    return selected_type_name;
-  }
-
   function refresh_preview(input, preview_input) {
     if (input && preview_input) {
       const input_type = input.dataset.type;
@@ -155,7 +170,7 @@ function init_mobile_add_transaction_inputs() {
           });
           break;
         case "time":
-          preview_input.textContent = format_transaction_time(input.value);
+          preview_input.textContent = Utils.format_transaction_time(input.value);
           break;
       }
       if (["amount", "currency", "income", "expense"].includes(input_type)) refresh_amount();
@@ -170,13 +185,11 @@ function init_mobile_add_transaction_inputs() {
   }
 }
 
-function isWithin12Hours(targetTime) {
-  const now = new Date();
-  const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
-
-  const targetDate = new Date(targetTime);
-
-  return targetDate >= twelveHoursAgo && targetDate <= now;
+function get_selected_input_type() {
+  const selected_type = income_option.checked === true ? income_option : expense_option.checked === true ? expense_option : null;
+  if (selected_type === null) return selected_type;
+  const selected_type_name = selected_type.dataset.type;
+  return selected_type_name;
 }
 
 function render_tab(tab) {

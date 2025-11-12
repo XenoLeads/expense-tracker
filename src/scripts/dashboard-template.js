@@ -110,7 +110,7 @@ function init_dashboard_template(callback) {
 async function display_transactions(transactions) {
   const recent_transactions = document.getElementsByClassName("recent-transactions")[0];
   recent_transactions.innerHTML = "";
-  const recent_10_transactions = transactions.slice(0, 10);
+  const recent_10_transactions = transactions.slice(-10).reverse();
   recent_10_transactions.forEach(async transaction => {
     const icon_url = await Icon.get(transaction.type, transaction.category);
     const transaction_card = `
@@ -124,7 +124,7 @@ async function display_transactions(transactions) {
                         <div class="transaction-method-time-container">
                           <p class="transaction-method">${Utils.capitalize(transaction.method)}</p>
                           <p>-</p>
-                          <p class="transaction-time">${transaction.time}</p>
+                          <p class="transaction-time">${Utils.format_transaction_time(transaction.time)}</p>
                         </div>
                       </div>
                     </div>
