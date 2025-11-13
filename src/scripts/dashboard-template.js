@@ -1,6 +1,6 @@
-import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
+import Tracker from "./tracker.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
@@ -11,16 +11,16 @@ function get_dashboard_template() {
               <div class="card balance-income-expense">
                 <div class="wrapper total-balance-wrapper">
                   <p>Balance:</p>
-                  <p class="total-balance">$123</p>
+                  <p class="total-balance">${Tracker.balance < 0 ? `-$${Math.abs(Tracker.balance)}` : `$${Tracker.balance}`}</p>
                 </div>
                 <div class="income-expense">
                   <div class="wrapper total-income-wrapper">
                     <p>Income:</p>
-                    <p class="total-income">$123</p>
+                    <p class="total-income">$${Tracker.income}</p>
                   </div>
                   <div class="wrapper total-expense-wrapper">
                     <p>Expense:</p>
-                    <p class="total-expense">$123</p>
+                    <p class="total-expense">$${Tracker.expense}</p>
                   </div>
                 </div>
               </div>

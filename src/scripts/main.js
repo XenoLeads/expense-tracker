@@ -1,5 +1,6 @@
 import "../styles/style.css";
 
+import Tracker from "./tracker.js";
 import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Dashboard from "./dashboard-template.js";
@@ -74,7 +75,7 @@ function init() {
     const transaction_type = get_selected_input_type();
     const { amount, currency, description, method, category, time } = get_transaction_inputs();
     if (![transaction_type, currency, amount, description, method, category, time].some(input => input === "")) {
-      Transaction.add(transaction_type, `${currency}${parseInt(amount)}`, description, method, category, time);
+      Transaction.add(transaction_type, currency, parseInt(amount), description, method, category, time);
       refresh_current_tab();
       add_transaction_panel.classList.remove("visible");
     }

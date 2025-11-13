@@ -1,5 +1,24 @@
 import Icon from "./icon";
 
+const CURRENCY_SYMBOLS = {
+  usd: "$",
+  eur: "€",
+  gbp: "£",
+  jpy: "¥",
+  krw: "₩",
+  inr: "₹",
+  rub: "₽",
+  try: "₺",
+  vnd: "₫",
+  brl: "R$",
+  cad: "C$",
+  aud: "A$",
+  chf: "CHF",
+  hkd: "HK$",
+  nzd: "NZ$",
+  sgd: "SG$",
+};
+
 function capitalize(string, dash_replacement_character = " ") {
   return string
     .split("-")
@@ -54,13 +73,38 @@ async function get_transaction_card(transaction) {
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${transaction.amount}</p>
+              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${CURRENCY_SYMBOLS[transaction.currency]}${parseFloat(
+    transaction.amount
+  )}</p>
             </div>
       `;
+}
+
+function convert_to_usd(currency, amount) {
+  const EXCHANGE_RATES = {
+    eur: 1.159,
+    gbp: 1.313,
+    jpy: 0.006466,
+    krw: 0.000681,
+    inr: 0.01129,
+    rub: 0.0123,
+    try: 0.02367,
+    vnd: 0.000038,
+    brl: 0.1888,
+    cad: 0.7142,
+    aud: 0.654,
+    chf: 1.254,
+    hkd: 0.1287,
+    nzd: 0.5661,
+    sgd: 0.7684,
+  };
+  if (currency in EXCHANGE_RATES) return amount * EXCHANGE_RATES[currency];
+  else null;
 }
 
 export default {
   capitalize,
   format_transaction_time,
   get_transaction_card,
+  convert_to_usd,
 };
