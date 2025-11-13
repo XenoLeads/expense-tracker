@@ -153,7 +153,8 @@ body {
   flex-direction: column;
   gap: 0.6rem;
 }
-.recent-transactions::after {
+.recent-transactions::after,
+.all-transactions::after {
   content: "No transactions yet.";
   display: flex;
   justify-content: center;
@@ -161,7 +162,8 @@ body {
   padding: 1rem;
   font-size: 1rem;
 }
-.recent-transactions:has(.transaction-card)::after {
+.recent-transactions:has(.transaction-card)::after,
+.all-transactions:has(.transaction-card)::after {
   display: none;
 }
 .recent-transactions-heading {
