@@ -34,12 +34,18 @@ const transaction_inputs = [amount, currency, description, method, category, tim
 const transaction_preview = [...document.getElementsByClassName("transaction-preview")];
 const transaction_preview_container = document.querySelector(".add-transaction-input-preview > .transaction-card");
 const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
+const add_transaction_input_category = document.getElementById("add-transaction-input-category");
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
   transactions: Transactions,
   budget: Budget,
   statistics: Statistics,
+};
+
+const CATEGORIES = {
+  income: ["default", "salary", "freelance", "investments", "other"],
+  expense: ["default", "food-dining", "transportation", "shopping", "bills-utilities", "entertainment", "healthcare", "travel", "other"],
 };
 
 function init() {
@@ -166,6 +172,9 @@ function init_mobile_add_transaction_inputs() {
         transaction_preview_container.classList.add("expense");
       }
       refresh_preview(input_type, amount_transaction_preview);
+      set_category(transaction_type);
+      const category_preview = transaction_preview.find(preview => preview.dataset.type === "category");
+      refresh_preview(category, category_preview);
     });
   });
 
@@ -197,6 +206,14 @@ function init_mobile_add_transaction_inputs() {
       amount_value === "" ? 0 : amount_value
     }`;
   }
+}
+
+function set_category(type) {
+  if (!CATEGORIES[type]) return;
+  add_transaction_input_category.innerHTML = "";
+  CATEGORIES[type].forEach(category => {
+    add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
+  });
 }
 
 function get_selected_input_type() {

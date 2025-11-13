@@ -1,7 +1,6 @@
 import Transaction from "./transaction";
 import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
-import Icon from "./icon";
 import Utils from "./utils";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
@@ -96,7 +95,6 @@ function refresh_transactions() {
         all_transactions.insertAdjacentHTML("beforeend", card);
       });
     });
-  console.log(all_transactions_array.slice().reverse());
 }
 
 export default {
