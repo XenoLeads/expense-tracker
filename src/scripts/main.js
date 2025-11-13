@@ -134,6 +134,21 @@ function reset_add_transaction_inputs() {
   category.value = "default";
   const time = document.getElementById("add-transaction-input-time");
   time.value = get_current_iso_formatted_time();
+  transaction_preview_container.classList.remove("income");
+  transaction_preview_container.classList.add("expense");
+  set_category("expense");
+  refresh_inputs();
+}
+
+function refresh_inputs() {
+  transaction_inputs.map(transaction_input => {
+    const input = transaction_input;
+    const input_type = transaction_input.dataset.type;
+    let preview_input;
+    if (input_type === "currency") preview_input = transaction_preview.find(element => element.dataset.type === "amount");
+    else preview_input = transaction_preview.find(element => element.dataset.type === input_type);
+    refresh_preview(input, preview_input);
+  });
 }
 
 function get_current_iso_formatted_time() {
@@ -149,16 +164,7 @@ function get_current_iso_formatted_time() {
 }
 
 function init_mobile_add_transaction_inputs() {
-  transaction_inputs.map(transaction_input => {
-    transaction_input.addEventListener("input", () => {
-      const input = transaction_input;
-      const input_type = transaction_input.dataset.type;
-      let preview_input;
-      if (input_type === "currency") preview_input = transaction_preview.find(element => element.dataset.type === "amount");
-      else preview_input = transaction_preview.find(element => element.dataset.type === input_type);
-      refresh_preview(input, preview_input);
-    });
-  });
+  transaction_inputs.map(transaction_input => transaction_input.addEventListener("input", refresh_inputs));
 
   [income_option, expense_option].map(input_type => {
     input_type.addEventListener("input", () => {
@@ -177,27 +183,28 @@ function init_mobile_add_transaction_inputs() {
       refresh_preview(category, category_preview);
     });
   });
+}
 
-  function refresh_preview(input, preview_input) {
-    if (input && preview_input) {
-      const input_type = input.dataset.type;
-      switch (input_type) {
-        case "method":
-          preview_input.textContent = Utils.capitalize(input.value);
-          break;
-        case "category":
-          preview_input.textContent = Utils.capitalize(input.value, " & ");
-          Icon.get(get_selected_input_type(), input.value).then(icon_url => {
-            transaction_icon_preview.src = icon_url;
-          });
-          break;
-        case "time":
-          preview_input.textContent = Utils.format_transaction_time(input.value);
-          break;
-      }
-      if (["amount", "currency", "income", "expense"].includes(input_type)) refresh_amount();
+function refresh_preview(input, preview_input) {
+  if (input && preview_input) {
+    const input_type = input.dataset.type;
+    switch (input_type) {
+      case "method":
+        preview_input.textContent = Utils.capitalize(input.value);
+        break;
+      case "category":
+        preview_input.textContent = Utils.capitalize(input.value, " & ");
+        Icon.get(get_selected_input_type(), input.value).then(icon_url => {
+          transaction_icon_preview.src = icon_url;
+        });
+        break;
+      case "time":
+        preview_input.textContent = Utils.format_transaction_time(input.value);
+        break;
     }
+    if (["amount", "currency", "income", "expense"].includes(input_type)) refresh_amount();
   }
+
   function refresh_amount() {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
