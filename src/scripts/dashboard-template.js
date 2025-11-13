@@ -11,16 +11,18 @@ function get_dashboard_template() {
               <div class="card balance-income-expense">
                 <div class="wrapper total-balance-wrapper">
                   <p>Balance:</p>
-                  <p class="total-balance">${Tracker.balance < 0 ? `-$${Math.abs(Tracker.balance)}` : `$${Tracker.balance}`}</p>
+                  <p class="total-balance">${
+                    Tracker.balance < 0 ? `-$${Math.abs(parseFloat(Tracker.balance.toFixed(2)))}` : `$${parseFloat(Tracker.balance.toFixed(2))}`
+                  }</p>
                 </div>
                 <div class="income-expense">
                   <div class="wrapper total-income-wrapper">
                     <p>Income:</p>
-                    <p class="total-income">$${Tracker.income}</p>
+                    <p class="total-income">$${parseFloat(Tracker.income.toFixed(2))}</p>
                   </div>
                   <div class="wrapper total-expense-wrapper">
                     <p>Expense:</p>
-                    <p class="total-expense">$${Tracker.expense}</p>
+                    <p class="total-expense">$${parseFloat(Tracker.expense.toFixed(2))}</p>
                   </div>
                 </div>
               </div>
@@ -110,12 +112,15 @@ function init_dashboard_template(callback) {
 async function display_transactions(transactions) {
   const recent_transactions = document.getElementsByClassName("recent-transactions")[0];
   recent_transactions.innerHTML = "";
-  const recent_10_transactions = transactions.slice(-10).reverse();
-  recent_10_transactions.forEach(async transaction => {
-    Utils.get_transaction_card(transaction).then(card => {
-      recent_transactions.insertAdjacentHTML("beforeend", card);
-    });
-  });
+  const sorted_transactions = Utils.sort_transactions(transactions);
+  const recent_10_transactions = sorted_transactions.slice(0, 10);
+
+  let all_cards = "";
+  for (const transaction of recent_10_transactions) {
+    const card = await Utils.get_transaction_card(transaction);
+    all_cards += card;
+  }
+  recent_transactions.insertAdjacentHTML("beforeend", all_cards);
 }
 
 function refresh() {
