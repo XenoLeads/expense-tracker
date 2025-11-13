@@ -80,26 +80,25 @@ function init_transactions_template() {
     });
   }
 
-  refresh_transactions();
+  display_transactions();
 }
 
-function refresh_transactions() {
+async function display_transactions() {
   const all_transactions = document.getElementsByClassName("all-transactions")[0];
   all_transactions.innerHTML = "";
-  const all_transactions_array = Transaction.get();
-  all_transactions_array
-    .slice()
-    .reverse()
-    .forEach(transaction => {
-      Utils.get_transaction_card(transaction).then(card => {
-        all_transactions.insertAdjacentHTML("beforeend", card);
-      });
-    });
+  const sorted_transactions = Utils.sort_transactions(Transaction.get());
+
+  let all_cards = "";
+  for (const transaction of sorted_transactions) {
+    const card = await Utils.get_transaction_card(transaction);
+    all_cards += card;
+  }
+  all_transactions.insertAdjacentHTML("beforeend", all_cards);
 }
 
 export default {
   name: "transactions",
   get: get_transactions_template,
   init: init_transactions_template,
-  refresh: refresh_transactions,
+  refresh: display_transactions,
 };
