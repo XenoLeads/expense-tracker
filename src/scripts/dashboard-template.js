@@ -112,26 +112,9 @@ async function display_transactions(transactions) {
   recent_transactions.innerHTML = "";
   const recent_10_transactions = transactions.slice(-10).reverse();
   recent_10_transactions.forEach(async transaction => {
-    const icon_url = await Icon.get(transaction.type, transaction.category);
-    const transaction_card = `
-                  <div class="transaction-card ${transaction.type}">
-                    <div class="transaction-icon-category-method-time-container">
-                      <div class="icon transaction-icon">
-                        <img src="${icon_url}" alt="" />
-                      </div>
-                      <div class="transaction-category-method-time-container">
-                        <p class="transaction-category">${Utils.capitalize(transaction.category)}</p>
-                        <div class="transaction-method-time-container">
-                          <p class="transaction-method">${Utils.capitalize(transaction.method)}</p>
-                          <p>-</p>
-                          <p class="transaction-time">${Utils.format_transaction_time(transaction.time)}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${transaction.amount}</p>
-                  </div>
-    `;
-    recent_transactions.insertAdjacentHTML("beforeend", transaction_card);
+    Utils.get_transaction_card(transaction).then(card => {
+      recent_transactions.insertAdjacentHTML("beforeend", card);
+    });
   });
 }
 

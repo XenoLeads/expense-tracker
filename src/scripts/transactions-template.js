@@ -1,5 +1,8 @@
+import Transaction from "./transaction";
 import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
+import Icon from "./icon";
+import Utils from "./utils";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
@@ -37,168 +40,7 @@ function get_transactions_template() {
             <h2 class="all-transactions-title">All Transactions</h2>
             <div class="separator"></div>
           </div>
-          <div class="all-transactions">
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount expense">-$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount income">+$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount expense">-$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount income">+$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount expense">-$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount income">+$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount expense">-$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount income">+$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount expense">-$123</p>
-            </div>
-            <div class="transaction-card">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${"#"}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">Grocery</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-type">Cash</p>
-                    <p>-</p>
-                    <p class="transaction-time">10:00 AM</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount income">+$123</p>
-            </div>
-          </div>
+          <div class="all-transactions"></div>
         </div>
   `;
 }
@@ -238,10 +80,28 @@ function init_transactions_template() {
       if (search_input) search_input.value = "";
     });
   }
+
+  refresh_transactions();
+}
+
+function refresh_transactions() {
+  const all_transactions = document.getElementsByClassName("all-transactions")[0];
+  all_transactions.innerHTML = "";
+  const all_transactions_array = Transaction.get();
+  all_transactions_array
+    .slice()
+    .reverse()
+    .forEach(transaction => {
+      Utils.get_transaction_card(transaction).then(card => {
+        all_transactions.insertAdjacentHTML("beforeend", card);
+      });
+    });
+  console.log(all_transactions_array.slice().reverse());
 }
 
 export default {
   name: "transactions",
   get: get_transactions_template,
   init: init_transactions_template,
+  refresh: refresh_transactions,
 };

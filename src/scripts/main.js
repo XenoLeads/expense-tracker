@@ -8,6 +8,7 @@ import Transaction from "./transaction.js";
 import Budget from "./budget-template.js";
 import Statistics from "./statistics-template.js";
 
+const main = document.getElementsByClassName("main")[0];
 const main_content = document.getElementsByClassName("main-content")[0];
 const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
 const dashboard_button = [...document.getElementsByClassName("navigation-button-dashboard")];
@@ -67,13 +68,25 @@ function init() {
     const transaction_type = get_selected_input_type();
     const { amount, currency, description, method, category, time } = get_transaction_inputs();
     if (![transaction_type, currency, amount, description, method, category, time].some(input => input === "")) {
-      Transaction.add(transaction_type, `${currency}${amount}`, description, method, category, time);
-      Dashboard.refresh();
+      Transaction.add(transaction_type, `${currency}${parseInt(amount)}`, description, method, category, time);
+      refresh_current_tab();
       add_transaction_panel.classList.remove("visible");
     }
   });
 
   init_mobile_add_transaction_inputs();
+}
+
+function refresh_current_tab() {
+  const CURRENT_TAB_KEYMAP = {
+    dashboard: Dashboard,
+    transactions: Transactions,
+    budget: Budget,
+    statistics: Statistics,
+  };
+  const current_tab_name = main.dataset.tab;
+  const current_tab = CURRENT_TAB_KEYMAP[current_tab_name];
+  if (current_tab.refresh) current_tab.refresh();
 }
 
 function get_transaction_inputs() {
@@ -179,8 +192,9 @@ function init_mobile_add_transaction_inputs() {
   function refresh_amount() {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
+    const amount_value = parseInt(amount.value);
     amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${currency.value}${
-      amount.value === "" ? 0 : amount.value
+      amount_value === "" ? 0 : amount_value
     }`;
   }
 }
@@ -202,6 +216,7 @@ function render_tab(tab) {
 
   main_content.innerHTML = tab.get();
   tab.init(TAB_CALLBACK_KEYMAP[tab.name]);
+  main.dataset.tab = tab.name;
 
   current_tab_name.textContent = Utils.capitalize(tab.name);
 }
