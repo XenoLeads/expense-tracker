@@ -20,6 +20,7 @@ const CURRENCY_SYMBOLS = {
 };
 
 function capitalize(string, dash_replacement_character = " ") {
+  if (!string) return "";
   return string
     .split("-")
     .map(
@@ -102,9 +103,18 @@ function convert_to_usd(currency, amount) {
   else null;
 }
 
+function sort_transactions(transactions, most_recent = true) {
+  return [...transactions].sort((a, b) => {
+    const timeA = new Date(a.time).getTime();
+    const timeB = new Date(b.time).getTime();
+    return most_recent ? timeB - timeA : timeA - timeB;
+  });
+}
+
 export default {
   capitalize,
   format_transaction_time,
   get_transaction_card,
   convert_to_usd,
+  sort_transactions,
 };
