@@ -18,19 +18,19 @@ function get_transactions_template() {
         </div>
         <div class="card transaction-filters">
           <div class="transaction-filters-time">
-            <button class="button transaction-filter transaction-time-filter-all selected">All Time</button>
-            <button class="button transaction-filter transaction-time-filter-today">Today</button>
-            <button class="button transaction-filter transaction-time-filter-this-week">This Week</button>
-            <button class="button transaction-filter transaction-time-filter-this-month">This Month</button>
-            <button class="button transaction-filter transaction-time-filter-this-year">This Year</button>
+            <button class="button transaction-filter transaction-time-filter-all selected" data-type="time" data-value="all-time">All Time</button>
+            <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
+            <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+            <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
+            <button class="button transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
           </div>
           <div class="separator"></div>
           <div class="transaction-filters-category">
-            <button class="button transaction-filter transaction-category-filter-all selected">All</button>
-            <button class="button transaction-filter transaction-category-filter-income">Income</button>
-            <button class="button transaction-filter transaction-category-filter-expense">Expense</button>
+            <button class="button transaction-filter transaction-category-filter-all selected" data-type="type" data-value="all">All</button>
+            <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
+            <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
             <div class="vertical-separator"></div>
-            <button class="button transaction-filter transaction-category-filter-income-expense selected">Income/Expense</button>
+            <button class="button transaction-filter transaction-category-filter-income-expense selected" data-type="category" data-value="all">Income/Expense</button>
           </div>
         </div>
 
@@ -46,28 +46,28 @@ function get_transactions_template() {
 
 function init_transactions_template() {
   desktop_quick_view_actions_sidebar.innerHTML = `
-  <div class="transaction-filters">
+          <div class="transaction-filters">
             <div class="card transaction-filters-time">
               <div class="desktop-transaction-filters-time-heading-separator">
                 <h2 class="desktop-transaction-filters-time-heading">Time</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-time-filter-all selected">All Time</button>
-              <button class="button transaction-filter transaction-time-filter-today">Today</button>
-              <button class="button transaction-filter transaction-time-filter-this-week">This Week</button>
-              <button class="button transaction-filter transaction-time-filter-this-month">This Month</button>
-              <button class="button transaction-filter transaction-time-filter-this-year">This Year</button>
+              <button class="button transaction-filter transaction-time-filter-all selected" data-type="time" data-value="all-time">All Time</button>
+              <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
+              <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+              <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
+              <button class="button transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
             </div>
             <div class="card transaction-filters-category">
               <div class="desktop-transaction-filters-category-heading-separator">
                 <h2 class="desktop-transaction-filters-category-heading">Category</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-category-filter-all selected">All</button>
-              <button class="button transaction-filter transaction-category-filter-income">Income</button>
-              <button class="button transaction-filter transaction-category-filter-expense">Expense</button>
+              <button class="button transaction-filter transaction-category-filter-all selected" data-type="type" data-value="all">All</button>
+              <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
+              <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="separator"></div>
-              <button class="button transaction-filter transaction-category-filter-income-expense selected">Income/Expense</button>
+              <button class="button transaction-filter transaction-category-filter-income-expense selected" data-type="category" data-value="all">Income/Expense</button>
             </div>
           </div>
   `;
@@ -81,15 +81,38 @@ function init_transactions_template() {
   }
 
   display_transactions();
+
+  const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
+  const time_filters = transaction_filters.filter(transaction => transaction.dataset.type === "time");
+  const type_filters = transaction_filters.filter(transaction => transaction.dataset.type === "type");
+  const category_filters = transaction_filters.filter(transaction => transaction.dataset.type === "category");
+
+  time_filters.map(filter => filter.addEventListener("click", () => handle_time_filter(filter)));
+  type_filters.map(filter => filter.addEventListener("click", () => handle_type_filter(filter)));
+  category_filters.map(filter => filter.addEventListener("click", () => handle_category_filter(filter)));
+}
+function handle_time_filter(filter) {
+  const filter_value = filter.dataset.value;
+  display_transactions({ time: filter_value });
+}
+function handle_type_filter(filter) {
+  const filter_value = filter.dataset.value;
+  display_transactions({ type: filter_value });
+}
+function handle_category_filter(filter) {
+  const filter_value = filter.dataset.value;
+  display_transactions({ category: filter_value });
 }
 
-async function display_transactions() {
+async function display_transactions(filters = null) {
   const all_transactions = document.getElementsByClassName("all-transactions")[0];
   all_transactions.innerHTML = "";
   const sorted_transactions = Utils.sort_transactions(Transaction.get());
+  let transactions = sorted_transactions;
+  if (filters) transactions = Utils.filter_transactions(sorted_transactions, filters);
 
   let all_cards = "";
-  for (const transaction of sorted_transactions) {
+  for (const transaction of transactions) {
     const card = await Utils.get_transaction_card(transaction);
     all_cards += card;
   }

@@ -36,21 +36,22 @@ function capitalize(string, dash_replacement_character = " ") {
 }
 
 function format_transaction_time(iso_format) {
-  if (isWithin12Hours(iso_format)) {
-    const [hour, minute] = iso_format.split("T")[1].split(":");
-    if (parseInt(hour) > 12) return `${parseInt(hour) - 12}:${minute} PM`;
-    else return `${parseInt(hour)}:${minute} AM`;
+  const now = new Date(iso_format);
+  const current_hour = now.getHours();
+  const current_minute = now.getMinutes();
+  const [year, month, day] = [now.getFullYear(), now.getMonth() + 1, now.getDate()];
+  if (isWithin12Hours(now)) {
+    if (current_hour > 12) return `${current_hour - 12}:${current_minute} PM`;
+    else return `${current_hour}:${current_minute} AM`;
   } else {
-    const [year, month, day] = iso_format.split("T")[0].split("-");
     return `${day}/${month}/${year}`;
   }
 
-  function isWithin12Hours(targetTime) {
+  function isWithin12Hours(target_time) {
     const now = new Date();
     const twelveHoursAgo = new Date(now.getTime() - 12 * 60 * 60 * 1000);
 
-    const targetDate = new Date(targetTime);
-
+    const targetDate = target_time;
     return targetDate >= twelveHoursAgo && targetDate <= now;
   }
 }
@@ -111,10 +112,74 @@ function sort_transactions(transactions, most_recent = true) {
   });
 }
 
+function filter_transactions(transactions, filters) {
+  const now = new Date();
+
+  return transactions.filter(tx => {
+    const txTime = new Date(tx.time);
+    let match = true;
+
+    // --- Time Filter ---
+    if (filters.time && filters.time !== "all") {
+      const startOf = {
+        today: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+        week: start_of_week(now),
+        month: new Date(now.getFullYear(), now.getMonth(), 1),
+        year: new Date(now.getFullYear(), 0, 1),
+      };
+
+      switch (filters.time) {
+        case "today":
+          match = match && txTime >= startOf.today;
+          break;
+        case "this-week":
+          match = match && txTime >= startOf.week;
+          break;
+        case "this-month":
+          match = match && txTime >= startOf.month;
+          break;
+        case "this-year":
+          match = match && txTime >= startOf.year;
+          break;
+      }
+    }
+
+    // --- Type Filter ---
+    if (filters.type && filters.type !== "all") {
+      match = match && tx.type === filters.type;
+    }
+
+    // --- Category Filter ---
+    if (filters.category && filters.category !== "all") {
+      match = match && tx.category === filters.category;
+    }
+
+    // --- Method Filter ---
+    if (filters.method && filters.method !== "all") {
+      match = match && tx.method === filters.method;
+    }
+
+    // --- Currency Filter (optional) ---
+    if (filters.currency && filters.currency !== "all") {
+      match = match && tx.currency === filters.currency;
+    }
+
+    return match;
+
+    function start_of_week(date) {
+      const copy = new Date(date);
+      const day = copy.getDay();
+      const diff = copy.getDate() - day;
+      return new Date(copy.getFullYear(), copy.getMonth(), diff);
+    }
+  });
+}
+
 export default {
   capitalize,
   format_transaction_time,
   get_transaction_card,
   convert_to_usd,
   sort_transactions,
+  filter_transactions,
 };
