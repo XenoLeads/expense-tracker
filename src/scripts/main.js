@@ -288,4 +288,5 @@ export default {
       return CATEGORIES.expense;
     },
   },
+  refresh: refresh_current_tab,
 };

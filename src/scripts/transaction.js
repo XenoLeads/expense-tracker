@@ -110,7 +110,17 @@ function add_transaction(type, currency, amount, description, method, category, 
   transactions.push(Transaction(type, currency, amount, description, method, category, time));
 }
 
+function remove_transaction(id) {
+  const index_of_transaction_to_be_removed = transactions.findIndex(transaction => transaction.id === id);
+  if (index_of_transaction_to_be_removed < 0) return null;
+  // Copying the transaction that will be removed to return as feedback as to which transaction got removed.
+  const transaction_to_be_removed = Object.assign({}, transactions[index_of_transaction_to_be_removed]);
+  transactions.splice(index_of_transaction_to_be_removed, 1);
+  return transaction_to_be_removed;
+}
+
 export default {
   get: () => transactions,
   add: add_transaction,
+  remove: remove_transaction,
 };

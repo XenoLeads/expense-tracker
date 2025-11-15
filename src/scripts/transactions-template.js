@@ -156,6 +156,7 @@ function update_filter_ui(filter_type, filter_value) {
 }
 
 async function display_transactions(filters = null) {
+  if (filters === null) filters = Filters;
   const all_transactions = document.getElementsByClassName("all-transactions")[0];
   all_transactions.innerHTML = "";
   const sorted_transactions = Utils.sort_transactions(Transaction.get());

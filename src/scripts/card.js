@@ -1,5 +1,7 @@
-import Icon from "./icon";
-import Utils from "./utils";
+import Transaction from "./transaction.js";
+import Icon from "./icon.js";
+import Utils from "./utils.js";
+import Main from "./main.js";
 
 const CURRENCY_SYMBOLS = {
   usd: "$",
@@ -28,8 +30,8 @@ async function create_transaction_card(transaction, editable = false) {
   const action_buttons = `
             <div class="separator"></div>
             <div class="transaction-card-action-buttons-container">
-              <button class="button transaction-card-action-button transaction-card-action-button-edit">Edit</button>
-              <button class="button transaction-card-action-button transaction-card-action-button-remove">Remove</button>
+              <button class="button transaction-card-action-button transaction-card-action-button-edit" data-action="edit">Edit</button>
+              <button class="button transaction-card-action-button transaction-card-action-button-remove" data-action="remove">Remove</button>
             </div>
   `;
   const card_content = `
@@ -57,19 +59,29 @@ async function create_transaction_card(transaction, editable = false) {
       `;
 
   card.innerHTML = card_content;
-  if (editable)
-    card.addEventListener("click", () => {
-      handle_action_buttons(card);
-    });
+  if (editable) card.addEventListener("click", handle_action_buttons);
 
   return card;
 
-  function handle_action_buttons(element) {
-    if (element.classList.contains("edit")) return;
-    const parent = element.parentElement;
-    const children = [...parent.children];
-    children.map(child => child.classList.remove("edit"));
-    element.classList.add("edit");
+  function handle_action_buttons(event) {
+    const card = event.currentTarget;
+    const clicked_element = event.target;
+    if (clicked_element.classList.contains("transaction-card-action-button")) {
+      const action = clicked_element.dataset.action;
+      if (action === "remove") {
+        const transaction_id = card.dataset.id;
+        const remvoed_transaction = Transaction.remove(transaction_id);
+        console.group("Removed Transaction:");
+        console.log(remvoed_transaction);
+        console.groupEnd();
+        Main.refresh();
+      }
+    } else {
+      const parent = card.parentElement;
+      const children = [...parent.children];
+      children.map(child => child.classList.remove("edit"));
+      card.classList.add("edit");
+    }
   }
 }
 
