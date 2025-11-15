@@ -1,3 +1,4 @@
+import Card from "./card.js";
 import Main from "./main.js";
 import Transaction from "./transaction";
 import search_icon from "../assets/icons/search.svg";
@@ -161,12 +162,10 @@ async function display_transactions(filters = null) {
   let transactions = sorted_transactions;
   if (filters) transactions = Utils.filter_transactions(sorted_transactions, filters);
 
-  let all_cards = "";
   for (const transaction of transactions) {
-    const card = await Utils.get_transaction_card(transaction);
-    all_cards += card;
+    const card = await Card.transaction(transaction, true);
+    all_transactions.appendChild(card);
   }
-  all_transactions.insertAdjacentHTML("beforeend", all_cards);
 }
 
 export default {

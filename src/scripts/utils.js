@@ -1,24 +1,3 @@
-import Icon from "./icon";
-
-const CURRENCY_SYMBOLS = {
-  usd: "$",
-  eur: "€",
-  gbp: "£",
-  jpy: "¥",
-  krw: "₩",
-  inr: "₹",
-  rub: "₽",
-  try: "₺",
-  vnd: "₫",
-  brl: "R$",
-  cad: "C$",
-  aud: "A$",
-  chf: "CHF",
-  hkd: "HK$",
-  nzd: "NZ$",
-  sgd: "SG$",
-};
-
 function capitalize(string, dash_replacement_character = " ") {
   if (!string) return "";
   return string
@@ -54,32 +33,6 @@ function format_transaction_time(iso_format) {
     const targetDate = target_time;
     return targetDate >= twelveHoursAgo && targetDate <= now;
   }
-}
-
-async function get_transaction_card(transaction) {
-  const icon_url = await Icon.get(transaction.type, transaction.category);
-  return `
-          <div class="transaction-card ${transaction.type}" data-id="${transaction.id}">
-              <div class="transaction-icon-category-method-time-container">
-                <div class="icon transaction-icon">
-                  <img src="${icon_url}" alt="" />
-                </div>
-                <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">${
-                    transaction.category === "default" ? capitalize(transaction.type) : capitalize(transaction.category)
-                  }</p>
-                  <div class="transaction-method-time-container">
-                    <p class="transaction-method">${capitalize(transaction.method)}</p>
-                    <p>-</p>
-                    <p class="transaction-time">${format_transaction_time(transaction.time)}</p>
-                  </div>
-                </div>
-              </div>
-              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${CURRENCY_SYMBOLS[transaction.currency]}${parseFloat(
-    transaction.amount
-  )}</p>
-            </div>
-      `;
 }
 
 function convert_to_usd(currency, amount) {
@@ -178,7 +131,6 @@ function filter_transactions(transactions, filters) {
 export default {
   capitalize,
   format_transaction_time,
-  get_transaction_card,
   convert_to_usd,
   sort_transactions,
   filter_transactions,

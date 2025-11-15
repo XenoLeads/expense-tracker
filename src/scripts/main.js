@@ -80,6 +80,12 @@ function init() {
     }
   });
 
+  main_content.addEventListener("click", event => {
+    if (event.target.closest(".transaction-card")) return;
+    const transaction_cards = [...document.getElementsByClassName("transaction-card")];
+    if (transaction_cards.length > 0) transaction_cards.map(transaction_card => transaction_card.classList.remove("edit"));
+  });
+
   init_mobile_add_transaction_inputs();
 }
 

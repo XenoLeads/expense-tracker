@@ -1,3 +1,4 @@
+import Card from "./card.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
 import Tracker from "./tracker.js";
@@ -115,12 +116,10 @@ async function display_transactions(transactions) {
   const sorted_transactions = Utils.sort_transactions(transactions);
   const recent_10_transactions = sorted_transactions.slice(0, 10);
 
-  let all_cards = "";
   for (const transaction of recent_10_transactions) {
-    const card = await Utils.get_transaction_card(transaction);
-    all_cards += card;
+    const card = await Card.transaction(transaction);
+    recent_transactions.appendChild(card);
   }
-  recent_transactions.insertAdjacentHTML("beforeend", all_cards);
 }
 
 function refresh() {
