@@ -135,7 +135,8 @@ function update_filter_ui(filter_type, filter_value) {
     }
 
     let category_buttons = "";
-    if (filter_value !== "all") {
+    const only_show_selected_type_of_transactions = filter_value !== "all";
+    if (only_show_selected_type_of_transactions) {
       Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
       category_filters_container.insertAdjacentHTML("beforeend", create_category_button("all"));
     }
@@ -149,7 +150,7 @@ function update_filter_ui(filter_type, filter_value) {
         handle_transaction_filters(filter);
       });
     });
-    all_category_filters[0].classList.add("selected");
+    if (only_show_selected_type_of_transactions) all_category_filters[0].classList.add("selected");
   }
 }
 
