@@ -125,24 +125,28 @@ function update_filter_ui(filter_type, filter_value) {
     });
   }
 
-  if (filter_type === "type" && filter_value === "all") Filters.category = "all";
-
   if (filter_type === "type") {
-    const create_category_button = category_name =>
-      `<button class="button transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
+    category_filters_container.innerHTML = "";
+    function create_category_button(category_name) {
+      return `<button class="button transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
         category_name
       )}</button>`;
-    category_filters_container.innerHTML = "";
+    }
+
     let category_buttons = "";
-    if (filter_value !== "all") Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
+    Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
+    category_filters_container.insertAdjacentHTML("beforeend", create_category_button("all"));
     category_filters_container.insertAdjacentHTML("beforeend", category_buttons);
 
     // Add event listener to newly created category filters
-    [...category_filters_container.children].map(filter =>
+    const all_category_filters = [...category_filters_container.children];
+    all_category_filters.map(filter => {
+      filter.classList.remove("selected");
       filter.addEventListener("click", () => {
         handle_transaction_filters(filter);
-      })
-    );
+      });
+    });
+    all_category_filters[0].classList.add("selected");
   }
 }
 
