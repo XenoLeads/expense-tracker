@@ -135,8 +135,10 @@ function update_filter_ui(filter_type, filter_value) {
     }
 
     let category_buttons = "";
-    Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
-    category_filters_container.insertAdjacentHTML("beforeend", create_category_button("all"));
+    if (filter_value !== "all") {
+      Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
+      category_filters_container.insertAdjacentHTML("beforeend", create_category_button("all"));
+    }
     category_filters_container.insertAdjacentHTML("beforeend", category_buttons);
 
     // Add event listener to newly created category filters
