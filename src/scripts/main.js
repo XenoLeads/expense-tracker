@@ -1,6 +1,5 @@
 import "../styles/style.css";
 
-import Tracker from "./tracker.js";
 import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Dashboard from "./dashboard-template.js";
@@ -223,6 +222,13 @@ function set_category(type) {
     add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
   });
 }
+function set_category_filters(type) {
+  if (!CATEGORIES[type]) return;
+  add_transaction_input_category.innerHTML = "";
+  CATEGORIES[type].forEach(category => {
+    add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
+  });
+}
 
 function get_selected_input_type() {
   const selected_type = income_option.checked === true ? income_option : expense_option.checked === true ? expense_option : null;
@@ -266,3 +272,14 @@ function highlight_selected_tab(tabs, selected_tab_list) {
 }
 
 init();
+
+export default {
+  categories: {
+    get income() {
+      return CATEGORIES.income;
+    },
+    get expense() {
+      return CATEGORIES.expense;
+    },
+  },
+};

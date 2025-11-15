@@ -284,7 +284,14 @@ body {
   color: var(--primary-text-color);
   outline: none;
 }
+.transaction-filters-type > .vertical-separator {
+  display: none;
+}
+.transaction-filters-type:has(.transaction-filters-category > .transaction-filter) > .vertical-separator {
+  display: flex;
+}
 .transaction-filters-time,
+.transaction-filters-type,
 .transaction-filters-category,
 .all-budgets-filters,
 .statistics-time-filters {
@@ -294,6 +301,9 @@ body {
   gap: 0.4rem;
   overflow-x: auto;
   scrollbar-width: none;
+}
+.transaction-filters-category {
+  overflow-x: visible;
 }
 .transaction-filter,
 .budget-filter,
@@ -857,16 +867,16 @@ body {
   width: 100%;
 }
 .desktop-transaction-filters-time-heading-separator,
-.desktop-transaction-filters-category-heading-separator {
+.desktop-transaction-filters-type-heading-separator {
   width: 100%;
   text-align: center;
 }
 .desktop-transaction-filters-time-heading,
-.desktop-transaction-filters-category-heading {
+.desktop-transaction-filters-type-heading {
   font-weight: normal;
   font-size: 1rem;
 }
-.desktop-quick-view-actions-sidebar .transaction-filters-category {
+.desktop-quick-view-actions-sidebar .transaction-filters-type {
   overflow-y: auto;
 }
 .desktop-budget-quick-view-actions {
