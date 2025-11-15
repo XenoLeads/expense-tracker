@@ -100,6 +100,7 @@ function handle_transaction_filters(filter) {
   const filter_value = filter.dataset.value;
   if (filter_type in Filters && Filters[filter_type] !== filter_value) {
     Filters[filter_type] = filter_value;
+    if (filter_type === "type") Filters.category = "all";
     update_filter_ui(filter_type, filter_value);
     display_transactions(Filters);
   }
