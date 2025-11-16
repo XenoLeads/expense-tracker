@@ -8,6 +8,7 @@ async function create_transaction_card(transaction, editable = false) {
   const card = document.createElement("div");
   card.classList.add("transaction-card", transaction.type);
   card.dataset.id = transaction.id;
+  card.title = transaction.description;
   const action_buttons = `
             <div class="separator"></div>
             <div class="transaction-card-action-buttons-container">
@@ -25,6 +26,7 @@ async function create_transaction_card(transaction, editable = false) {
                   <p class="transaction-category">${
                     transaction.category === "default" ? Utils.capitalize(transaction.type) : Utils.capitalize(transaction.category, " & ")
                   }</p>
+                  <p class="transaction-description">${transaction.description}</p>
                   <div class="transaction-method-time-container">
                     <p class="transaction-method">${Utils.capitalize(transaction.method, "&")}</p>
                     <p>-</p>

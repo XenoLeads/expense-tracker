@@ -205,7 +205,7 @@ body {
   align-items: center;
   padding: 0 0.8rem;
 }
-.add-transaction-input-preview > .transaction-card{
+.add-transaction-input-preview > .transaction-card {
   flex-direction: row;
 }
 .transaction-icon {
@@ -223,12 +223,20 @@ body {
 }
 .transaction-icon-category-method-time-container {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 .transaction-category-method-time-container {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+}
+.transaction-description {
+  font-size: 0.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10rem;
+  opacity: 0.8;
 }
 .transaction-method-time-container {
   display: flex;
@@ -237,7 +245,7 @@ body {
   gap: 0.3rem;
   font-size: 0.6rem;
   color: var(--primary-text-color);
-  opacity: 0.8;
+  opacity: 0.7;
 }
 .transaction-card.expense .transaction-amount {
   color: red;
