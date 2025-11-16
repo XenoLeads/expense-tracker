@@ -205,6 +205,9 @@ body {
   align-items: center;
   padding: 0 0.8rem;
 }
+.add-transaction-input-preview > .transaction-card{
+  flex-direction: row;
+}
 .transaction-icon {
   height: 2.4rem;
   aspect-ratio: 1/1;

@@ -48,6 +48,25 @@ const CATEGORIES = {
   expense: ["default", "food-dining", "transportation", "shopping", "bills-utilities", "entertainment", "healthcare", "travel", "other"],
 };
 
+const CURRENCY_SYMBOLS = {
+  usd: "$",
+  eur: "€",
+  gbp: "£",
+  jpy: "¥",
+  krw: "₩",
+  inr: "₹",
+  rub: "₽",
+  try: "₺",
+  vnd: "₫",
+  brl: "R$",
+  cad: "C$",
+  aud: "A$",
+  chf: "CHF",
+  hkd: "HK$",
+  nzd: "NZ$",
+  sgd: "SG$",
+};
+
 function init() {
   render_tab(Dashboard);
 
@@ -73,8 +92,22 @@ function init() {
   mobile_add_transaction_button.addEventListener("click", () => {
     const transaction_type = get_selected_input_type();
     const { amount, currency, description, method, category, time } = get_transaction_inputs();
-    if (![transaction_type, currency, amount, description, method, category, time].some(input => input === "")) {
-      Transaction.add(transaction_type, currency, parseInt(amount), description, method, category, time);
+    if (![transaction_type, currency, amount, method, category, time].some(input => input === "") && parseFloat(amount) !== 0) {
+      const action_mode = add_transaction_panel.dataset.actionMode;
+      const transaction_id = add_transaction_panel.dataset.transactionId;
+      if (action_mode === "edit") {
+        Transaction.edit(transaction_id, {
+          transaction_type,
+          amount,
+          currency,
+          description,
+          method,
+          category,
+          time,
+        });
+      } else {
+        Transaction.add(transaction_type, currency, parseInt(amount), description, method, category, time);
+      }
       refresh_current_tab();
       add_transaction_panel.classList.remove("visible");
     }
@@ -126,23 +159,7 @@ function get_transaction_inputs() {
 }
 
 function reset_add_transaction_inputs() {
-  const expense_option = document.getElementById("transaction-input-type-expense");
-  expense_option.checked = true;
-  const amount = document.getElementById("add-transaction-input-amount");
-  amount.value = 0;
-  const currency = document.getElementById("add-transaction-input-currency");
-  currency.value = "$";
-  const description = document.getElementById("add-transaction-input-description");
-  description.value = "";
-  const method = document.getElementById("add-transaction-input-method");
-  method.value = "cash";
-  const category = document.getElementById("add-transaction-input-category");
-  category.value = "default";
-  const time = document.getElementById("add-transaction-input-time");
-  time.value = get_current_iso_formatted_time();
-  transaction_preview_container.classList.remove("income");
-  transaction_preview_container.classList.add("expense");
-  set_category("expense");
+  set_transaction_panel_input_values();
   refresh_inputs();
 }
 
@@ -215,9 +232,9 @@ function refresh_preview(input, preview_input) {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
     const amount_value = parseInt(amount.value);
-    amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${currency.value}${
-      amount_value === "" ? 0 : amount_value
-    }`;
+    amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${get_currency_symbol(
+      currency.value
+    )}${amount_value === "" ? 0 : amount_value}`;
   }
 }
 
@@ -228,12 +245,60 @@ function set_category(type) {
     add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
   });
 }
-function set_category_filters(type) {
-  if (!CATEGORIES[type]) return;
-  add_transaction_input_category.innerHTML = "";
-  CATEGORIES[type].forEach(category => {
-    add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
-  });
+
+function show_edit_transaction_panel(transaction) {
+  set_edit_transaction_panel(transaction);
+  add_transaction_panel.classList.add("visible");
+  add_transaction_panel.dataset.actionMode = "edit";
+  add_transaction_panel.dataset.transactionId = transaction.id;
+}
+
+function set_edit_transaction_panel(transaction) {
+  set_transaction_panel_input_values(
+    transaction.type,
+    transaction.amount,
+    transaction.currency,
+    transaction.description,
+    transaction.method,
+    transaction.category,
+    transaction.time.slice(0, -1),
+    "Edit Transaction",
+    "Edit"
+  );
+  refresh_inputs();
+}
+
+function set_transaction_panel_input_values(
+  type_value = "expense",
+  amount_value = 0,
+  currency_value = "usd",
+  description_value = "",
+  method_value = "cash",
+  category_value = "default",
+  time_value = get_current_iso_formatted_time(),
+  heading_text = "New Transaction",
+  action_button_text = "Add"
+) {
+  const heading_element = document.getElementsByClassName("add-transaction-heading")[0];
+  heading_element.textContent = heading_text;
+  mobile_add_transaction_button.textContent = action_button_text;
+  if (type_value === "income") {
+    income_option.checked = true;
+    transaction_preview_container.classList.remove("expense");
+    transaction_preview_container.classList.add("income");
+    set_category("income");
+  } else {
+    expense_option.checked = true;
+    transaction_preview_container.classList.remove("income");
+    transaction_preview_container.classList.add("expense");
+    set_category("expense");
+  }
+  amount.value = amount_value;
+  currency.value = currency_value;
+  description.value = description_value;
+  method.value = method_value;
+  category.value = category_value;
+  time.value = time_value;
 }
 
 function get_selected_input_type() {
@@ -277,6 +342,11 @@ function highlight_selected_tab(tabs, selected_tab_list) {
   });
 }
 
+function get_currency_symbol(abbreviation) {
+  if (abbreviation in CURRENCY_SYMBOLS) return CURRENCY_SYMBOLS[abbreviation];
+  return "";
+}
+
 init();
 
 export default {
@@ -289,4 +359,6 @@ export default {
     },
   },
   refresh: refresh_current_tab,
+  panel: { edit_transaction: show_edit_transaction_panel },
+  get_currency_symbol,
 };

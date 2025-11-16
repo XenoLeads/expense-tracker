@@ -3,25 +3,6 @@ import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Main from "./main.js";
 
-const CURRENCY_SYMBOLS = {
-  usd: "$",
-  eur: "€",
-  gbp: "£",
-  jpy: "¥",
-  krw: "₩",
-  inr: "₹",
-  rub: "₽",
-  try: "₺",
-  vnd: "₫",
-  brl: "R$",
-  cad: "C$",
-  aud: "A$",
-  chf: "CHF",
-  hkd: "HK$",
-  nzd: "NZ$",
-  sgd: "SG$",
-};
-
 async function create_transaction_card(transaction, editable = false) {
   const icon_url = await Icon.get(transaction.type, transaction.category);
   const card = document.createElement("div");
@@ -51,7 +32,7 @@ async function create_transaction_card(transaction, editable = false) {
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${CURRENCY_SYMBOLS[transaction.currency]}${parseFloat(
+              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${Main.get_currency_symbol(transaction.currency)}${parseFloat(
     transaction.amount
   )}</p>
             </div>
@@ -68,13 +49,15 @@ async function create_transaction_card(transaction, editable = false) {
     const clicked_element = event.target;
     if (clicked_element.classList.contains("transaction-card-action-button")) {
       const action = clicked_element.dataset.action;
+      const transaction_id = card.dataset.id;
       if (action === "remove") {
-        const transaction_id = card.dataset.id;
-        const remvoed_transaction = Transaction.remove(transaction_id);
+        const removed_transaction = Transaction.remove(transaction_id);
         console.group("Removed Transaction:");
-        console.log(remvoed_transaction);
+        console.log(removed_transaction);
         console.groupEnd();
         Main.refresh();
+      } else if (action === "edit") {
+        Main.panel.edit_transaction(Transaction.find(transaction_id).item);
       }
     } else {
       const parent = card.parentElement;

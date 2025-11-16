@@ -6,24 +6,23 @@ import Tracker from "./tracker.js";
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
 function get_dashboard_template() {
+  Tracker.recalculate();
   return `
         <div class="balance-income-expense-expense-overview-top-icomes-top-expenses">
             <div class="balance-income-expense-expense-overview">
               <div class="card balance-income-expense">
                 <div class="wrapper total-balance-wrapper">
                   <p>Balance:</p>
-                  <p class="total-balance">${
-                    Tracker.balance < 0 ? `-$${Math.abs(parseFloat(Tracker.balance.toFixed(2)))}` : `$${parseFloat(Tracker.balance.toFixed(2))}`
-                  }</p>
+                  <p class="total-balance">-</p>
                 </div>
                 <div class="income-expense">
                   <div class="wrapper total-income-wrapper">
                     <p>Income:</p>
-                    <p class="total-income">$${parseFloat(Tracker.income.toFixed(2))}</p>
+                    <p class="total-income">-</p>
                   </div>
                   <div class="wrapper total-expense-wrapper">
                     <p>Expense:</p>
-                    <p class="total-expense">$${parseFloat(Tracker.expense.toFixed(2))}</p>
+                    <p class="total-expense">-</p>
                   </div>
                 </div>
               </div>
@@ -104,7 +103,7 @@ function init_dashboard_template(callback) {
           </div>
 `;
 
-  display_transactions(Transaction.get());
+  refresh();
 
   const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
@@ -122,8 +121,18 @@ async function display_transactions(transactions) {
   }
 }
 
+function refresh_transactions_overview_amounts(tracker) {
+  const total_balance = document.getElementsByClassName("total-balance")[0];
+  const total_income = document.getElementsByClassName("total-income")[0];
+  const total_expense = document.getElementsByClassName("total-expense")[0];
+  total_balance.textContent = `${`${tracker.balance < 0 ? "-" : ""}$${Math.abs(parseFloat(tracker.balance.toFixed(2)))}`}`;
+  total_income.textContent = `$${parseFloat(tracker.income.toFixed(2))}`;
+  total_expense.textContent = `$${parseFloat(tracker.expense.toFixed(2))}`;
+}
+
 function refresh() {
   display_transactions(Transaction.get());
+  refresh_transactions_overview_amounts(Tracker.recalculate());
 }
 
 export default {

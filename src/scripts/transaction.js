@@ -3,7 +3,7 @@ const transactions = [
   {
     type: "expense",
     currency: "usd",
-    amount: "18.50",
+    amount: 18.5,
     description: "Lunch at cafe",
     method: "card",
     category: "food-dining",
@@ -13,7 +13,7 @@ const transactions = [
   {
     type: "expense",
     currency: "eur",
-    amount: "45.00",
+    amount: 45,
     description: "Train ticket",
     method: "cash",
     category: "transportation",
@@ -23,7 +23,7 @@ const transactions = [
   {
     type: "expense",
     currency: "gbp",
-    amount: "120.99",
+    amount: 120.99,
     description: "New headphones",
     method: "card",
     category: "shopping",
@@ -33,7 +33,7 @@ const transactions = [
   {
     type: "expense",
     currency: "inr",
-    amount: "950.00",
+    amount: 950,
     description: "Electric bill",
     method: "bank-transfer",
     category: "bills-utilities",
@@ -43,7 +43,7 @@ const transactions = [
   {
     type: "expense",
     currency: "usd",
-    amount: "60.25",
+    amount: 60.25,
     description: "Weekend movie & snacks",
     method: "card",
     category: "entertainment",
@@ -53,7 +53,7 @@ const transactions = [
   {
     type: "income",
     currency: "usd",
-    amount: "1200.00",
+    amount: 1200,
     description: "Monthly salary",
     method: "bank-transfer",
     category: "salary",
@@ -63,7 +63,7 @@ const transactions = [
   {
     type: "income",
     currency: "eur",
-    amount: "220.50",
+    amount: 220.5,
     description: "Freelance project",
     method: "bank-transfer",
     category: "freelance",
@@ -73,7 +73,7 @@ const transactions = [
   {
     type: "income",
     currency: "usd",
-    amount: "75.00",
+    amount: 75,
     description: "Dividends",
     method: "bank-transfer",
     category: "investments",
@@ -83,7 +83,7 @@ const transactions = [
   {
     type: "expense",
     currency: "usd",
-    amount: "300.00",
+    amount: 300,
     description: "Flight ticket",
     method: "card",
     category: "travel",
@@ -93,7 +93,7 @@ const transactions = [
   {
     type: "income",
     currency: "usd",
-    amount: "500.00",
+    amount: 500,
     description: "Stock profit",
     method: "other",
     category: "investments",
@@ -111,16 +111,35 @@ function add_transaction(type, currency, amount, description, method, category, 
 }
 
 function remove_transaction(id) {
-  const index_of_transaction_to_be_removed = transactions.findIndex(transaction => transaction.id === id);
-  if (index_of_transaction_to_be_removed < 0) return null;
-  // Copying the transaction that will be removed to return as feedback as to which transaction got removed.
-  const transaction_to_be_removed = Object.assign({}, transactions[index_of_transaction_to_be_removed]);
-  transactions.splice(index_of_transaction_to_be_removed, 1);
-  return transaction_to_be_removed;
+  const transaction = find_transaction(id);
+  transactions.splice(transaction.index, 1);
+  return transaction.item;
+}
+
+function find_transaction(id) {
+  const transaction_index = transactions.findIndex(transaction => transaction.id === id);
+  if (transaction_index < 0) return null;
+  return { index: transaction_index, item: Object.assign({}, transactions[transaction_index]) };
+}
+
+function edit_transaction(id, new_transaction = null) {
+  const transaction = find_transaction(id);
+  if (transaction.index > -1 && new_transaction) {
+    if (new_transaction.time) new_transaction.time += ":00Z";
+    const selected_transaction = transactions[transaction.index];
+    for (let property in selected_transaction) {
+      if (property in new_transaction && selected_transaction[property] !== new_transaction[property]) {
+        if (property === "amount") selected_transaction[property] = parseFloat(new_transaction[property]);
+        else selected_transaction[property] = new_transaction[property];
+      }
+    }
+  }
 }
 
 export default {
   get: () => transactions,
   add: add_transaction,
   remove: remove_transaction,
+  find: find_transaction,
+  edit: edit_transaction,
 };

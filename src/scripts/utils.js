@@ -17,7 +17,8 @@ function capitalize(string, dash_replacement_character = " ") {
 function format_transaction_time(iso_format) {
   const now = new Date(iso_format);
   const current_hour = now.getHours();
-  const current_minute = now.getMinutes();
+  let current_minute = now.getMinutes();
+  if (current_minute.length < 2) current_minute = "0" + current_minute;
   const [year, month, day] = [now.getFullYear(), now.getMonth() + 1, now.getDate()];
   if (isWithin12Hours(now)) {
     if (current_hour > 12) return `${current_hour - 12}:${current_minute} PM`;

@@ -10,6 +10,8 @@ function Tracker(transactions) {
   refresh_transactions(tracker, transactions);
 
   function refresh_transactions(tracker, transactions) {
+    tracker.income = 0;
+    tracker.expense = 0;
     transactions.forEach(transaction => {
       let amount = parseFloat(transaction.amount);
       if (transaction.currency !== "usd") amount = Utils.convert_to_usd(transaction.currency, transaction.amount);
@@ -26,6 +28,14 @@ function Tracker(transactions) {
     },
     get expense() {
       return tracker.expense;
+    },
+    recalculate() {
+      refresh_transactions(tracker, transactions);
+      return {
+        balance: tracker.income - tracker.expense,
+        income: tracker.income,
+        expense: tracker.expense,
+      };
     },
   };
 }
