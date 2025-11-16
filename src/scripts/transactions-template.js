@@ -130,7 +130,8 @@ function update_filter_ui(filter_type, filter_value) {
     category_filters_container.innerHTML = "";
     function create_category_button(category_name) {
       return `<button class="button transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
-        category_name
+        category_name,
+        " & "
       )}</button>`;
     }
 
