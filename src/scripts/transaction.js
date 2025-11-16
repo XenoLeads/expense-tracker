@@ -136,10 +136,15 @@ function edit_transaction(id, new_transaction = null) {
   }
 }
 
+function search_transactions(description) {
+  return transactions.filter(transaction => transaction.description.toLowerCase().includes(description.toLowerCase()));
+}
+
 export default {
   get: () => transactions,
   add: add_transaction,
   remove: remove_transaction,
   find: find_transaction,
   edit: edit_transaction,
+  search: search_transactions,
 };

@@ -1,9 +1,9 @@
 import Card from "./card.js";
 import Main from "./main.js";
-import Transaction from "./transaction";
+import Transaction from "./transaction.js";
 import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 const Filters = {
@@ -89,11 +89,7 @@ function init_transactions_template() {
     });
   }
 
-  display_transactions();
-
-  const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
-
-  transaction_filters.map(filter => filter.addEventListener("click", () => handle_transaction_filters(filter)));
+  refresh();
 }
 
 function handle_transaction_filters(filter) {
@@ -155,17 +151,35 @@ function update_filter_ui(filter_type, filter_value) {
   }
 }
 
-async function display_transactions(filters = null) {
-  if (filters === null) filters = Filters;
+async function display_transactions(transactions = Transaction.get(), filters = Filters) {
   const all_transactions = document.getElementsByClassName("all-transactions")[0];
   all_transactions.innerHTML = "";
-  const sorted_transactions = Utils.sort_transactions(Transaction.get());
-  let transactions = sorted_transactions;
-  if (filters) transactions = Utils.filter_transactions(sorted_transactions, filters);
+  const sorted_transactions = Utils.sort_transactions(transactions);
+  let filtered_transactions;
+  if (filters) filtered_transactions = Utils.filter_transactions(sorted_transactions, filters);
 
-  for (const transaction of transactions) {
+  for (const transaction of filtered_transactions) {
     const card = await Card.transaction(transaction, true);
     all_transactions.appendChild(card);
+  }
+}
+
+function refresh() {
+  display_transactions();
+  const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
+  transaction_filters.map(filter => filter.addEventListener("click", () => handle_transaction_filters(filter)));
+
+  const search_bar = document.getElementsByClassName("search-bar")[0];
+  const timer = { id: null, delay: 300 };
+  search_bar.addEventListener("input", () => {
+    clearTimeout(timer.id);
+    timer.id = setTimeout(() => search(search_bar), timer.delay);
+  });
+
+  function search(search_bar) {
+    const searched_text = search_bar.value.trim();
+    const matched_transactions = Transaction.search(searched_text);
+    display_transactions(matched_transactions);
   }
 }
 
@@ -173,5 +187,5 @@ export default {
   name: "transactions",
   get: get_transactions_template,
   init: init_transactions_template,
-  refresh: display_transactions,
+  refresh,
 };

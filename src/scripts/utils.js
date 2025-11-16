@@ -59,6 +59,7 @@ function convert_to_usd(currency, amount) {
 }
 
 function sort_transactions(transactions, most_recent = true) {
+  if (!transactions || transactions.length < 0) return;
   return [...transactions].sort((a, b) => {
     const timeA = new Date(a.time).getTime();
     const timeB = new Date(b.time).getTime();
