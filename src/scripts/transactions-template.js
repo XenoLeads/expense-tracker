@@ -1,7 +1,6 @@
 import Card from "./card.js";
 import Main from "./main.js";
 import Transaction from "./transaction.js";
-import search_icon from "../assets/icons/search.svg";
 import clear_search_icon from "../assets/icons/clear.svg";
 import Utils from "./utils.js";
 
@@ -15,9 +14,6 @@ const Filters = {
 function get_transactions_template() {
   return `
         <div class="search-bar-container">
-            <button class="button search-button">
-              <img src="${search_icon}" alt="" class="icon search-icon" />
-            </button>
             <input type="text" name="search-bar" class="search-bar" />
             <button class="button clear-search-button">
               <img src="${clear_search_icon}" alt="" class="icon clear-search-icon" />

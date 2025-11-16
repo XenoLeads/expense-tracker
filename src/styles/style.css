@@ -304,23 +304,16 @@ body {
   height: 2rem;
   width: 100%;
 }
-.search-bar-container > .search-button,
 .search-bar-container > .clear-search-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-}
-.search-bar-container > .search-button {
-  left: 0;
-  margin-left: 0.6rem;
-  height: 1.2rem;
 }
 .search-bar-container > .clear-search-button {
   right: 0;
   margin-right: 0.6rem;
   height: 1rem;
 }
-.search-bar-container > .search-button > .icon,
 .search-bar-container > .clear-search-button > .icon {
   height: 100%;
   width: 100%;
@@ -332,7 +325,8 @@ body {
   border: 2px solid white;
   border-radius: 0.4rem;
   background: none;
-  padding-left: 2rem;
+  padding-left: 0.4rem;
+  padding-right: 2rem;
   color: var(--primary-text-color);
   outline: none;
 }
