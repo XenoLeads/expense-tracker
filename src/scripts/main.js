@@ -83,6 +83,7 @@ function init() {
 
   mobile_add_transaction_navigation_button.addEventListener("click", () => {
     add_transaction_panel.classList.add("visible");
+    add_transaction_panel.dataset.actionMode = "add";
     reset_add_transaction_inputs();
     amount.select();
   });
