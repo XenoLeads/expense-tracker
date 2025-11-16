@@ -175,14 +175,8 @@ function refresh() {
   const timer = { id: null, delay: 300 };
   search_bar.addEventListener("input", () => {
     clearTimeout(timer.id);
-    timer.id = setTimeout(() => search(search_bar), timer.delay);
+    timer.id = setTimeout(() => display_transactions(), timer.delay);
   });
-
-  function search(search_bar) {
-    const searched_text = search_bar.value.trim();
-    const matched_transactions = Transaction.search(searched_text);
-    display_transactions(matched_transactions);
-  }
 }
 
 export default {

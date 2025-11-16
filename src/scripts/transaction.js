@@ -136,7 +136,8 @@ function edit_transaction(id, new_transaction = null) {
   }
 }
 
-function search_transactions(description) {
+function search_transactions(description, new_transactions = null) {
+  if (new_transactions) return new_transactions.filter(transaction => transaction.description.toLowerCase().includes(description.toLowerCase()));
   return transactions.filter(transaction => transaction.description.toLowerCase().includes(description.toLowerCase()));
 }
 

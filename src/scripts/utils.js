@@ -1,3 +1,5 @@
+import Transaction from "./transaction";
+
 function capitalize(string, dash_replacement_character = " ") {
   if (!string) return "";
   return string
@@ -69,8 +71,8 @@ function sort_transactions(transactions, most_recent = true) {
 
 function filter_transactions(transactions, filters, search_text = null) {
   const now = new Date();
-
-  let filtered_transactions = transactions.filter(tx => {
+  if (search_text) transactions = Transaction.search(search_text, transactions);
+  return transactions.filter(tx => {
     const txTime = new Date(tx.time);
     let match = true;
 
@@ -128,11 +130,6 @@ function filter_transactions(transactions, filters, search_text = null) {
       return new Date(copy.getFullYear(), copy.getMonth(), diff);
     }
   });
-
-  if (search_text && filtered_transactions.length > 0)
-    filtered_transactions = filtered_transactions.filter(transaction => transaction.description.includes(search_text));
-
-  return filtered_transactions;
 }
 
 export default {
