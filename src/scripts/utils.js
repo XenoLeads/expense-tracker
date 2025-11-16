@@ -67,10 +67,10 @@ function sort_transactions(transactions, most_recent = true) {
   });
 }
 
-function filter_transactions(transactions, filters) {
+function filter_transactions(transactions, filters, search_text = null) {
   const now = new Date();
 
-  return transactions.filter(tx => {
+  let filtered_transactions = transactions.filter(tx => {
     const txTime = new Date(tx.time);
     let match = true;
 
@@ -128,6 +128,11 @@ function filter_transactions(transactions, filters) {
       return new Date(copy.getFullYear(), copy.getMonth(), diff);
     }
   });
+
+  if ((search_text, filtered_transactions.length > 0))
+    filtered_transactions = filtered_transactions.filter(transaction => transaction.description.includes(search_text));
+
+  return filtered_transactions;
 }
 
 export default {

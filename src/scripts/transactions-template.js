@@ -85,7 +85,10 @@ function init_transactions_template() {
   if (clear_search_button) {
     clear_search_button.addEventListener("click", () => {
       const search_input = document.getElementsByClassName("search-bar")[0];
-      if (search_input) search_input.value = "";
+      if (search_input && search_input.value.trim() !== "") {
+        search_input.value = "";
+        refresh();
+      }
     });
   }
 
@@ -99,7 +102,7 @@ function handle_transaction_filters(filter) {
     Filters[filter_type] = filter_value;
     if (filter_type === "type") Filters.category = "all";
     update_filter_ui(filter_type, filter_value);
-    display_transactions(Filters);
+    display_transactions(undefined, Filters);
   }
 }
 
@@ -152,11 +155,13 @@ function update_filter_ui(filter_type, filter_value) {
 }
 
 async function display_transactions(transactions = Transaction.get(), filters = Filters) {
+  const search_bar = document.getElementsByClassName("search-bar")[0];
+  const searched_text = search_bar.value.trim();
   const all_transactions = document.getElementsByClassName("all-transactions")[0];
   all_transactions.innerHTML = "";
   const sorted_transactions = Utils.sort_transactions(transactions);
   let filtered_transactions;
-  if (filters) filtered_transactions = Utils.filter_transactions(sorted_transactions, filters);
+  if (filters) filtered_transactions = Utils.filter_transactions(sorted_transactions, filters, searched_text);
 
   for (const transaction of filtered_transactions) {
     const card = await Card.transaction(transaction, true);
