@@ -129,7 +129,7 @@ function filter_transactions(transactions, filters, search_text = null) {
     }
   });
 
-  if ((search_text, filtered_transactions.length > 0))
+  if (search_text && filtered_transactions.length > 0)
     filtered_transactions = filtered_transactions.filter(transaction => transaction.description.includes(search_text));
 
   return filtered_transactions;
