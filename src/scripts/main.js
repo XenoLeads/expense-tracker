@@ -68,7 +68,7 @@ const CURRENCY_SYMBOLS = {
 };
 
 function init() {
-  render_tab(Dashboard);
+  // render_tab(Dashboard);
 
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {

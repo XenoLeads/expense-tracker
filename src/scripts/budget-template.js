@@ -53,6 +53,9 @@ function get_budget_template() {
             <button class="button budget-filter all-budget-filter-button-all selected">All</button>
             <button class="button budget-filter all-budget-filter-button-most-used">Most Used</button>
             <button class="button budget-filter all-budget-filter-button-least-used">Least Used</button>
+            <button class="button budget-filter all-budget-filter-button-weekly">Weekly</button>
+            <button class="button budget-filter all-budget-filter-button-monthly">Monthly</button>
+            <button class="button budget-filter all-budget-filter-button-yearly">Yearly</button>
           </div>
           <div class="all-budgets">
             <div class="budget-card">
@@ -126,6 +129,9 @@ function get_budget_template() {
 }
 
 function init_budget_template() {
+  const add_new_budget_button = document.getElementsByClassName("add-new-budget-button")[0];
+  add_new_budget_button.addEventListener("click", () => {});
+
   desktop_quick_view_actions_sidebar.innerHTML = `
   <div class="desktop-budget-quick-view-actions">
             <button class="button desktop-add-budget-button">Add New Budget</button>
