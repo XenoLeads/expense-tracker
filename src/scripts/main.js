@@ -35,6 +35,7 @@ const transaction_preview = [...document.getElementsByClassName("transaction-pre
 const transaction_preview_container = document.querySelector(".add-transaction-input-preview > .transaction-card");
 const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
 const add_transaction_input_category = document.getElementById("add-transaction-input-category");
+const budget_input_discard_button = document.getElementsByClassName("budget-input-discard-button")[0];
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard,
@@ -68,7 +69,7 @@ const CURRENCY_SYMBOLS = {
 };
 
 function init() {
-  // render_tab(Dashboard);
+  render_tab(Dashboard);
 
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {
@@ -121,6 +122,7 @@ function init() {
   });
 
   init_mobile_add_transaction_inputs();
+  init_budget_panel();
 }
 
 function refresh_current_tab() {
@@ -346,6 +348,74 @@ function highlight_selected_tab(tabs, selected_tab_list) {
 function get_currency_symbol(abbreviation) {
   if (abbreviation in CURRENCY_SYMBOLS) return CURRENCY_SYMBOLS[abbreviation];
   return "";
+}
+
+function init_budget_panel() {
+  const budget_time_inputs = [...document.getElementsByClassName("budget-input-time")];
+  budget_time_inputs.map(budget_input => {
+    budget_input.addEventListener("click", () => {
+      if (budget_input.classList.contains("selected")) return;
+      set_selected_class(budget_input);
+      const type = budget_input.dataset.type;
+      const value = budget_input.dataset.value;
+      set_budget_preview({ [type]: `- ${Utils.capitalize(value)}` });
+    });
+  });
+
+  const budget_inputs = [...document.getElementsByClassName("budget-input")];
+  budget_inputs.map(budget_input => {
+    budget_input.addEventListener("input", () => {
+      const type = budget_input.dataset.type;
+      const value = budget_input.value;
+      set_budget_preview({ [type]: value });
+    });
+  });
+
+  budget_input_discard_button.addEventListener("click", () => {
+    const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
+    budget_input_panel_container.classList.remove("visible");
+  });
+}
+
+function set_selected_class(element) {
+  const parent = element.parentElement;
+  const children = [...parent.children];
+  children.map(child => child.classList.remove("selected"));
+  element.classList.add("selected");
+}
+
+async function set_budget_preview(config = {}) {
+  const preview_inputs = [...document.getElementsByClassName("budget-preview-input")];
+  await format(config);
+  for (const preview_input of preview_inputs) {
+    const input_type = preview_input.dataset.type;
+
+    if (input_type in config)
+      if (input_type === "icon") preview_input.src = config[input_type];
+      else preview_input.textContent = config[input_type];
+  }
+
+  async function format(config) {
+    if (Object.keys(config).length < 1) return;
+    for (const key in config) {
+      switch (key) {
+        case "amount":
+          const parsed_float = parseFloat(config[key]);
+          if (isNaN(parsed_float)) config[key] = 0;
+          else config[key] = parseFloat(config[key]);
+          break;
+        case "currency":
+          config[key] = CURRENCY_SYMBOLS[config[key]];
+          break;
+        case "category":
+          const value = config[key];
+          config[key] = Utils.capitalize(value, " & ");
+          const icon_url = await Icon.get("expense", value);
+          config.icon = icon_url;
+          break;
+      }
+    }
+  }
 }
 
 init();

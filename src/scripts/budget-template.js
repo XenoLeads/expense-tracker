@@ -1,3 +1,4 @@
+import expense_icon from "../assets/icons/transaction-category/expense/expense.svg";
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
 function get_budget_template() {
@@ -130,7 +131,57 @@ function get_budget_template() {
 
 function init_budget_template() {
   const add_new_budget_button = document.getElementsByClassName("add-new-budget-button")[0];
-  add_new_budget_button.addEventListener("click", () => {});
+  add_new_budget_button.addEventListener("click", () => {
+    reset_budget_inputs();
+    const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
+    budget_input_panel_container.classList.toggle("visible");
+  });
+
+  function reset_budget_inputs() {
+    const budget_time_inputs = [...document.getElementsByClassName("budget-input-time")];
+    budget_time_inputs.map(budget_time_input =>
+      budget_time_input.dataset.value === "monthly" ? budget_time_input.classList.add("selected") : budget_time_input.classList.remove("selected")
+    );
+
+    const budget_inputs = [...document.getElementsByClassName("budget-input")];
+    for (const budget_input of budget_inputs) {
+      const type = budget_input.dataset.type;
+      switch (type) {
+        case "amount":
+          budget_input.value = "";
+          break;
+        case "currency":
+          budget_input.value = "usd";
+          break;
+        case "category":
+          budget_input.value = "default";
+          break;
+      }
+    }
+
+    const budget_preview_inputs = [...document.getElementsByClassName("budget-preview-input")];
+    for (const budget_preview_input of budget_preview_inputs) {
+      const type = budget_preview_input.dataset.type;
+      switch (type) {
+        case "icon":
+          budget_preview_input.src = expense_icon;
+          break;
+        case "category":
+          budget_preview_input.textContent = "Default";
+          break;
+        case "currency":
+          budget_preview_input.textContent = "$";
+          break;
+        case "amount":
+          budget_preview_input.textContent = 0;
+          break;
+        case "time":
+          budget_preview_input.textContent = "- Monthly";
+          break;
+      }
+    }
+    console.log(budget_preview_inputs);
+  }
 
   desktop_quick_view_actions_sidebar.innerHTML = `
   <div class="desktop-budget-quick-view-actions">

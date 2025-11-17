@@ -41,68 +41,7 @@
             <p class="navigation-button-text">Statistics</p>
           </button>
         </aside>
-        <div class="main-content">
-          <div class="budget-input-panel-container visible">
-            <div class="card budget-input-panel">
-              <div class="budget-input-heading-separator">
-                <h2 class="heading budget-input-panel-heading">Add New Budget</h2>
-                <div class="separator"></div>
-              </div>
-              <div class="budget-input-panel-inputs">
-                <div class="budget-input-time-container filter-container">
-                  <button class="button filter budget-input-time-weekly" data-type="time" data-value="weekly">Weekly</button>
-                  <button class="button filter budget-input-time-monthly selected" data-type="time" data-value="monthly">Monthly</button>
-                  <button class="button filter budget-input-time-yearly" data-type="time" data-value="weekly">Yearly</button>
-                </div>
-                <div class="budget-input-amount-currency">
-                  <label class="input-label">
-                    Amount:
-                    <input type="number" name="" id="budget-input-amount" class="input" data-type="amount" />
-                  </label>
-                  <div class="budget-input-currency-container">
-                    <select name="" id="budget-input-currency" class="drop-down-input input" data-type="currency">
-                      <option value="usd">$ USD</option>
-                      <option value="eur">€ EUR</option>
-                      <option value="gbp">£ GBP</option>
-                      <option value="jpy">¥ JPY</option>
-                      <option value="krw">₩ KRW</option>
-                      <option value="inr">₹ INR</option>
-                      <option value="rub">₽ RUB</option>
-                      <option value="try">₺ TRY</option>
-                      <option value="vnd">₫ VND</option>
-                      <option value="brl">R$ BRL</option>
-                      <option value="cad">C$ CAD</option>
-                      <option value="aud">A$ AUD</option>
-                      <option value="chf">CHF CHF</option>
-                      <option value="hkd">HK$ HKD</option>
-                      <option value="nzd">NZ$ NZD</option>
-                      <option value="sgd">SG$ SGD</option>
-                    </select>
-                  </div>
-                </div>
-                <label class="input-label">
-                  Category:
-                  <select id="budget-input-category" class="drop-down-input input" data-type="category">
-                    <option value="default">Default</option>
-                    <option value="food-dining">Food & Dining</option>
-                    <option value="transportation">Transportation</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="bills-utilities">Bills & Utilities</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="healthcare">Healthcare</option>
-                    <option value="travel">Travel</option>
-                    <option value="other">Other</option>
-                  </select>
-                </label>
-              </div>
-              <!-- Code Budget Input Preview -->
-              <div class="budget-input-action-buttons">
-                <button class="button budget-input-button budget-input-discard-button secondary-button">Discard</button>
-                <button class="button budget-input-button budget-input-confirm-button primary-button">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="main-content"></div>
         <div class="desktop-quick-view-actions-sidebar"></div>
       </main>
       <footer class="footer">
@@ -241,6 +180,106 @@
               <button class="button add-transaction-action-button discard-transaction-button secondary-button">Discard</button>
               <button class="button add-transaction-action-button add-transaction-button primary-button">Add</button>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="budget-input-panel-container">
+        <div class="card budget-input-panel">
+          <div class="budget-input-heading-separator">
+            <h2 class="heading budget-input-panel-heading">Add New Budget</h2>
+            <div class="separator"></div>
+          </div>
+          <div class="budget-input-panel-inputs">
+            <div class="budget-input-time-container filter-container">
+              <button class="button filter budget-input-time budget-input-time-weekly" data-type="time" data-value="weekly">Weekly</button>
+              <button class="button filter budget-input-time budget-input-time-monthly selected" data-type="time" data-value="monthly">
+                Monthly
+              </button>
+              <button class="button filter budget-input-time budget-input-time-yearly" data-type="time" data-value="yearly">Yearly</button>
+            </div>
+            <div class="budget-input-amount-currency">
+              <label class="input-label">
+                Amount:
+                <input type="number" name="" id="budget-input-amount" class="budget-input input" data-type="amount" />
+              </label>
+              <div class="budget-input-currency-container">
+                <select name="" id="budget-input-currency" class="budget-input drop-down-input input" data-type="currency">
+                  <option value="usd">$ USD</option>
+                  <option value="eur">€ EUR</option>
+                  <option value="gbp">£ GBP</option>
+                  <option value="jpy">¥ JPY</option>
+                  <option value="krw">₩ KRW</option>
+                  <option value="inr">₹ INR</option>
+                  <option value="rub">₽ RUB</option>
+                  <option value="try">₺ TRY</option>
+                  <option value="vnd">₫ VND</option>
+                  <option value="brl">R$ BRL</option>
+                  <option value="cad">C$ CAD</option>
+                  <option value="aud">A$ AUD</option>
+                  <option value="chf">CHF CHF</option>
+                  <option value="hkd">HK$ HKD</option>
+                  <option value="nzd">NZ$ NZD</option>
+                  <option value="sgd">SG$ SGD</option>
+                </select>
+              </div>
+            </div>
+            <label class="input-label">
+              Category:
+              <select id="budget-input-category" class="budget-input drop-down-input input" data-type="category">
+                <option value="default">Default</option>
+                <option value="food-dining">Food & Dining</option>
+                <option value="transportation">Transportation</option>
+                <option value="shopping">Shopping</option>
+                <option value="bills-utilities">Bills & Utilities</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="travel">Travel</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+          </div>
+          <div class="budget-input-preview">
+            <div class="budget-card">
+              <div class="budget-icon-type-progress-amount-progress-bar">
+                <img
+                  src="../assets/icons/transaction-category/expense/expense.svg"
+                  alt=""
+                  class="icon budget-icon budget-preview-input"
+                  data-type="icon"
+                />
+                <div class="budget-type-progress-amount-progress-bar">
+                  <div class="budget-type-progress-amount">
+                    <p class="budget-type budget-preview-input" data-type="category">Default</p>
+                    <div class="budget-progress-amount budget-preview-input-amount">
+                      <div class="budget-preview-amount budget-preview-input" data-type="currency">$</div>
+                      -/
+                      <div class="budget-preview-amount-currency-container">
+                        <div class="budget-preview-amount budget-preview-input" data-type="currency">$</div>
+                        <div class="budget-preview-amount budget-preview-input" data-type="amount">0</div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="budget-time budget-preview-input recurrence-time" data-type="time">- Monthly</p>
+                  <progress
+                    value="30"
+                    max="100"
+                    style="accent-color: greenyellow"
+                    class="remaining-budget-progress-bar budget-preview-input"
+                    data-type="progress"
+                  >
+                    30%
+                  </progress>
+                </div>
+              </div>
+              <div class="budget-preview-remaining-amount-amount-currency-container">
+                <p class="budget-remaining-amount budget-preview-input" data-type="currency">$</p>
+                <p class="budget-remaining-amount budget-preview-input" data-type="amount">0</p>
+              </div>
+            </div>
+          </div>
+          <div class="budget-input-action-buttons">
+            <button class="button budget-input-button budget-input-discard-button secondary-button">Discard</button>
+            <button class="button budget-input-button budget-input-confirm-button primary-button">Add</button>
           </div>
         </div>
       </div>

@@ -496,7 +496,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: stretch;
-  gap: 0.2rem;
+  /* gap: 0.2rem; */
 }
 .budget-icon {
   height: 2.4rem;
@@ -517,6 +517,30 @@ body {
 .budget-progress-amount {
   font-size: 0.7rem;
   opacity: 0.8;
+}
+.budget-preview-input-amount,
+.budget-preview-remaining-amount-amount-currency-container,
+.budget-preview-amount-currency-container {
+  display: flex;
+}
+.budget-time.budget-preview-input {
+  opacity: 0.8;
+  font-size: 0.5rem;
+}
+.budget-preview-input[data-type="amount"] {
+  max-width: 3rem;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.budget-preview-amount-currency-container > .budget-preview-input[data-type="amount"] {
+  max-width: 2.4rem;
+}
+.budget-input-preview > .budget-card {
+  padding: 0.4rem;
+  height: fit-content;
+}
+.budget-input-preview {
+  font-size: 0.9rem;
 }
 
 /* Tab - Statistics */
