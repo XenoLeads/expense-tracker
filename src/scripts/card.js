@@ -107,7 +107,7 @@ async function create_budget_card(budget, editable = false) {
   return card;
 
   function format_amount(amount) {
-    return parseFloat(amount.toFixed(2));
+    return parseFloat(parseFloat(amount).toFixed(2));
   }
 }
 
