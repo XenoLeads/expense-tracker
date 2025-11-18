@@ -2,11 +2,12 @@ import "../styles/style.css";
 
 import Icon from "./icon.js";
 import Utils from "./utils.js";
-import Dashboard from "./dashboard-template.js";
-import Transactions from "./transactions-template.js";
+import Dashboard_Template from "./dashboard-template.js";
+import Transactions_Template from "./transactions-template.js";
 import Transaction from "./transaction.js";
-import Budget from "./budget-template.js";
-import Statistics from "./statistics-template.js";
+import Budget_Template from "./budget-template.js";
+import Budget from "./budget.js";
+import Statistics_Template from "./statistics-template.js";
 
 const main = document.getElementsByClassName("main")[0];
 const main_content = document.getElementsByClassName("main-content")[0];
@@ -36,12 +37,14 @@ const transaction_preview_container = document.querySelector(".add-transaction-i
 const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
 const add_transaction_input_category = document.getElementById("add-transaction-input-category");
 const budget_input_discard_button = document.getElementsByClassName("budget-input-discard-button")[0];
+const budget_input_confirm_button = document.getElementsByClassName("budget-input-confirm-button")[0];
+const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
 
 const NAVIGATION_KEYMAP = {
-  dashboard: Dashboard,
-  transactions: Transactions,
-  budget: Budget,
-  statistics: Statistics,
+  dashboard: Dashboard_Template,
+  transactions: Transactions_Template,
+  budget: Budget_Template,
+  statistics: Statistics_Template,
 };
 
 const CATEGORIES = {
@@ -69,7 +72,7 @@ const CURRENCY_SYMBOLS = {
 };
 
 function init() {
-  render_tab(Dashboard);
+  render_tab(Dashboard_Template);
 
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {
@@ -121,16 +124,38 @@ function init() {
     if (transaction_cards.length > 0) transaction_cards.map(transaction_card => transaction_card.classList.remove("edit"));
   });
 
+  budget_input_confirm_button.addEventListener("click", () => {
+    const budget_input_values = get_budget_inputs();
+    if (budget_input_values === null) return;
+    const { category, amount, currency, time } = budget_input_values;
+    Budget.add(category, amount, currency, time);
+    budget_input_panel_container.classList.remove("visible");
+  });
+
   init_mobile_add_transaction_inputs();
   init_budget_panel();
 }
 
+function get_budget_inputs() {
+  const budget_time_input = [...document.getElementsByClassName("budget-input-time")].find(input => input.classList.contains("selected"));
+  const budget_time_input_value = budget_time_input.dataset.value;
+  const budget_inputs = [...document.getElementsByClassName("budget-input")];
+  const inputs = { time: budget_time_input_value };
+  budget_inputs.forEach(input => {
+    const type = input.dataset.type;
+    const value = input.value;
+    inputs[type] = value;
+  });
+  if (inputs.amount.trim() === "") return null;
+  return inputs;
+}
+
 function refresh_current_tab() {
   const CURRENT_TAB_KEYMAP = {
-    dashboard: Dashboard,
-    transactions: Transactions,
-    budget: Budget,
-    statistics: Statistics,
+    dashboard: Dashboard_Template,
+    transactions: Transactions_Template,
+    budget: Budget_Template,
+    statistics: Statistics_Template,
   };
   const current_tab_name = main.dataset.tab;
   const current_tab = CURRENT_TAB_KEYMAP[current_tab_name];
@@ -315,7 +340,7 @@ function render_tab(tab) {
   const TAB_CALLBACK_KEYMAP = {
     dashboard: () => {
       highlight_selected_tab(navigation_buttons, transactions_button);
-      render_tab(Transactions);
+      render_tab(Transactions_Template);
     },
   };
 

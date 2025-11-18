@@ -180,7 +180,6 @@ function init_budget_template() {
           break;
       }
     }
-    console.log(budget_preview_inputs);
   }
 
   desktop_quick_view_actions_sidebar.innerHTML = `
