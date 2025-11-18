@@ -55,7 +55,6 @@ const budgets = [
     currency: "hkd",
     recurrence: "weekly",
     creation: "2025-11-11T14:35:15.000Z",
-    // Fake Budgets
   },
 ];
 
@@ -64,7 +63,8 @@ function Budget(category, amount, currency, recurrence) {
 }
 
 function add_budget(category, amount, currency, recurrence) {
-  budgets.push(Budget(category, amount, currency, recurrence));
+  const same_budget_does_not_exists = budgets.findIndex(budget => budget.category === category && budget.recurrence === recurrence) < 0;
+  if (same_budget_does_not_exists) budgets.push(Budget(category, amount, currency, recurrence));
 }
 
 export default {
