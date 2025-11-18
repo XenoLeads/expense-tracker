@@ -274,7 +274,7 @@ function set_category(type) {
   if (!CATEGORIES[type]) return;
   add_transaction_input_category.innerHTML = "";
   CATEGORIES[type].forEach(category => {
-    add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category)}</option>`);
+    add_transaction_input_category.insertAdjacentHTML("beforeend", `<option value="${category}">${Utils.capitalize(category, " & ")}</option>`);
   });
 }
 
