@@ -536,7 +536,7 @@ body {
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-.budget-remaining-amount {
+.budget-remaining-amount:not(.budget-preview-input) {
   width: 5rem;
 }
 .budget-progress-amount-used,
