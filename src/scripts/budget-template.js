@@ -38,9 +38,9 @@ function get_budget_template() {
             <div class="vertical-separator"></div>
               <div class="all-budgets-filters all-budgets-time-filters">
                 <button class="button budget-filter all-budget-filter-button-weekly selected" data-type="time" data-value="all">All Time</button>
-                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="weekly">Weekly</button>
-                <button class="button budget-filter all-budget-filter-button-monthly" data-type="time" data-value="monthly">Monthly</button>
-                <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="yearly">Yearly</button>
+                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="this=week">Weekly</button>
+                <button class="button budget-filter all-budget-filter-button-monthly" data-type="time" data-value="this=month">Monthly</button>
+                <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="this=year">Yearly</button>
               </div>
           </div>
           <div class="all-budgets">
@@ -221,6 +221,8 @@ function init_budget_template() {
       const budget_type = budget_filter.dataset.type;
       const budget_value = budget_filter.dataset.value;
       if (budget_type in Filters && Filters[budget_type] !== budget_value) Filters[budget_type] = budget_value;
+      if (budget_type === "sort")
+        document.getElementsByClassName("remaining-budget-overview-heading")[0].textContent = Utils.capitalize(budget_value, " ");
       refresh();
     });
   });
@@ -241,7 +243,7 @@ async function refresh() {
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budget = filtered_budgets.map(budget => {
     budget.used = 0;
-    const filtered_transactions = transactions.filter(transaction => transaction.category === budget.category);
+    const filtered_transactions = Utils.filter_transactions(transactions, { time: budget.recurrence, category: budget.category });
     if (filtered_transactions.length > 0) {
       const used_budget_amount = filtered_transactions.reduce((accumulator, transaction) => {
         let amount = transaction.amount;
@@ -255,6 +257,9 @@ async function refresh() {
 
   const sorted_budgets = Utils.sort_budgets(formatted_budget, Filters);
   for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
+  const most_used_budgets = document.getElementsByClassName("most-used-budgets")[0];
+  most_used_budgets.innerHTML = "";
+  for (const budget of sorted_budgets.slice(0, 3)) most_used_budgets.appendChild(await Card.remaining_budget(budget));
 }
 
 export default {

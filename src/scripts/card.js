@@ -105,10 +105,6 @@ async function create_budget_card(budget, editable = false) {
 
   card.innerHTML = card_content;
   return card;
-
-  function format_amount(amount) {
-    return parseFloat(parseFloat(amount).toFixed(2));
-  }
 }
 
 async function create_remaining_budget_card(budget) {
@@ -122,7 +118,7 @@ async function create_remaining_budget_card(budget) {
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">${Utils.capitalize(category, " & ")}</p>
-                    <p class="remaining-budget-amount">${Main.get_currency_symbol(currency)}${amount}</p>
+                    <p class="remaining-budget-amount">${Main.get_currency_symbol(currency)}${format_amount(amount - used)}</p>
                   </div>
                   <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
     used_budget_percentage
@@ -130,6 +126,11 @@ async function create_remaining_budget_card(budget) {
                 </div>
   `;
   card.innerHTML = card_content;
+  return card;
+}
+
+function format_amount(amount) {
+  return parseFloat(parseFloat(amount).toFixed(2));
 }
 
 function get_progress_bar_color(percentage) {
