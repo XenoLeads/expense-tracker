@@ -14,7 +14,7 @@ function Tracker(transactions) {
     tracker.expense = 0;
     transactions.forEach(transaction => {
       let amount = parseFloat(transaction.amount);
-      if (transaction.currency !== "usd") amount = Utils.convert_to_usd(transaction.currency, transaction.amount);
+      if (transaction.currency !== "usd") amount = Utils.convert_currency(transaction.amount, transaction.currency, "usd");
       transaction.type === "income" ? (tracker.income += amount) : (tracker.expense += amount);
     });
   }

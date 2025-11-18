@@ -38,34 +38,48 @@ function format_transaction_time(iso_format) {
   }
 }
 
-function convert_to_usd(currency, amount) {
+function convert_currency(amount, from_currency, to_currency) {
   const EXCHANGE_RATES = {
-    eur: 1.159,
-    gbp: 1.313,
-    jpy: 0.006466,
-    krw: 0.000681,
-    inr: 0.01129,
-    rub: 0.0123,
-    try: 0.02367,
-    vnd: 0.000038,
-    brl: 0.1888,
-    cad: 0.7142,
-    aud: 0.654,
-    chf: 1.254,
-    hkd: 0.1287,
-    nzd: 0.5661,
-    sgd: 0.7684,
+    usd: 1,
+    eur: 0.8622,
+    gbp: 0.7597,
+    jpy: 155.07,
+    krw: 1462.66,
+    inr: 88.64,
+    rub: 81.25,
+    try: 42.34,
+    vnd: 26372.0,
+    brl: 5.329,
+    cad: 1.4049,
+    aud: 1.5418,
+    chf: 0.7945,
+    hkd: 7.7796,
+    nzd: 1.7674,
+    sgd: 1.303,
   };
-  if (currency in EXCHANGE_RATES) return amount * EXCHANGE_RATES[currency];
-  else null;
+  if (from_currency in EXCHANGE_RATES && to_currency in EXCHANGE_RATES) {
+    const amount_in_base_currency = amount / EXCHANGE_RATES[from_currency];
+    const amount_in_converted_currency = amount_in_base_currency * EXCHANGE_RATES[to_currency];
+    return amount_in_converted_currency;
+  }
+  return null;
 }
 
 function sort_transactions(transactions, most_recent = true) {
   if (!transactions || transactions.length < 0) return;
   return [...transactions].sort((a, b) => {
-    const timeA = new Date(a.time).getTime();
-    const timeB = new Date(b.time).getTime();
-    return most_recent ? timeB - timeA : timeA - timeB;
+    const time_a = new Date(a.time).getTime();
+    const time_b = new Date(b.time).getTime();
+    return most_recent ? time_b - time_a : time_a - time_b;
+  });
+}
+function sort_budgets(budgets, filters) {
+  if (!budgets || budgets.length < 0) return;
+  const most_used = filters.sort === "most-used" ? true : false;
+  return [...budgets].sort((a, b) => {
+    const budget_a_remaining_percentage = (a.used / a.amount) * 100;
+    const budget_b_remaining_percentage = (b.used / b.amount) * 100;
+    return most_used ? budget_b_remaining_percentage - budget_a_remaining_percentage : budget_a_remaining_percentage - budget_b_remaining_percentage;
   });
 }
 
@@ -132,10 +146,16 @@ function filter_transactions(transactions, filters, search_text = null) {
   });
 }
 
+function filter_budgets(budgets, filters = {}) {
+  return budgets.filter(budget => (filters.time && filters.time !== "all" ? budget.recurrence === filters.time : true));
+}
+
 export default {
   capitalize,
   format_transaction_time,
-  convert_to_usd,
+  convert_currency,
   sort_transactions,
   filter_transactions,
+  filter_budgets,
+  sort_budgets,
 };

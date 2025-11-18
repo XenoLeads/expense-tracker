@@ -70,6 +70,84 @@ async function create_transaction_card(transaction, editable = false) {
   }
 }
 
+async function create_budget_card(budget, editable = false) {
+  let { amount, used, category, currency, recurrence } = budget;
+  amount = format_amount(amount);
+  used = format_amount(used);
+  const remaining_amount = format_amount(amount - used);
+  const icon_url = await Icon.get("expense", category);
+  const card = document.createElement("div");
+  card.className = "budget-card";
+  card.dataset.recurrence = recurrence;
+  let used_budget_percentage = (used / amount) * 100;
+  const currency_symbol = Main.get_currency_symbol(currency);
+  card.title = `${currency_symbol}${used}/${currency_symbol}${amount}\nRemaining: ${currency_symbol}${remaining_amount}`;
+  const card_content = `
+              <div class="budget-icon-type-progress-amount-progress-bar">
+                <img src="${icon_url}" alt="" class="icon budget-icon" />
+                <div class="budget-type-progress-amount-progress-bar">
+                  <div class="budget-type-progress-amount">
+                    <p class="budget-type">${Utils.capitalize(category, " & ")}</p>
+                    <div class="budget-progress-amount">
+                    <div class="budget-progress-amount-used">${currency_symbol}${used}</div>
+                    /
+                    <div class="budget-progress-amount-total">${currency_symbol}${amount}</div>
+                    </div>
+                  </div>
+                  <p class="budget-time budget-preview-input recurrence-time" data-type="time">- ${Utils.capitalize(recurrence)}</p>
+                  <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
+    used_budget_percentage
+  )}" class="remaining-budget-progress-bar">${used_budget_percentage}%</progress>
+                </div>
+              </div>
+              <p class="budget-remaining-amount">${currency_symbol}${remaining_amount}</p>
+  `;
+
+  card.innerHTML = card_content;
+  return card;
+
+  function format_amount(amount) {
+    return parseFloat(amount.toFixed(2));
+  }
+}
+
+async function create_remaining_budget_card(budget) {
+  const { amount, used, category, currency } = budget;
+  const icon_url = await Icon.get("expense", category);
+  let used_budget_percentage = (budget.used / budget.amount) * 100;
+  const card = document.createElement("div");
+  card.className = "remaining-budget";
+  const card_content = `
+                <img src="${icon_url}" alt="" class="icon remaining-budget-icon" />
+                <div class="remaining-budget-type-amount-progress-bar">
+                  <div class="remaining-budget-type-amount">
+                    <p class="remaining-budget-type">${Utils.capitalize(category, " & ")}</p>
+                    <p class="remaining-budget-amount">${Main.get_currency_symbol(currency)}${amount}</p>
+                  </div>
+                  <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
+    used_budget_percentage
+  )}" class="remaining-budget-progress-bar">${used_budget_percentage}%</progress>
+                </div>
+  `;
+  card.innerHTML = card_content;
+}
+
+function get_progress_bar_color(percentage) {
+  const BUDGET_PROGRESS_COLORS = {
+    0: "#ADFF2F",
+    50: "#FFA500",
+    70: "#FF4500",
+    90: "#8B0000",
+  };
+  let budget_progress_bar_color = BUDGET_PROGRESS_COLORS[0];
+  if (percentage > 50 && percentage <= 70) budget_progress_bar_color = BUDGET_PROGRESS_COLORS[50];
+  else if (percentage > 70 && percentage <= 90) budget_progress_bar_color = BUDGET_PROGRESS_COLORS[70];
+  else if (percentage > 90) budget_progress_bar_color = BUDGET_PROGRESS_COLORS[90];
+  return budget_progress_bar_color;
+}
+
 export default {
   transaction: create_transaction_card,
+  budget: create_budget_card,
+  remaining_budget: create_remaining_budget_card,
 };

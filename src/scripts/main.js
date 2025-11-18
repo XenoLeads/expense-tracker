@@ -349,6 +349,7 @@ function render_tab(tab) {
   main.dataset.tab = tab.name;
 
   current_tab_name.textContent = Utils.capitalize(tab.name);
+  if (tab.refresh) tab.refresh();
 }
 
 function highlight_selected_tab(tabs, selected_tab_list) {

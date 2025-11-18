@@ -87,8 +87,6 @@ function init_transactions_template() {
       }
     });
   }
-
-  refresh();
 }
 
 function handle_transaction_filters(filter) {

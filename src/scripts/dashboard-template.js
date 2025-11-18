@@ -103,8 +103,6 @@ function init_dashboard_template(callback) {
           </div>
 `;
 
-  refresh();
-
   const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 }

@@ -341,7 +341,7 @@ body {
 .transaction-filters-time,
 .transaction-filters-type,
 .transaction-filters-category,
-.all-budgets-filters,
+.all-budgets-filters-container,
 .statistics-time-filters {
   display: flex;
   justify-content: flex-start;
@@ -399,6 +399,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  height: 100%;
   width: 50%;
 }
 .most-used-budgets {
@@ -407,6 +408,13 @@ body {
   justify-content: flex-start;
   align-items: stretch;
   gap: 0.6rem;
+}
+.most-used-budgets::after {
+  content: "No budgets have been set yet.";
+  font-size: 1rem;
+}
+.most-used-budgets:has(.remaining-budget)::after {
+  display: none;
 }
 .remaining-budget-icon {
   height: 2.2rem;
@@ -496,7 +504,6 @@ body {
   flex-direction: column;
   justify-content: space-around;
   align-items: stretch;
-  /* gap: 0.2rem; */
 }
 .budget-icon {
   height: 2.4rem;
@@ -506,17 +513,35 @@ body {
   border-radius: 0.4rem;
   margin: 0;
 }
+.budget-type {
+  font-size: 0.9rem;
+}
 .budget-type-progress-amount {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.4rem;
 }
 .remaining-budget-progress-bar {
   width: 100%;
 }
 .budget-progress-amount {
   font-size: 0.7rem;
+  display: flex;
   opacity: 0.8;
+}
+.budget-progress-amount-used,
+.budget-progress-amount-total,
+.budget-remaining-amount {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.budget-remaining-amount {
+  width: 5rem;
+}
+.budget-progress-amount-used,
+.budget-progress-amount-total {
+  max-width: 2rem;
 }
 .budget-preview-input-amount,
 .budget-preview-remaining-amount-amount-currency-container,

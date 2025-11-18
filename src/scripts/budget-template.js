@@ -1,5 +1,15 @@
+import Card from "./card.js";
+import Budget from "./budget.js";
 import expense_icon from "../assets/icons/transaction-category/expense/expense.svg";
+import Transaction from "./transaction.js";
+import Utils from "./utils.js";
+
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
+const Filters = {
+  sort: "most-used",
+  time: "all",
+};
 
 function get_budget_template() {
   return `
@@ -11,36 +21,6 @@ function get_budget_template() {
               <div class="separator"></div>
             </div>
             <div class="most-used-budgets">
-              <div class="remaining-budget">
-                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
-                <div class="remaining-budget-type-amount-progress-bar">
-                  <div class="remaining-budget-type-amount">
-                    <p class="remaining-budget-type">Grocery</p>
-                    <p class="remaining-budget-amount">$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <div class="remaining-budget">
-                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
-                <div class="remaining-budget-type-amount-progress-bar">
-                  <div class="remaining-budget-type-amount">
-                    <p class="remaining-budget-type">Grocery</p>
-                    <p class="remaining-budget-amount">$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <div class="remaining-budget">
-                <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
-                <div class="remaining-budget-type-amount-progress-bar">
-                  <div class="remaining-budget-type-amount">
-                    <p class="remaining-budget-type">Grocery</p>
-                    <p class="remaining-budget-amount">$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
             </div>
           </div>
           <div class="budget-pie-chart"></div>
@@ -50,13 +30,18 @@ function get_budget_template() {
             <h2 class="all-budgets-heading">All Budgets</h2>
             <div class="separator"></div>
           </div>
-          <div class="all-budgets-filters">
-            <button class="button budget-filter all-budget-filter-button-all selected">All</button>
-            <button class="button budget-filter all-budget-filter-button-most-used">Most Used</button>
-            <button class="button budget-filter all-budget-filter-button-least-used">Least Used</button>
-            <button class="button budget-filter all-budget-filter-button-weekly">Weekly</button>
-            <button class="button budget-filter all-budget-filter-button-monthly">Monthly</button>
-            <button class="button budget-filter all-budget-filter-button-yearly">Yearly</button>
+          <div class="all-budgets-filters-container">
+              <div class="all-budgets-filters all-budgets-sort-filters">
+              <button class="button budget-filter all-budget-filter-button-most-used selected" data-type="sort" data-value="most-used">Most Used</button>
+              <button class="button budget-filter all-budget-filter-button-least-used" data-type="sort" data-value="least-used">Least Used</button>
+              </div>
+            <div class="vertical-separator"></div>
+              <div class="all-budgets-filters all-budgets-time-filters">
+                <button class="button budget-filter all-budget-filter-button-weekly selected" data-type="time" data-value="all">All Time</button>
+                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="weekly">Weekly</button>
+                <button class="button budget-filter all-budget-filter-button-monthly" data-type="time" data-value="monthly">Monthly</button>
+                <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="yearly">Yearly</button>
+              </div>
           </div>
           <div class="all-budgets">
             <div class="budget-card">
@@ -226,10 +211,54 @@ function init_budget_template() {
             </div>
           </div>
   `;
+
+  const budget_filters = [...document.getElementsByClassName("budget-filter")];
+  budget_filters.forEach(budget_filter => {
+    budget_filter.addEventListener("click", () => {
+      if (budget_filter.classList.contains("selected")) return;
+      highlight_selected_filter(budget_filter);
+      const budget_type = budget_filter.dataset.type;
+      const budget_value = budget_filter.dataset.value;
+      if (budget_type in Filters && Filters[budget_type] !== budget_value) Filters[budget_type] = budget_value;
+      refresh();
+    });
+  });
+}
+
+function highlight_selected_filter(filter) {
+  const parent = filter.parentElement;
+  const siblings = [...parent.children];
+  siblings.map(sibling => sibling.classList.remove("selected"));
+  filter.classList.add("selected");
+}
+async function refresh() {
+  const all_budgets_container = document.getElementsByClassName("all-budgets")[0];
+  all_budgets_container.innerHTML = "";
+  const budgets = Budget.get();
+  if (budgets.length < 1) return;
+  const transactions = Transaction.get();
+  const filtered_budgets = Utils.filter_budgets(budgets, Filters);
+  const formatted_budget = filtered_budgets.map(budget => {
+    budget.used = 0;
+    const filtered_transactions = transactions.filter(transaction => transaction.category === budget.category);
+    if (filtered_transactions.length > 0) {
+      const used_budget_amount = filtered_transactions.reduce((accumulator, transaction) => {
+        let amount = transaction.amount;
+        if (transaction.currency !== budget.currency) amount = Utils.convert_currency(transaction.amount, transaction.currency, budget.currency);
+        return (accumulator += amount);
+      }, 0);
+      budget.used = used_budget_amount;
+    }
+    return budget;
+  });
+
+  const sorted_budgets = Utils.sort_budgets(formatted_budget, Filters);
+  for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
 }
 
 export default {
   name: "budget",
   get: get_budget_template,
   init: init_budget_template,
+  refresh,
 };
