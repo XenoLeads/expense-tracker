@@ -120,6 +120,7 @@ function init_budget_template() {
     reset_budget_inputs();
     const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
     budget_input_panel_container.classList.toggle("visible");
+    budget_input_panel_container.dataset.actionMode = "add";
   });
 
   function reset_budget_inputs() {

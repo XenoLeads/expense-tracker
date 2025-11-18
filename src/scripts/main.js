@@ -127,9 +127,13 @@ function init() {
   budget_input_confirm_button.addEventListener("click", () => {
     const budget_input_values = get_budget_inputs();
     if (budget_input_values === null) return;
-    const { category, amount, currency, time } = budget_input_values;
-    Budget.add(category, amount, currency, time);
+    const action_mode = budget_input_panel_container.dataset.actionMode;
+    if (action_mode === "add") {
+      const { category, amount, currency, time } = budget_input_values;
+      Budget.add(category, amount, currency, time);
+    }
     budget_input_panel_container.classList.remove("visible");
+    refresh_current_tab();
   });
 
   init_mobile_add_transaction_inputs();
