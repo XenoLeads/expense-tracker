@@ -150,6 +150,26 @@ function filter_budgets(budgets, filters = {}) {
   return budgets.filter(budget => (filters.time && filters.time !== "all" ? budget.recurrence === filters.time : true));
 }
 
+function set_used_budget(budgets, transactions) {
+  return budgets.map(budget => {
+    budget.used = 0;
+    const used_budget_transactions = filter_transactions(transactions, { time: budget.recurrence, category: budget.category });
+
+    if (used_budget_transactions.length > 0)
+      budget.used = parseFloat(
+        used_budget_transactions
+          .reduce((accumulator, transaction) => {
+            let amount = transaction.amount;
+            if (transaction.currency !== budget.currency) amount = convert_currency(transaction.amount, transaction.currency, budget.currency);
+            return (accumulator += amount);
+          }, 0)
+          .toFixed(2)
+      );
+
+    return budget;
+  });
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -158,4 +178,5 @@ export default {
   filter_transactions,
   filter_budgets,
   sort_budgets,
+  set_used_budget,
 };

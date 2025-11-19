@@ -174,19 +174,7 @@ async function refresh() {
   if (budgets.length < 1) return;
   const transactions = Transaction.get();
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
-  const formatted_budget = filtered_budgets.map(budget => {
-    budget.used = 0;
-    const filtered_transactions = Utils.filter_transactions(transactions, { time: budget.recurrence, category: budget.category });
-    if (filtered_transactions.length > 0) {
-      const used_budget_amount = filtered_transactions.reduce((accumulator, transaction) => {
-        let amount = transaction.amount;
-        if (transaction.currency !== budget.currency) amount = Utils.convert_currency(transaction.amount, transaction.currency, budget.currency);
-        return (accumulator += amount);
-      }, 0);
-      budget.used = used_budget_amount;
-    }
-    return budget;
-  });
+  const formatted_budget = Utils.set_used_budget(filtered_budgets, transactions);
 
   const sorted_budgets = Utils.sort_budgets(formatted_budget, Filters);
   for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
