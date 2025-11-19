@@ -20,8 +20,7 @@ function get_budget_template() {
               <h2 class="remaining-budget-overview-heading">Most Used</h2>
               <div class="separator"></div>
             </div>
-            <div class="most-used-budgets">
-            </div>
+            <div class="most-used-budgets"></div>
           </div>
           <div class="budget-pie-chart"></div>
         </div>
@@ -43,73 +42,7 @@ function get_budget_template() {
                 <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="this-year">Yearly</button>
               </div>
           </div>
-          <div class="all-budgets">
-            <div class="budget-card">
-              <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${"#"}" alt="" class="icon budget-icon" />
-                <div class="budget-type-progress-amount-progress-bar">
-                  <div class="budget-type-progress-amount">
-                    <p class="budget-type">Grocery</p>
-                    <p class="budget-progress-amount">$123/$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <p class="budget-remaining-amount">$123</p>
-            </div>
-            <div class="budget-card">
-              <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${"#"}" alt="" class="icon budget-icon" />
-                <div class="budget-type-progress-amount-progress-bar">
-                  <div class="budget-type-progress-amount">
-                    <p class="budget-type">Grocery</p>
-                    <p class="budget-progress-amount">$123/$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <p class="budget-remaining-amount">$123</p>
-            </div>
-            <div class="budget-card">
-              <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${"#"}" alt="" class="icon budget-icon" />
-                <div class="budget-type-progress-amount-progress-bar">
-                  <div class="budget-type-progress-amount">
-                    <p class="budget-type">Grocery</p>
-                    <p class="budget-progress-amount">$123/$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <p class="budget-remaining-amount">$123</p>
-            </div>
-            <div class="budget-card">
-              <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${"#"}" alt="" class="icon budget-icon" />
-                <div class="budget-type-progress-amount-progress-bar">
-                  <div class="budget-type-progress-amount">
-                    <p class="budget-type">Grocery</p>
-                    <p class="budget-progress-amount">$123/$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <p class="budget-remaining-amount">$123</p>
-            </div>
-            <div class="budget-card">
-              <div class="budget-icon-type-progress-amount-progress-bar">
-                <img src="${"#"}" alt="" class="icon budget-icon" />
-                <div class="budget-type-progress-amount-progress-bar">
-                  <div class="budget-type-progress-amount">
-                    <p class="budget-type">Grocery</p>
-                    <p class="budget-progress-amount">$123/$123</p>
-                  </div>
-                  <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-                </div>
-              </div>
-              <p class="budget-remaining-amount">$123</p>
-            </div>
-          </div>
+          <div class="all-budgets"></div>
         </div>
   `;
 }
