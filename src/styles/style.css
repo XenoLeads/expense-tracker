@@ -133,12 +133,13 @@ body {
   justify-content: space-around;
   align-items: center;
 }
-.expense-overview {
+.expense-overview-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
-.expense-details-wrapper {
+.expense-overview-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -157,7 +158,7 @@ body {
 }
 .recent-transactions::after,
 .all-transactions::after {
-  content: "No transactions yet.";
+  content: "There has been no transaction yet.";
   display: flex;
   justify-content: center;
   align-items: center;
@@ -409,15 +410,21 @@ body {
   align-items: stretch;
   gap: 0.6rem;
 }
+
 .most-used-budgets::after,
 .all-budgets::after {
-  content: "No budgets have been set yet.";
+  content: "No budget has been set yet.";
+  font-size: 1rem;
+}
+.expense-overview-wrapper::after {
+  content: "No expense has been incurred yet.";
   font-size: 1rem;
 }
 .all-budgets::after {
   text-align: center;
   padding: 1rem 0;
 }
+.expense-overview-wrapper:has(.expense-overview)::after,
 .most-used-budgets:has(.remaining-budget)::after,
 .all-budgets:has(.budget-card)::after {
   display: none;
@@ -1176,7 +1183,7 @@ body {
     border-radius: unset;
     box-shadow: -0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
   }
-  .expense-overview {
+  .expense-overview-container {
     display: none;
   }
   .balance-income-expense-expense-overview {

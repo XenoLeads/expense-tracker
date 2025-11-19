@@ -52,25 +52,6 @@ const CATEGORIES = {
   expense: ["default", "food-dining", "transportation", "shopping", "bills-utilities", "entertainment", "healthcare", "travel", "other"],
 };
 
-const CURRENCY_SYMBOLS = {
-  usd: "$",
-  eur: "€",
-  gbp: "£",
-  jpy: "¥",
-  krw: "₩",
-  inr: "₹",
-  rub: "₽",
-  try: "₺",
-  vnd: "₫",
-  brl: "R$",
-  cad: "C$",
-  aud: "A$",
-  chf: "CHF",
-  hkd: "HK$",
-  nzd: "NZ$",
-  sgd: "SG$",
-};
-
 function init() {
   render_tab(Dashboard_Template);
 
@@ -264,7 +245,7 @@ function refresh_preview(input, preview_input) {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
     const amount_value = parseInt(amount.value);
-    amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${get_currency_symbol(
+    amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${Utils.get_currency_symbol(
       currency.value
     )}${amount_value === "" ? 0 : amount_value}`;
   }
@@ -375,11 +356,6 @@ function highlight_selected_tab(tabs, selected_tab_list) {
   });
 }
 
-function get_currency_symbol(abbreviation) {
-  if (abbreviation in CURRENCY_SYMBOLS) return CURRENCY_SYMBOLS[abbreviation];
-  return "";
-}
-
 function init_budget_panel() {
   const budget_time_inputs = [...document.getElementsByClassName("budget-input-time")];
   budget_time_inputs.map(budget_input => {
@@ -461,5 +437,4 @@ export default {
   },
   refresh: refresh_current_tab,
   panel: { edit_transaction: show_edit_transaction_panel },
-  get_currency_symbol,
 };

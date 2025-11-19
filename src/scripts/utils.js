@@ -1,5 +1,29 @@
 import Transaction from "./transaction";
 
+const CURRENCY_SYMBOLS = {
+  usd: "$",
+  eur: "€",
+  gbp: "£",
+  jpy: "¥",
+  krw: "₩",
+  inr: "₹",
+  rub: "₽",
+  try: "₺",
+  vnd: "₫",
+  brl: "R$",
+  cad: "C$",
+  aud: "A$",
+  chf: "CHF",
+  hkd: "HK$",
+  nzd: "NZ$",
+  sgd: "SG$",
+};
+
+function get_currency_symbol(abbreviation) {
+  if (abbreviation in CURRENCY_SYMBOLS) return CURRENCY_SYMBOLS[abbreviation];
+  return "";
+}
+
 function capitalize(string, dash_replacement_character = " ") {
   if (!string) return "";
   return string
@@ -65,15 +89,29 @@ function convert_currency(amount, from_currency, to_currency) {
   return null;
 }
 
-function sort_transactions(transactions, most_recent = true) {
+function sort_transactions(transactions, type = "time", ascending = true) {
   if (!transactions || transactions.length < 0) return;
   return [...transactions].sort((a, b) => {
-    const time_a = new Date(a.time).getTime();
-    const time_b = new Date(b.time).getTime();
-    return most_recent ? time_b - time_a : time_a - time_b;
+    let value_a = 0;
+    let value_b = 0;
+    switch (type) {
+      case "time":
+        value_a = new Date(a.time).getTime();
+        value_b = new Date(b.time).getTime();
+        break;
+      case "amount":
+        let amount_a = a.amount;
+        if (a.currency !== "usd") amount_a = convert_currency(a.amount, a.currency, "usd");
+        let amount_b = b.amount;
+        if (b.currency !== "usd") amount_b = convert_currency(b.amount, b.currency, "usd");
+        value_a = amount_a;
+        value_b = amount_b;
+        break;
+    }
+    return ascending ? value_b - value_a : value_a - value_b;
   });
 }
-function sort_budgets(budgets, filters) {
+function sort_budgets(budgets, filters = { sort: "most-used" }) {
   if (!budgets || budgets.length < 0) return;
   const most_used = filters.sort === "most-used" ? true : false;
   return [...budgets].sort((a, b) => {
@@ -179,4 +217,5 @@ export default {
   filter_budgets,
   sort_budgets,
   set_used_budget,
+  get_currency_symbol,
 };

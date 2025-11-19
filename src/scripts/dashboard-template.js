@@ -2,6 +2,7 @@ import Card from "./card.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
 import Tracker from "./tracker.js";
+import Main from "./main.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
@@ -26,11 +27,11 @@ function get_dashboard_template() {
                   </div>
                 </div>
               </div>
-              <div class="card expense-overview">
-                <div class="expense-details-wrapper">
-                  <p class="expense-1-details">Food: $123</p>
-                  <p class="expense-2-details">Travel: $123</p>
-                  <p class="expense-3-details">Grocery: $123</p>
+              <div class="card expense-overview-container">
+                <div class="expense-overview-wrapper">
+                  <p class="expense-overview">Food: $123</p>
+                  <p class="expense-overview">Travel: $123</p>
+                  <p class="expense-overview">Grocery: $123</p>
                 </div>
                 <div class="expense-pie-chart"></div>
               </div>
@@ -119,7 +120,7 @@ async function display_transactions(transactions) {
   }
 }
 
-function refresh_transactions_overview_amounts(tracker) {
+function display_transactions_overview_amounts(tracker) {
   const total_balance = document.getElementsByClassName("total-balance")[0];
   const total_income = document.getElementsByClassName("total-income")[0];
   const total_expense = document.getElementsByClassName("total-expense")[0];
@@ -128,9 +129,29 @@ function refresh_transactions_overview_amounts(tracker) {
   total_expense.textContent = `$${parseFloat(tracker.expense.toFixed(2))}`;
 }
 
+function display_expense_overview(transactions) {
+  const expense_overview_wrapper = document.getElementsByClassName("expense-overview-wrapper")[0];
+  expense_overview_wrapper.innerHTML = "";
+  const filter = Utils.filter_transactions;
+  const sort = Utils.sort_transactions;
+  const capitalize = Utils.capitalize;
+  const create_expense_element = expense => {
+    const container = document.createElement("p");
+    container.className = "expense-overview";
+    container.textContent = `${capitalize(expense.category, " & ")}: ${Utils.get_currency_symbol(expense.currency)}${expense.amount}`;
+    return container;
+  };
+  const expenses = filter(transactions, { type: "expense" });
+  const sorted_expenses = sort(expenses, "amount");
+  const top_3_expenses = sorted_expenses.slice(0, 3);
+  for (const expense of top_3_expenses) expense_overview_wrapper.appendChild(create_expense_element(expense));
+}
+
 function refresh() {
-  display_transactions(Transaction.get());
-  refresh_transactions_overview_amounts(Tracker.recalculate());
+  const transactions = Transaction.get();
+  display_transactions(transactions);
+  display_transactions_overview_amounts(Tracker.recalculate());
+  display_expense_overview(transactions);
 }
 
 export default {

@@ -34,9 +34,9 @@ async function create_transaction_card(transaction, editable = false) {
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${Main.get_currency_symbol(transaction.currency)}${parseFloat(
-    transaction.amount
-  )}</p>
+              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${Utils.get_currency_symbol(
+    transaction.currency
+  )}${parseFloat(transaction.amount)}</p>
             </div>
             ${editable ? action_buttons : ""}
       `;
@@ -80,7 +80,7 @@ async function create_budget_card(budget, editable = false) {
   card.className = "budget-card";
   card.dataset.recurrence = recurrence;
   let used_budget_percentage = (used / amount) * 100;
-  const currency_symbol = Main.get_currency_symbol(currency);
+  const currency_symbol = Utils.get_currency_symbol(currency);
   card.title = `${currency_symbol}${used}/${currency_symbol}${amount}\nRemaining: ${currency_symbol}${remaining_amount}`;
   const card_content = `
               <div class="budget-icon-type-progress-amount-progress-bar">
@@ -118,7 +118,7 @@ async function create_remaining_budget_card(budget) {
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">${Utils.capitalize(category, " & ")}</p>
-                    <p class="remaining-budget-amount">${Main.get_currency_symbol(currency)}${format_amount(amount - used)}</p>
+                    <p class="remaining-budget-amount">${Utils.get_currency_symbol(currency)}${format_amount(amount - used)}</p>
                   </div>
                   <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
     used_budget_percentage
