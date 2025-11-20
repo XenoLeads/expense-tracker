@@ -169,7 +169,9 @@ function highlight_selected_filter(filter) {
 }
 async function refresh() {
   const all_budgets_container = document.getElementsByClassName("all-budgets")[0];
+  const most_used_budgets = document.getElementsByClassName("most-used-budgets")[0];
   all_budgets_container.innerHTML = "";
+  most_used_budgets.innerHTML = "";
   const budgets = Budget.get();
   if (budgets.length < 1) return;
   const transactions = Transaction.get();
@@ -178,8 +180,6 @@ async function refresh() {
 
   const sorted_budgets = Utils.sort_budgets(formatted_budget, Filters);
   for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
-  const most_used_budgets = document.getElementsByClassName("most-used-budgets")[0];
-  most_used_budgets.innerHTML = "";
   for (const budget of sorted_budgets.slice(0, 3)) most_used_budgets.appendChild(await Card.remaining_budget(budget));
 }
 

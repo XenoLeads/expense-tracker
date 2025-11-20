@@ -2,6 +2,16 @@ import Transaction from "./transaction.js";
 import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Main from "./main.js";
+import Budget from "./budget.js";
+
+function get_card_action_buttons() {
+  return `
+              <div class="card-action-buttons-container">
+                <button class="button card-action-button card-action-button-edit" data-action="edit">Edit</button>
+                <button class="button card-action-button card-action-button-remove" data-action="remove">Remove</button>
+              </div>
+  `;
+}
 
 async function create_transaction_card(transaction, editable = false) {
   const icon_url = await Icon.get(transaction.type, transaction.category);
@@ -9,13 +19,7 @@ async function create_transaction_card(transaction, editable = false) {
   card.classList.add("transaction-card", transaction.type);
   card.dataset.id = transaction.id;
   card.title = transaction.description;
-  const action_buttons = `
-            <div class="separator"></div>
-            <div class="transaction-card-action-buttons-container">
-              <button class="button transaction-card-action-button transaction-card-action-button-edit" data-action="edit">Edit</button>
-              <button class="button transaction-card-action-button transaction-card-action-button-remove" data-action="remove">Remove</button>
-            </div>
-  `;
+  card.dataset.card = "transaction";
   const card_content = `
             <div class="transaction-card-content">
               <div class="transaction-icon-category-method-time-container">
@@ -38,39 +42,51 @@ async function create_transaction_card(transaction, editable = false) {
     transaction.currency
   )}${parseFloat(transaction.amount)}</p>
             </div>
-            ${editable ? action_buttons : ""}
+            ${editable ? `<div class="separator"></div>` + get_card_action_buttons() : ""}
       `;
 
   card.innerHTML = card_content;
   if (editable) card.addEventListener("click", handle_action_buttons);
 
   return card;
+}
 
-  function handle_action_buttons(event) {
-    const card = event.currentTarget;
-    const clicked_element = event.target;
-    if (clicked_element.classList.contains("transaction-card-action-button")) {
-      const action = clicked_element.dataset.action;
-      const transaction_id = card.dataset.id;
+function handle_action_buttons(event) {
+  const card = event.currentTarget;
+  const clicked_element = event.target;
+  if (clicked_element.classList.contains("card-action-button")) {
+    const card_type = card.dataset.card;
+    const action = clicked_element.dataset.action;
+    const card_id = card.dataset.id;
+    if (card_type === "transaction") {
       if (action === "remove") {
-        const removed_transaction = Transaction.remove(transaction_id);
+        const removed_transaction = Transaction.remove(card_id);
         console.group("Removed Transaction:");
         console.log(removed_transaction);
         console.groupEnd();
         Main.refresh();
       } else if (action === "edit") {
-        Main.panel.edit_transaction(Transaction.find(transaction_id).item);
+        Main.panel.edit_transaction(Transaction.find(card_id).item);
       }
-    } else {
-      const parent = card.parentElement;
-      const children = [...parent.children];
-      children.map(child => child.classList.remove("edit"));
-      card.classList.add("edit");
+    } else if (card_type === "budget") {
+      if (action === "remove") {
+        const removed_budget = Budget.remove(card_id);
+        console.group("Removed Budget:");
+        console.log(removed_budget);
+        console.groupEnd();
+        Main.refresh();
+      } else if (action === "edit") {
+      }
     }
   }
+  if (card.classList.contains("edit")) return;
+  const parent = card.parentElement;
+  const children = [...parent.children];
+  children.map(child => child.classList.remove("edit"));
+  card.classList.add("edit");
 }
 
-async function create_budget_card(budget, editable = false) {
+async function create_budget_card(budget) {
   let { amount, used, category, currency, recurrence } = budget;
   amount = format_amount(amount);
   used = format_amount(used);
@@ -82,7 +98,10 @@ async function create_budget_card(budget, editable = false) {
   let used_budget_percentage = (used / amount) * 100;
   const currency_symbol = Utils.get_currency_symbol(currency);
   card.title = `${currency_symbol}${used}/${currency_symbol}${amount}\nRemaining: ${currency_symbol}${remaining_amount}`;
+  card.dataset.id = budget.id;
+  card.dataset.card = "budget";
   const card_content = `
+            <div class="budget-card-content">
               <div class="budget-icon-type-progress-amount-progress-bar">
                 <img src="${icon_url}" alt="" class="icon budget-icon" />
                 <div class="budget-type-progress-amount-progress-bar">
@@ -101,9 +120,14 @@ async function create_budget_card(budget, editable = false) {
                 </div>
               </div>
               <p class="budget-remaining-amount">${currency_symbol}${remaining_amount}</p>
+            </div>
+            <div class="separator"></div>
+            ${get_card_action_buttons()}
   `;
 
   card.innerHTML = card_content;
+  card.addEventListener("click", handle_action_buttons);
+
   return card;
 }
 
@@ -113,6 +137,7 @@ async function create_remaining_budget_card(budget) {
   let used_budget_percentage = (budget.used / budget.amount) * 100;
   const card = document.createElement("div");
   card.className = "remaining-budget";
+  card.dataset.card = "remaining-budget";
   const card_content = `
                 <img src="${icon_url}" alt="" class="icon remaining-budget-icon" />
                 <div class="remaining-budget-type-amount-progress-bar">

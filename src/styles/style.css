@@ -210,12 +210,26 @@ body {
 .transaction-card,
 .budget-card {
   background-color: rgba(255, 255, 255, 0.1);
-  height: 3rem;
+  height: fit-content;
   border-radius: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  gap: 0.4rem;
+}
+.budget-card > .separator,
+.budget-card > .card-action-buttons-container {
+  display: none;
+}
+.budget-card.edit > .separator,
+.budget-card.edit > .card-action-buttons-container {
+  display: flex;
+}
+.budget-card-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.8rem;
+  gap: 0.4rem;
 }
 .add-transaction-input-preview > .transaction-card {
   flex-direction: row;
@@ -268,16 +282,15 @@ body {
 .transaction-card {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
   height: fit-content;
-  padding: 0.4rem;
   width: 100%;
 }
 .transaction-card > .separator {
   display: none;
 }
-.transaction-card.edit > .separator {
-  display: block;
+.transaction-card.edit > .separator,
+.transaction-card.edit > .card-action-buttons-container {
+  display: flex;
 }
 .transaction-card-content {
   display: flex;
@@ -286,7 +299,7 @@ body {
   gap: 0.2rem;
   width: 100%;
 }
-.transaction-card-action-buttons-container {
+.card-action-buttons-container {
   display: none;
   justify-content: space-between;
   align-items: center;
@@ -294,16 +307,14 @@ body {
   width: 100%;
   overflow: hidden;
 }
-.transaction-card.edit > .transaction-card-action-buttons-container {
-  display: flex;
-}
-.transaction-card-action-button {
+
+.card-action-button {
   font-size: 0.8rem;
   background-color: rgba(184, 219, 217, 0.4);
   padding: 0.2rem 1rem;
   border-radius: 0.2rem;
 }
-.transaction-card-action-button-remove {
+.card-action-button-remove {
   background-color: rgba(255, 0, 0, 0.4);
 }
 
@@ -515,9 +526,6 @@ body {
   justify-content: flex-start;
   align-items: stretch;
   gap: 0.6rem;
-}
-.budget-card {
-  gap: 1rem;
 }
 .budget-icon-type-progress-amount-progress-bar {
   display: flex;
