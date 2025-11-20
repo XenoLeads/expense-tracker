@@ -28,7 +28,7 @@ async function create_transaction_card(transaction, editable = false) {
                   }</p>
                   <p class="transaction-description">${transaction.description}</p>
                   <div class="transaction-method-time-container">
-                    <p class="transaction-method">${Utils.capitalize(transaction.method, "&")}</p>
+                    <p class="transaction-method">${Utils.capitalize(transaction.method)}</p>
                     <p>-</p>
                     <p class="transaction-time">${Utils.format_transaction_time(transaction.time)}</p>
                   </div>
