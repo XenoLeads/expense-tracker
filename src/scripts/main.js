@@ -112,6 +112,9 @@ function init() {
     if (action_mode === "add") {
       const { category, amount, currency, time } = budget_input_values;
       Budget.add(category, amount, currency, time);
+    } else if (action_mode === "edit") {
+      const budget_id = budget_input_panel_container.dataset.id;
+      Budget.edit(budget_input_values, budget_id);
     }
     budget_input_panel_container.classList.remove("visible");
     refresh_current_tab();
@@ -125,13 +128,14 @@ function get_budget_inputs() {
   const budget_time_input = [...document.getElementsByClassName("budget-input-time")].find(input => input.classList.contains("selected"));
   const budget_time_input_value = budget_time_input.dataset.value;
   const budget_inputs = [...document.getElementsByClassName("budget-input")];
-  const inputs = { time: budget_time_input_value };
+  const inputs = { recurrence: budget_time_input_value };
   budget_inputs.forEach(input => {
     const type = input.dataset.type;
     const value = input.value;
     inputs[type] = value;
   });
   if (inputs.amount.trim() === "") return null;
+  inputs.amount = parseFloat(inputs.amount);
   return inputs;
 }
 
@@ -314,6 +318,33 @@ function set_transaction_panel_input_values(
   time.value = time_value;
 }
 
+function show_edit_budget_panel(budget) {
+  set_edit_budget_panel(budget, "Edit Budget", "Edit");
+}
+function set_edit_budget_panel(budget, heading_text = "Add New Budget", confirm_button_text = "Add") {
+  set_budget_input_values(budget);
+  const budget_panel_heading = document.getElementsByClassName("heading budget-input-panel-heading")[0];
+  budget_panel_heading.textContent = heading_text;
+  budget_input_confirm_button.textContent = confirm_button_text;
+  budget_input_panel_container.classList.add("visible");
+  budget_input_panel_container.dataset.actionMode = "edit";
+  budget_input_panel_container.dataset.id = budget.id;
+}
+
+function set_budget_input_values(budget) {
+  const budget_inputs = [...document.getElementsByClassName("budget-input")];
+  const budget_time_inputs = [...document.getElementsByClassName("budget-input-time")];
+  budget_time_inputs.map(input => {
+    if (input.dataset.value === budget.recurrence) input.classList.add("selected");
+    else input.classList.remove("selected");
+  });
+  budget_inputs.map(input => {
+    const input_type = input.dataset.type;
+    if (input_type in budget) input.value = budget[input_type];
+  });
+  set_budget_preview(budget);
+}
+
 function get_selected_input_type() {
   const selected_type = income_option.checked === true ? income_option : expense_option.checked === true ? expense_option : null;
   if (selected_type === null) return selected_type;
@@ -390,34 +421,34 @@ function set_selected_class(element) {
   element.classList.add("selected");
 }
 
-async function set_budget_preview(config = {}) {
+async function set_budget_preview(budget = {}) {
   const preview_inputs = [...document.getElementsByClassName("budget-preview-input")];
-  await format(config);
+  await format(budget);
   for (const preview_input of preview_inputs) {
     const input_type = preview_input.dataset.type;
 
-    if (input_type in config)
-      if (input_type === "icon") preview_input.src = config[input_type];
-      else preview_input.textContent = config[input_type];
+    if (input_type in budget)
+      if (input_type === "icon") preview_input.src = budget[input_type];
+      else preview_input.textContent = budget[input_type];
   }
 
-  async function format(config) {
-    if (Object.keys(config).length < 1) return;
-    for (const key in config) {
+  async function format(budget) {
+    if (Object.keys(budget).length < 1) return;
+    for (const key in budget) {
       switch (key) {
         case "amount":
-          const parsed_float = parseFloat(config[key]);
-          if (isNaN(parsed_float)) config[key] = 0;
-          else config[key] = parseFloat(config[key]);
+          const parsed_float = parseFloat(budget[key]);
+          if (isNaN(parsed_float)) budget[key] = 0;
+          else budget[key] = parseFloat(budget[key]);
           break;
         case "currency":
-          config[key] = CURRENCY_SYMBOLS[config[key]];
+          budget[key] = Utils.get_currency_symbol(budget[key]);
           break;
         case "category":
-          const value = config[key];
-          config[key] = Utils.capitalize(value, " & ");
+          const value = budget[key];
+          budget[key] = Utils.capitalize(value, " & ");
           const icon_url = await Icon.get("expense", value);
-          config.icon = icon_url;
+          budget.icon = icon_url;
           break;
       }
     }
@@ -425,6 +456,8 @@ async function set_budget_preview(config = {}) {
 }
 
 init();
+
+// Code Budget Editing Functionality and Panel
 
 export default {
   categories: {
@@ -436,5 +469,8 @@ export default {
     },
   },
   refresh: refresh_current_tab,
-  panel: { edit_transaction: show_edit_transaction_panel },
+  panel: {
+    edit_transaction: show_edit_transaction_panel,
+    edit_budget: show_edit_budget_panel,
+  },
 };

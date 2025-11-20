@@ -87,8 +87,18 @@ function find_budget(id) {
   return { index: budget_index, item: Object.assign({}, budgets[budget_index]) };
 }
 
+function edit_budget(new_budget, id) {
+  const target_budget_object = find_budget(id);
+  if (!target_budget_object) return;
+  const target_budget = budgets[target_budget_object.index];
+  if (new_budget.category !== target_budget.category && new_budget.recurrence !== target_budget.recurrence)
+    for (const property in new_budget) if (property in target_budget) target_budget[property] = new_budget[property];
+}
+
 export default {
   get: () => budgets,
   add: add_budget,
+  find: find_budget,
   remove: remove_budget,
+  edit: edit_budget,
 };

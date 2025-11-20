@@ -602,6 +602,9 @@ body {
 }
 .budget-input-preview > .budget-card {
   padding: 0.4rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   height: fit-content;
 }
 .budget-input-preview {

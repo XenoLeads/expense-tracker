@@ -76,6 +76,7 @@ function handle_action_buttons(event) {
         console.groupEnd();
         Main.refresh();
       } else if (action === "edit") {
+        Main.panel.edit_budget(Budget.find(card_id).item);
       }
     }
   }
@@ -113,7 +114,7 @@ async function create_budget_card(budget) {
                     <div class="budget-progress-amount-total">${currency_symbol}${amount}</div>
                     </div>
                   </div>
-                  <p class="budget-time budget-preview-input recurrence-time" data-type="time">- ${Utils.capitalize(recurrence)}</p>
+                  <p class="budget-time budget-preview-input recurrence-time" data-type="time">- ${format_budget_recurrence_text(recurrence)}</p>
                   <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
     used_budget_percentage
   )}" class="remaining-budget-progress-bar">${used_budget_percentage}%</progress>
@@ -129,6 +130,10 @@ async function create_budget_card(budget) {
   card.addEventListener("click", handle_action_buttons);
 
   return card;
+
+  function format_budget_recurrence_text(recurrence) {
+    return Utils.capitalize(recurrence.slice(5) + "ly");
+  }
 }
 
 async function create_remaining_budget_card(budget) {
