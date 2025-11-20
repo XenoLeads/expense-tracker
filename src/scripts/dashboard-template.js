@@ -8,6 +8,7 @@ const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desk
 
 function get_dashboard_template() {
   Tracker.recalculate();
+  // Add Top Expenses Heading
   return `
         <div class="balance-income-expense-expense-overview-top-icomes-top-expenses">
             <div class="balance-income-expense-expense-overview">
@@ -29,9 +30,13 @@ function get_dashboard_template() {
               </div>
               <div class="card expense-overview-container">
                 <div class="expense-overview-wrapper">
-                  <p class="expense-overview">Food: $123</p>
-                  <p class="expense-overview">Travel: $123</p>
-                  <p class="expense-overview">Grocery: $123</p>
+                <h2 class="heading expense-overview-heading">Top Expenses</h2>
+                  <div class="separator"></div>
+                  <div class="expense-overviews">
+                    <p class="expense-overview">Food: $123</p>
+                    <p class="expense-overview">Travel: $123</p>
+                    <p class="expense-overview">Grocery: $123</p>
+                  </div>
                 </div>
                 <div class="expense-pie-chart"></div>
               </div>
@@ -130,8 +135,8 @@ function display_transactions_overview_amounts(tracker) {
 }
 
 function display_expense_overview(transactions) {
-  const expense_overview_wrapper = document.getElementsByClassName("expense-overview-wrapper")[0];
-  expense_overview_wrapper.innerHTML = "";
+  const expense_overviews = document.getElementsByClassName("expense-overviews")[0];
+  expense_overviews.innerHTML = "";
   const filter = Utils.filter_transactions;
   const sort = Utils.sort_transactions;
   const capitalize = Utils.capitalize;
@@ -144,7 +149,7 @@ function display_expense_overview(transactions) {
   const expenses = filter(transactions, { type: "expense" });
   const sorted_expenses = sort(expenses, "amount");
   const top_3_expenses = sorted_expenses.slice(0, 3);
-  for (const expense of top_3_expenses) expense_overview_wrapper.appendChild(create_expense_element(expense));
+  for (const expense of top_3_expenses) expense_overviews.appendChild(create_expense_element(expense));
 }
 
 function refresh() {
