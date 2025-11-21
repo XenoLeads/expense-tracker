@@ -67,7 +67,7 @@ const budgets = [
 ];
 
 function Budget(category, amount, currency, recurrence) {
-  return { category, amount, currency, recurrence, creation: new Date().toISOString() };
+  return { category, amount, currency, recurrence, creation: new Date().toISOString(), id: crypto.randomUUID() };
 }
 
 function add_budget(category, amount, currency, recurrence) {
