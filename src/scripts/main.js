@@ -109,15 +109,18 @@ function init() {
     const budget_input_values = get_budget_inputs();
     if (budget_input_values === null) return;
     const action_mode = budget_input_panel_container.dataset.actionMode;
+    let success = false;
     if (action_mode === "add") {
-      const { category, amount, currency, time } = budget_input_values;
-      Budget.add(category, amount, currency, time);
+      const { category, amount, currency, recurrence } = budget_input_values;
+      success = Budget.add(category, amount, currency, recurrence);
     } else if (action_mode === "edit") {
       const budget_id = budget_input_panel_container.dataset.id;
-      Budget.edit(budget_input_values, budget_id);
+      success = Budget.edit(budget_input_values, budget_id);
     }
-    budget_input_panel_container.classList.remove("visible");
-    refresh_current_tab();
+    if (success) {
+      budget_input_panel_container.classList.remove("visible");
+      refresh_current_tab();
+    }
   });
 
   init_mobile_add_transaction_inputs();
@@ -395,7 +398,7 @@ function init_budget_panel() {
       set_selected_class(budget_input);
       const type = budget_input.dataset.type;
       const value = budget_input.dataset.value;
-      set_budget_preview({ [type]: `- ${Utils.capitalize(value)}` });
+      set_budget_preview({ [type]: value });
     });
   });
 
@@ -423,41 +426,44 @@ function set_selected_class(element) {
 
 async function set_budget_preview(budget = {}) {
   const preview_inputs = [...document.getElementsByClassName("budget-preview-input")];
-  await format(budget);
+  const formatted_budget = await format(budget);
   for (const preview_input of preview_inputs) {
     const input_type = preview_input.dataset.type;
 
-    if (input_type in budget)
-      if (input_type === "icon") preview_input.src = budget[input_type];
-      else preview_input.textContent = budget[input_type];
+    if (input_type in formatted_budget)
+      if (input_type === "icon") preview_input.src = formatted_budget[input_type];
+      else preview_input.textContent = formatted_budget[input_type];
   }
 
   async function format(budget) {
     if (Object.keys(budget).length < 1) return;
-    for (const key in budget) {
+    const formatted_budget = Object.assign({}, budget);
+    for (const key in formatted_budget) {
       switch (key) {
         case "amount":
-          const parsed_float = parseFloat(budget[key]);
-          if (isNaN(parsed_float)) budget[key] = 0;
-          else budget[key] = parseFloat(budget[key]);
+          const parsed_float = parseFloat(formatted_budget[key]);
+          if (isNaN(parsed_float)) formatted_budget[key] = 0;
+          else formatted_budget[key] = parseFloat(formatted_budget[key]);
           break;
         case "currency":
-          budget[key] = Utils.get_currency_symbol(budget[key]);
+          formatted_budget[key] = Utils.get_currency_symbol(formatted_budget[key]);
           break;
         case "category":
-          const value = budget[key];
-          budget[key] = Utils.capitalize(value, " & ");
+          const value = formatted_budget[key];
+          formatted_budget[key] = Utils.capitalize(value, " & ");
           const icon_url = await Icon.get("expense", value);
-          budget.icon = icon_url;
+          formatted_budget.icon = icon_url;
+          break;
+        case "recurrence":
+          formatted_budget[key] = `- ${Utils.capitalize(formatted_budget[key].slice(5))}ly`;
           break;
       }
     }
+    return formatted_budget;
   }
 }
 
 init();
-
-// Code Budget Editing Functionality and Panel
 
 export default {
   categories: {

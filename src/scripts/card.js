@@ -132,7 +132,7 @@ async function create_budget_card(budget) {
   return card;
 
   function format_budget_recurrence_text(recurrence) {
-    return Utils.capitalize(recurrence.slice(5) + "ly");
+    if (recurrence) return Utils.capitalize(recurrence.slice(5) + "ly");
   }
 }
 

@@ -125,7 +125,7 @@ function show_add_budget_panel() {
   function reset_budget_inputs() {
     const budget_time_inputs = [...document.getElementsByClassName("budget-input-time")];
     budget_time_inputs.map(budget_time_input =>
-      budget_time_input.dataset.value === "monthly" ? budget_time_input.classList.add("selected") : budget_time_input.classList.remove("selected")
+      budget_time_input.dataset.value === "this-month" ? budget_time_input.classList.add("selected") : budget_time_input.classList.remove("selected")
     );
 
     const budget_inputs = [...document.getElementsByClassName("budget-input")];
