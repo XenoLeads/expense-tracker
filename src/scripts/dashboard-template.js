@@ -1,11 +1,13 @@
-import Chart from "chart.js/auto";
 import Card from "./card.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
 import Tracker from "./tracker.js";
+import Chart from "./chart.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
-let pie_chart = null;
+let pie_chart = {
+  chart: null,
+};
 
 function get_dashboard_template() {
   Tracker.recalculate();
@@ -115,6 +117,7 @@ function init_dashboard_template(callback) {
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 
   display_chart(Transaction.get());
+  display_chart(Transaction.get());
 }
 
 async function display_transactions(transactions) {
@@ -171,92 +174,67 @@ function display_chart(transactions) {
   const expense = formatted_transactions.expense;
   const income = formatted_transactions.income;
 
-  const primary_text_color = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
-
-  Chart.defaults.color = primary_text_color;
-
-  if (pie_chart) {
-    pie_chart.destroy();
-    pie_chart = null;
-  }
-
-  pie_chart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: "Expense",
-          data: expense.values,
-          categoryList: expense.labels,
-          backgroundColor: expense.colors,
-          borderWidth: 2,
-          hoverOffset: 10,
-        },
-        {
-          label: "Income",
-          data: income.values,
-          categoryList: income.labels,
-          backgroundColor: income.colors,
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      radius: "80%",
-      layout: {
-        padding: 10,
+  Chart.create(
+    ctx,
+    "pie",
+    pie_chart,
+    // Datasets
+    [
+      {
+        label: "Expense",
+        data: expense.values,
+        categoryList: expense.labels,
+        backgroundColor: expense.colors,
+        borderWidth: 2,
+        hoverOffset: 10,
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          cornerRadius: 8,
-          displayColors: true,
-          callbacks: {
-            title: function (tooltipItems) {
-              const item = tooltipItems[0];
-              const dataset = item.dataset;
-              const index = item.dataIndex;
-
-              return dataset.categoryList[index];
-            },
-            label: function (context) {
-              const type = context.dataset.label;
-              const value = context.raw;
-
-              // Format as currency
-              const formattedValue = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(value);
-
-              return ` ${type}: ${formattedValue}`;
-            },
-          },
-        },
+      {
+        label: "Income",
+        data: income.values,
+        categoryList: income.labels,
+        backgroundColor: income.colors,
+        borderWidth: 2,
       },
-    },
-  });
+    ],
+    // Tooltip Callbacks
+    {
+      title: function (tooltipItems) {
+        const item = tooltipItems[0];
+        const dataset = item.dataset;
+        const index = item.dataIndex;
+
+        return dataset.categoryList[index];
+      },
+      label: function (context) {
+        const type = context.dataset.label;
+        const value = context.raw;
+
+        // Format as currency
+        const formattedValue = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(value);
+
+        return ` ${type}: ${formattedValue}`;
+      },
+    }
+  );
 }
 
-function update_chart(transactions = Transaction.get()) {
-  if (!pie_chart) return;
-
+function update_chart(transactions) {
   const formatted_transactions = format_transaction_for_charts(transactions);
   const expense = formatted_transactions.expense;
   const income = formatted_transactions.income;
-  pie_chart.data.datasets[0].data = expense.values;
-  pie_chart.data.datasets[0].categoryList = expense.labels;
-  pie_chart.data.datasets[0].backgroundColor = expense.colors;
 
-  pie_chart.data.datasets[1].data = income.values;
-  pie_chart.data.datasets[1].categoryList = income.labels;
-  pie_chart.data.datasets[1].backgroundColor = income.colors;
+  Chart.update({ chart: pie_chart.chart }, [format_transaction_for_chart_datasets(expense), format_transaction_for_chart_datasets(income)]);
 
-  pie_chart.update();
+  function format_transaction_for_chart_datasets(transactions) {
+    return {
+      data: transactions.values,
+      categoryList: transactions.labels,
+      backgroundColor: transactions.colors,
+    };
+  }
 }
 
 function format_transaction_for_charts(transactions) {
