@@ -240,6 +240,13 @@ body {
 }
 .add-transaction-input-preview > .transaction-card {
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-transaction-input-preview > .transaction-card > .transaction-amount {
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .transaction-icon {
   height: 2.4rem;
