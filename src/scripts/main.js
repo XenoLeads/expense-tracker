@@ -253,7 +253,7 @@ function refresh_preview(input, preview_input) {
   function refresh_amount() {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
-    const amount_value = parseInt(amount.value);
+    const amount_value = parseInt(amount.value) || 0;
     amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${Utils.get_currency_symbol(
       currency.value
     )}${amount_value === "" ? 0 : amount_value}`;
