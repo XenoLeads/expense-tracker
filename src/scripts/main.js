@@ -125,6 +125,7 @@ function init() {
 
   init_mobile_add_transaction_inputs();
   init_budget_panel();
+  document.body.removeAttribute("style");
 }
 
 function get_budget_inputs() {
