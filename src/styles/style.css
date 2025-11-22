@@ -1233,3 +1233,7 @@ body {
   font-size: 1rem;
   font-weight: normal;
 }
+
+#content-overlay:not([style]) {
+  visibility: hidden;
+}

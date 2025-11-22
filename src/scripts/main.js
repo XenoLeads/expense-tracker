@@ -11,6 +11,7 @@ import Statistics_Template from "./statistics-template.js";
 
 const main = document.getElementsByClassName("main")[0];
 const main_content = document.getElementsByClassName("main-content")[0];
+const content_overlay = document.getElementById("content-overlay");
 const current_tab_name = document.getElementsByClassName("current-tab-name")[0];
 const dashboard_button = [...document.getElementsByClassName("navigation-button-dashboard")];
 const transactions_button = [...document.getElementsByClassName("navigation-button-transactions")];
@@ -125,7 +126,7 @@ function init() {
 
   init_mobile_add_transaction_inputs();
   init_budget_panel();
-  document.body.removeAttribute("style");
+  content_overlay.removeAttribute("style");
 }
 
 function get_budget_inputs() {
