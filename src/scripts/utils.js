@@ -208,6 +208,18 @@ function set_used_budget(budgets, transactions) {
   });
 }
 
+function summarise_transactions(transactions) {
+  const summarised_transactions = { income: {}, expense: {} };
+  transactions.forEach(transaction => {
+    const { type, amount, category, currency } = transaction;
+    let converted_amount = null;
+    if (currency !== "usd") converted_amount = convert_currency(amount, currency, "usd");
+    if (!(category in summarised_transactions[type])) summarised_transactions[type][category] = { type, amount, category };
+    else summarised_transactions[type][category].amount += converted_amount || amount;
+  });
+  return summarised_transactions;
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -218,4 +230,5 @@ export default {
   sort_budgets,
   set_used_budget,
   get_currency_symbol,
+  summarise_transactions,
 };

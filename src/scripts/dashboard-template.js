@@ -1,14 +1,14 @@
+import Chart from "chart.js/auto";
 import Card from "./card.js";
 import Utils from "./utils.js";
 import Transaction from "./transaction.js";
 import Tracker from "./tracker.js";
-import Main from "./main.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+let pie_chart = null;
 
 function get_dashboard_template() {
   Tracker.recalculate();
-  // Add Top Expenses Heading
   return `
         <div class="balance-income-expense-expense-overview-top-icomes-top-expenses">
             <div class="balance-income-expense-expense-overview">
@@ -38,7 +38,9 @@ function get_dashboard_template() {
                     <p class="expense-overview">Grocery: $123</p>
                   </div>
                 </div>
-                <div class="expense-pie-chart"></div>
+                <div class="expense-pie-chart-container">
+                  <canvas class="expense-pie-chart"></canvas>
+                </div>
               </div>
               <div class="card budget-overview">
                 <h2 class="heading budget-overview-heading">Budget Overview</h2>
@@ -111,6 +113,8 @@ function init_dashboard_template(callback) {
 
   const see_all_transactions_button = document.getElementsByClassName("recent-transactions-heading-see-all-button")[0];
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
+
+  display_chart(Transaction.get());
 }
 
 async function display_transactions(transactions) {
@@ -157,6 +161,168 @@ function refresh() {
   display_transactions(transactions);
   display_transactions_overview_amounts(Tracker.recalculate());
   display_expense_overview(transactions);
+  update_chart(transactions);
+}
+
+function display_chart(transactions) {
+  const expense_pie_chart = document.getElementsByClassName("expense-pie-chart")[0];
+  const ctx = expense_pie_chart.getContext("2d");
+  const formatted_transactions = format_transaction_for_charts(transactions);
+  const expense = formatted_transactions.expense;
+  const income = formatted_transactions.income;
+
+  const primary_text_color = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
+
+  Chart.defaults.color = primary_text_color;
+
+  if (pie_chart) {
+    pie_chart.destroy();
+    pie_chart = null;
+  }
+
+  pie_chart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Expense",
+          data: expense.values,
+          categoryList: expense.labels,
+          backgroundColor: expense.colors,
+          borderWidth: 2,
+          hoverOffset: 10,
+        },
+        {
+          label: "Income",
+          data: income.values,
+          categoryList: income.labels,
+          backgroundColor: income.colors,
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      radius: "80%",
+      layout: {
+        padding: 10,
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          cornerRadius: 8,
+          displayColors: true,
+          callbacks: {
+            title: function (tooltipItems) {
+              const item = tooltipItems[0];
+              const dataset = item.dataset;
+              const index = item.dataIndex;
+
+              return dataset.categoryList[index];
+            },
+            label: function (context) {
+              const type = context.dataset.label;
+              const value = context.raw;
+
+              // Format as currency
+              const formattedValue = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(value);
+
+              return ` ${type}: ${formattedValue}`;
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+function update_chart(transactions = Transaction.get()) {
+  if (!pie_chart) return;
+
+  const formatted_transactions = format_transaction_for_charts(transactions);
+  const expense = formatted_transactions.expense;
+  const income = formatted_transactions.income;
+  pie_chart.data.datasets[0].data = expense.values;
+  pie_chart.data.datasets[0].categoryList = expense.labels;
+  pie_chart.data.datasets[0].backgroundColor = expense.colors;
+
+  pie_chart.data.datasets[1].data = income.values;
+  pie_chart.data.datasets[1].categoryList = income.labels;
+  pie_chart.data.datasets[1].backgroundColor = income.colors;
+
+  pie_chart.update();
+}
+
+function format_transaction_for_charts(transactions) {
+  const COLOR_PALETTE = {
+    income: {
+      default: "#E2E8F0", // Slate 200 (Neutral Grey)
+      salary: "#FACC15", // Yellow Gold (High contrast "Money" color)
+      freelance: "#4ADE80", // Bright Green (Fresh income)
+      investments: "#2DD4BF", // Teal (Growth, sits well next to blue)
+      other: "#94A3B8", // Slate 400 (Darker Grey)
+    },
+    expense: {
+      "default": "#E2E8F0", // Slate 200
+      "food-dining": "#FF6B6B", // Soft Red (Common expense color)
+      "transportation": "#FFA502", // Bright Orange (Active)
+      "shopping": "#FF9FF3", // Lavender/Pink (Leisure)
+      "bills-utilities": "#FF4757", // Saturated Red (Urgent/Fixed)
+      "entertainment": "#A29BFE", // Soft Purple
+      "healthcare": "#2ED573", // Medical Green (Distinct from other expenses)
+      "travel": "#70A1FF", // Sky Blue (Lighter than background to stand out)
+      "other": "#CED6E0", // Light Grey
+    },
+  };
+
+  const summarised_transactions = Utils.summarise_transactions(transactions);
+  let expense_values = [];
+  let expense_labels = [];
+  let expense_colors = [];
+
+  let income_values = [];
+  let income_labels = [];
+  let income_colors = [];
+
+  for (const type in summarised_transactions) {
+    const values = [];
+    const labels = [];
+    const colors = [];
+    for (const key in summarised_transactions[type]) {
+      const transaction = summarised_transactions[type][key];
+      values.push(transaction.amount);
+      labels.push(Utils.capitalize(transaction.category, " & "));
+      colors.push(COLOR_PALETTE[transaction.type][transaction.category]);
+    }
+    if (type === "expense") {
+      expense_values = values;
+      expense_labels = labels;
+      expense_colors = colors;
+    } else if (type === "income") {
+      income_values = values;
+      income_labels = labels;
+      income_colors = colors;
+    }
+  }
+
+  return {
+    expense: {
+      labels: expense_labels,
+      values: expense_values,
+      colors: expense_colors,
+    },
+    income: {
+      labels: income_labels,
+      values: income_values,
+      colors: income_colors,
+    },
+  };
 }
 
 export default {
