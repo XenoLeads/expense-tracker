@@ -8,6 +8,10 @@ const line_chart = {
   chart: null,
 };
 
+const bar_chart = {
+  chart: null,
+};
+
 let time_filter = "all";
 
 function get_statistics_template() {
@@ -22,10 +26,14 @@ function get_statistics_template() {
           </div>
         </div>
         <div class="statistics-line-pie-chart-container">
+        <div class="statistics-chart-container statistics-line-chart-container">
           <canvas class="card statistics-chart statistics-line-chart"></canvas>
+        </div>
           <div class="card statistics-chart statistics-pie-chart"></div>
         </div>
-        <div class="card statistics-chart statistics-bar-chart"></div>
+        <div class="statistics-chart-container statistics-bar-chart-container">
+          <canvas class="card statistics-chart statistics-bar-chart"></canvas>
+        </div>
   `;
 }
 
@@ -55,11 +63,12 @@ function init_statistics_template() {
       filter.classList.add("selected");
       const filter_value = filter.dataset.value;
       time_filter = filter_value;
-      update_line_chart();
+      refresh();
     });
   });
 
   display_line_chart();
+  display_bar_chart();
 }
 
 function display_line_chart(transactions = Transaction.get()) {
@@ -87,6 +96,8 @@ function display_line_chart(transactions = Transaction.get()) {
       {
         label: " Balance",
         data: points,
+        backgroundColor: "#73C7E7",
+        borderColor: "#C2E6F5",
         borderWidth: 3,
         pointRadius: 2,
         tension: 0.2,
@@ -96,7 +107,7 @@ function display_line_chart(transactions = Transaction.get()) {
       tooltip_callbacks: {
         title(context) {
           const date = new Date(context[0].parsed.x);
-          return format_time_label(date);
+          return format_time_label(date, true);
         },
         label(context) {
           const label = context.dataset.label;
@@ -105,7 +116,20 @@ function display_line_chart(transactions = Transaction.get()) {
           return `${label}: ${formatted_value}`;
         },
       },
+      plugins: {
+        title: {
+          display: true,
+          text: "Balance Overview",
+          font: {
+            size: 16,
+          },
+          padding: {
+            bottom: 20,
+          },
+        },
+      },
       options_config: {
+        maintainAspectRatio: false,
         scales: {
           x: {
             type: "time",
@@ -118,7 +142,7 @@ function display_line_chart(transactions = Transaction.get()) {
             unit: "day",
             ticks: {
               maxTicksLimit: 5,
-              callback: format_time_label,
+              callback: time => format_time_label(time),
             },
           },
           y: {
@@ -158,32 +182,161 @@ function update_line_chart(transactions = Transaction.get()) {
   ]);
 }
 
-function format_time_label(time) {
+function format_time_label(time, is_title = false) {
   const TIME_FILTERS = {
     "all": {
-      month: "short",
-      day: "numeric",
-      year: "2-digit",
+      year: "numeric",
     },
     "this-week": {
-      month: "short",
-      day: "numeric",
+      weekday: "short",
     },
     "this-month": {
-      month: "short",
-      day: "numeric",
+      day: "2-digit",
     },
     "this-year": {
       month: "short",
-      day: "numeric",
+      day: "2-digit",
     },
   };
 
+  if (is_title) {
+    delete TIME_FILTERS.all.year;
+    TIME_FILTERS["this-week"].weekday = "long";
+    TIME_FILTERS["this-month"].weekday = "long";
+    TIME_FILTERS["this-year"].month = "long";
+  }
   return new Date(time).toLocaleDateString(undefined, TIME_FILTERS[time_filter]);
+}
+
+function display_bar_chart(transactions = Transaction.get()) {
+  const chart_canvas = document.getElementsByClassName("statistics-bar-chart")[0];
+  const chart_ctx = chart_canvas.getContext("2d");
+  const grouped_transactions = Utils.group_transactions(transactions, time_filter);
+  const sorted_transactions = grouped_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
+  let income_over_time = 0;
+  let expense_over_time = 0;
+  const income_points = [];
+  const expense_points = [];
+  for (let index = 0; index < sorted_transactions.length; index++) {
+    const transaction = sorted_transactions[index];
+    income_over_time += Math.round(transaction.income);
+    expense_over_time += Math.round(transaction.expense);
+    income_points.push({ x: transaction.x, y: income_over_time });
+    expense_points.push({ x: transaction.x, y: expense_over_time });
+  }
+
+  Chart.create(
+    chart_ctx,
+    "bar",
+    bar_chart,
+    [
+      {
+        label: " Income",
+        data: income_points,
+        backgroundColor: "rgba(46, 255, 46, 0.8)",
+        borderColor: "rgba(46, 255, 46, 1)",
+        borderWidth: 2,
+      },
+      {
+        label: " Expense",
+        data: expense_points,
+        backgroundColor: "rgba(255, 46, 46, 0.8)",
+        borderColor: "rgba(255, 46, 46, 1)",
+        borderWidth: 2,
+      },
+    ],
+    {
+      legend: {
+        display: true,
+        position: "bottom",
+      },
+      tooltip_callbacks: {
+        title(context) {
+          const date = new Date(context[0].parsed.x);
+          return format_time_label(date, true);
+        },
+        label(context) {
+          const label = context.dataset.label;
+          const value = context.raw.y;
+          const formatted_value = Utils.format_currency(value);
+          return `${label}: ${formatted_value}`;
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: "Income/Expense Overview",
+          font: {
+            size: 16,
+          },
+          padding: {
+            bottom: 20,
+          },
+        },
+      },
+      options_config: {
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: false,
+            type: "time",
+            time: {
+              displayFormats: {
+                day: "MMM d",
+                month: "MMM yyyy",
+              },
+            },
+            unit: "day",
+            ticks: {
+              maxTicksLimit: 5,
+              callback: time => format_time_label(time),
+            },
+          },
+          y: {
+            stacked: false,
+            beginAtZero: true,
+            ticks: {
+              callback(value) {
+                const num = Number(value);
+                return num < 0 ? "-$" + Math.abs(num).toLocaleString() : "$" + num.toLocaleString();
+              },
+            },
+          },
+        },
+      },
+    }
+  );
+}
+
+function update_bar_chart(transactions = Transaction.get()) {
+  const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
+  const grouped_transactions = Utils.group_transactions(filtered_transactions, time_filter);
+  const sorted_transactions = grouped_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
+  let income_over_time = 0;
+  let expense_over_time = 0;
+  const income_points = [];
+  const expense_points = [];
+  for (let index = 0; index < sorted_transactions.length; index++) {
+    const transaction = sorted_transactions[index];
+    income_over_time += Math.round(transaction.income);
+    expense_over_time += Math.round(transaction.expense);
+    income_points.push({ x: transaction.x, y: income_over_time });
+    expense_points.push({ x: transaction.x, y: expense_over_time });
+  }
+
+  Chart.update(bar_chart, [
+    {
+      data: income_points,
+    },
+    {
+      data: expense_points,
+    },
+  ]);
 }
 
 function refresh() {
   update_line_chart();
+  update_bar_chart();
 }
 
 export default {

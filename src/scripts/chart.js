@@ -1,7 +1,13 @@
 import "chartjs-adapter-moment";
 import Chart from "chart.js/auto";
 
-function display_chart(context, type, chart_obj, datasets, { tooltip_callbacks = {}, global_labels = [], options_config = {} }) {
+function display_chart(
+  context,
+  type,
+  chart_obj,
+  datasets,
+  { legend = { display: false }, tooltip_callbacks = {}, global_labels = [], options_config = {}, plugins = {} }
+) {
   const primary_text_color = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
 
   Chart.defaults.color = primary_text_color;
@@ -25,9 +31,8 @@ function display_chart(context, type, chart_obj, datasets, { tooltip_callbacks =
         padding: 10,
       },
       plugins: {
-        legend: {
-          display: false,
-        },
+        ...plugins,
+        legend,
         tooltip: {
           cornerRadius: 8,
           displayColors: true,

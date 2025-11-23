@@ -117,7 +117,6 @@ function init_dashboard_template(callback) {
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 
   display_chart(Transaction.get());
-  display_chart(Transaction.get());
 }
 
 async function display_transactions(transactions) {

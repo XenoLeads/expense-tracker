@@ -229,6 +229,35 @@ function format_currency(amount, currency = "USD") {
   }).format(amount);
 }
 
+function group_transactions(transactions, time_filter = "day") {
+  const map = new Map();
+
+  let slice_range = 10;
+
+  if (time_filter === "all") slice_range = 4;
+  else if (time_filter === "this-year") slice_range = 7;
+
+  for (const transaction of transactions) {
+    const date = new Date(transaction.time);
+    const key = date.toISOString().slice(0, slice_range);
+    if (!map.get(key)) map.set(key, { income: 0, expense: 0 });
+
+    const bucket = map.get(key);
+    const value = transaction.currency === "usd" ? transaction.amount : convert_currency(transaction.amount, transaction.currency, "usd");
+
+    if (transaction.type === "income") bucket.income += value;
+    else bucket.expense += value;
+  }
+
+  return Array.from(
+    map.entries().map(([day, totals]) => ({
+      x: day,
+      income: totals.income,
+      expense: totals.expense,
+    }))
+  );
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -241,4 +270,5 @@ export default {
   get_currency_symbol,
   summarise_transactions,
   format_currency,
+  group_transactions,
 };

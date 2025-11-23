@@ -632,8 +632,9 @@ body {
   border-radius: 0.4rem;
   align-self: flex-end;
 }
-.statistics-chart {
-  aspect-ratio: 1/1;
+.statistics-chart-container {
+  width: 100%;
+  height: 15rem;
 }
 
 .footer {
