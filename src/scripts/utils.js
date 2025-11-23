@@ -220,6 +220,15 @@ function summarise_transactions(transactions) {
   return summarised_transactions;
 }
 
+function format_currency(amount, currency = "USD") {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 2,
+    trailingZeroDisplay: "stripIfInteger",
+  }).format(amount);
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -231,4 +240,5 @@ export default {
   set_used_budget,
   get_currency_symbol,
   summarise_transactions,
+  format_currency,
 };

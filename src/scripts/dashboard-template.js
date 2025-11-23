@@ -198,24 +198,20 @@ function display_chart(transactions) {
     ],
     // Tooltip Callbacks
     {
-      title: function (tooltipItems) {
-        const item = tooltipItems[0];
-        const dataset = item.dataset;
-        const index = item.dataIndex;
+      tooltip_callbacks: {
+        title(tooltip_items) {
+          const item = tooltip_items[0];
+          const dataset = item.dataset;
+          const index = item.dataIndex;
 
-        return dataset.categoryList[index];
-      },
-      label: function (context) {
-        const type = context.dataset.label;
-        const value = context.raw;
-
-        // Format as currency
-        const formattedValue = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(value);
-
-        return ` ${type}: ${formattedValue}`;
+          return dataset.categoryList[index];
+        },
+        label(context) {
+          const type = context.dataset.label;
+          const value = context.raw;
+          const formatted_value = Utils.format_currency(value);
+          return ` ${type}: ${formatted_value}`;
+        },
       },
     }
   );
@@ -240,22 +236,22 @@ function update_chart(transactions) {
 function format_transaction_for_charts(transactions) {
   const COLOR_PALETTE = {
     income: {
-      default: "#E2E8F0", // Slate 200 (Neutral Grey)
-      salary: "#FACC15", // Yellow Gold (High contrast "Money" color)
-      freelance: "#4ADE80", // Bright Green (Fresh income)
-      investments: "#2DD4BF", // Teal (Growth, sits well next to blue)
-      other: "#94A3B8", // Slate 400 (Darker Grey)
+      default: "#E2E8F0",
+      salary: "#FACC15",
+      freelance: "#4ADE80",
+      investments: "#2DD4BF",
+      other: "#94A3B8",
     },
     expense: {
-      "default": "#E2E8F0", // Slate 200
-      "food-dining": "#FF6B6B", // Soft Red (Common expense color)
-      "transportation": "#FFA502", // Bright Orange (Active)
-      "shopping": "#FF9FF3", // Lavender/Pink (Leisure)
-      "bills-utilities": "#FF4757", // Saturated Red (Urgent/Fixed)
-      "entertainment": "#A29BFE", // Soft Purple
-      "healthcare": "#2ED573", // Medical Green (Distinct from other expenses)
-      "travel": "#70A1FF", // Sky Blue (Lighter than background to stand out)
-      "other": "#CED6E0", // Light Grey
+      "default": "#E2E8F0",
+      "food-dining": "#FF6B6B",
+      "transportation": "#FFA502",
+      "shopping": "#FF9FF3",
+      "bills-utilities": "#FF4757",
+      "entertainment": "#A29BFE",
+      "healthcare": "#2ED573",
+      "travel": "#70A1FF",
+      "other": "#CED6E0",
     },
   };
 

@@ -1,6 +1,7 @@
+import "chartjs-adapter-moment";
 import Chart from "chart.js/auto";
 
-function display_chart(context, type, chart_obj, datasets, tooltip_callbacks = {}) {
+function display_chart(context, type, chart_obj, datasets, { tooltip_callbacks = {}, global_labels = [], options_config = {} }) {
   const primary_text_color = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
 
   Chart.defaults.color = primary_text_color;
@@ -13,10 +14,11 @@ function display_chart(context, type, chart_obj, datasets, tooltip_callbacks = {
   chart_obj.chart = new Chart(context, {
     type,
     data: {
-      labels: [],
+      labels: global_labels,
       datasets,
     },
     options: {
+      ...options_config,
       responsive: true,
       radius: "80%",
       layout: {
@@ -36,13 +38,16 @@ function display_chart(context, type, chart_obj, datasets, tooltip_callbacks = {
   });
 }
 
-function update_chart({ chart }, updated_datasets) {
-  if (!chart) return;
+function update_chart(chart_obj = null, updated_datasets, updated_global_labels = null) {
+  if (!chart_obj) return;
+
   updated_datasets.forEach((dataset, index) => {
-    for (const property in dataset) chart.data.datasets[index][property] = dataset[property];
+    for (const property in dataset) chart_obj.chart.data.datasets[index][property] = dataset[property];
   });
 
-  chart.update();
+  if (updated_global_labels) chart_obj.chart.data.labels = updated_global_labels;
+
+  chart_obj.chart.update();
 }
 
 export default {
