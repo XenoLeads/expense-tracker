@@ -144,7 +144,8 @@ function display_expense_overview(transactions) {
   const expense_overviews = document.getElementsByClassName("expense-overviews")[0];
   expense_overviews.innerHTML = "";
   const filter = Utils.filter_transactions;
-  const sort = Utils.sort_transactions;
+  const summarise = Utils.summarise_transactions;
+  const sort = expenses => expenses.sort((a, b) => b.unformatted_amount - a.unformatted_amount);
   const capitalize = Utils.capitalize;
   const create_expense_element = expense => {
     const container = document.createElement("p");
@@ -153,7 +154,15 @@ function display_expense_overview(transactions) {
     return container;
   };
   const expenses = filter(transactions, { type: "expense" });
-  const sorted_expenses = sort(expenses, "amount");
+  const summarised_expenses = summarise(expenses).expense;
+  const converted_expenses_to_an_array = [];
+  for (const expense in summarised_expenses) converted_expenses_to_an_array.push(Object.assign({ category: expense }, summarised_expenses[expense]));
+  converted_expenses_to_an_array.map(expense => {
+    expense.unformatted_amount = expense.amount;
+    expense.amount = Utils.format_currency(expense.amount);
+    return expense;
+  });
+  const sorted_expenses = sort(converted_expenses_to_an_array);
   const top_3_expenses = sorted_expenses.slice(0, 3);
   for (const expense of top_3_expenses) expense_overviews.appendChild(create_expense_element(expense));
 }
