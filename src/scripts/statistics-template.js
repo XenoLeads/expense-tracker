@@ -124,18 +124,6 @@ function display_line_chart(transactions = Transaction.get()) {
           return `${label}: ${formatted_value}`;
         },
       },
-      plugins: {
-        title: {
-          display: true,
-          text: "Balance Overview",
-          font: {
-            size: 16,
-          },
-          padding: {
-            bottom: 20,
-          },
-        },
-      },
       options_config: {
         maintainAspectRatio: false,
         scales: {
@@ -268,18 +256,6 @@ function display_bar_chart(transactions = Transaction.get()) {
           const value = context.raw.y;
           const formatted_value = Utils.format_currency(value);
           return `${label}: ${formatted_value}`;
-        },
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: "Income/Expense Overview",
-          font: {
-            size: 16,
-          },
-          padding: {
-            bottom: 20,
-          },
         },
       },
       options_config: {
