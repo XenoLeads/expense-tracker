@@ -1,3 +1,4 @@
+import CSV from "./csv.js";
 import Utils from "./utils.js";
 import Chart from "./chart.js";
 import Transaction from "./transaction.js";
@@ -65,6 +66,13 @@ function init_statistics_template() {
       time_filter = filter_value;
       refresh();
     });
+  });
+
+  const export_statistics_button = document.getElementsByClassName("export-statistics-button")[0];
+  export_statistics_button.addEventListener("click", () => {
+    const transactions = Utils.filter_transactions(Transaction.get(), { time: time_filter });
+    if (transactions.length < 1) console.log("No Transactions");
+    else CSV.download(transactions);
   });
 
   display_line_chart();

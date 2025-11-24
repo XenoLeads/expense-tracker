@@ -54,7 +54,7 @@ const CATEGORIES = {
 };
 
 function init() {
-  render_tab(Dashboard_Template);
+  render_tab(Statistics_Template);
 
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {
