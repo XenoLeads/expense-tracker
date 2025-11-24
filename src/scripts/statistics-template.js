@@ -72,7 +72,7 @@ function init_statistics_template() {
   export_statistics_button.addEventListener("click", () => {
     const transactions = Utils.filter_transactions(Transaction.get(), { time: time_filter });
     if (transactions.length < 1) console.log("No Transactions");
-    else CSV.download(transactions);
+    else CSV.export(transactions);
   });
 
   display_line_chart();
