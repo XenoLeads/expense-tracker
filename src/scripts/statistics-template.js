@@ -71,7 +71,7 @@ function init_statistics_template() {
   const export_statistics_button = document.getElementsByClassName("export-statistics-button")[0];
   export_statistics_button.addEventListener("click", () => {
     const transactions = Utils.filter_transactions(Transaction.get(), { time: time_filter });
-    if (transactions.length < 1) console.log("No Transactions");
+    if (transactions.length < 1) console.error(new Error("No Transactions Available."));
     else CSV.export(transactions);
   });
 
