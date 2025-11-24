@@ -161,9 +161,22 @@ body {
 .expense-pie-chart-container {
   width: 50%;
   aspect-ratio: 1/1;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0.2rem;
+  padding-top: 0.2rem;
+}
+.expense-pie-chart-container::after {
+  content: "Transactions Overview";
+  white-space: nowrap;
+  position: absolute;
+  display: block;
+  font-size: 0.9rem;
+  text-align: center;
+  top: 0;
+  color: var(--primary-text-color);
 }
 .recent-transactions {
   display: flex;
