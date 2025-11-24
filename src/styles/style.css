@@ -154,11 +154,9 @@ body {
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-.budget-pie-chart {
-  height: 7rem;
-  aspect-ratio: 1/1;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 0.4rem;
+.budget-pie-chart-container {
+  height: 10rem;
+  width: 50%;
 }
 .expense-pie-chart-container {
   width: 50%;

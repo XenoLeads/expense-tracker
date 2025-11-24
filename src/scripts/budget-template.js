@@ -1,16 +1,22 @@
+import Chart from "./chart.js";
 import Card from "./card.js";
 import Budget from "./budget.js";
 import expense_icon from "../assets/icons/transaction-category/expense/expense.svg";
 import Transaction from "./transaction.js";
 import Utils from "./utils.js";
-import Main from "./main.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
+const pie_chart = {
+  chart: null,
+};
 
 const Filters = {
   sort: "most-used",
   time: "all",
 };
+
+let budget_amounts = null;
 
 function get_budget_template() {
   return `
@@ -23,7 +29,9 @@ function get_budget_template() {
             </div>
             <div class="most-used-budgets"></div>
           </div>
-          <div class="budget-pie-chart"></div>
+          <div class="budget-pie-chart-container">
+            <canvas class="budget-pie-chart"></canvas>
+          </div>
         </div>
         <div class="card all-budgets-container">
           <div class="all-budgets-heading-separator">
@@ -110,6 +118,8 @@ function init_budget_template() {
       refresh();
     });
   });
+
+  display_pie_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
 }
 
 function show_add_budget_panel() {
@@ -188,6 +198,99 @@ async function refresh() {
   const sorted_budgets = Utils.sort_budgets(formatted_budget, Filters);
   for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
   for (const budget of sorted_budgets.slice(0, 3)) most_used_budgets.appendChild(await Card.remaining_budget(budget));
+  update_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
+}
+
+function display_pie_chart(budgets) {
+  const budget_pie_chart = document.getElementsByClassName("budget-pie-chart")[0];
+  const ctx = budget_pie_chart.getContext("2d");
+  const filtered_budgets = Utils.filter_budgets(budgets, Filters);
+  const formatted_budgets = format_budgets_for_charts(filtered_budgets);
+  const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
+  budget_amounts = sorted_budgets.map(budget => budget.amount);
+
+  Chart.create(
+    ctx,
+    "doughnut",
+    pie_chart,
+    // Datasets
+    [
+      {
+        data: sorted_budgets.map(budget => budget.used),
+        categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
+        backgroundColor: sorted_budgets.map(budget => budget.color),
+        borderWidth: 2,
+        hoverOffset: 10,
+      },
+    ],
+    // Tooltip Callbacks
+    {
+      options_config: {
+        maintainAspectRatio: false,
+      },
+      tooltip_callbacks: {
+        title(tooltip_items) {
+          const item = tooltip_items[0];
+          const dataset = item.dataset;
+          const index = item.dataIndex;
+
+          return dataset.categoryList[index];
+        },
+        label(context) {
+          const value = context.raw;
+          const formatted_value = Utils.format_currency(value);
+          const budget_amount = Utils.format_currency(budget_amounts[context.dataIndex]);
+          return ` ${formatted_value} / ${budget_amount}`;
+        },
+      },
+    }
+  );
+}
+
+function update_chart(budgets) {
+  const filtered_budgets = Utils.filter_budgets(budgets, Filters);
+  const formatted_budgets = format_budgets_for_charts(filtered_budgets);
+  const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
+  budget_amounts = sorted_budgets.map(budget => budget.amount);
+
+  Chart.update(
+    {
+      chart: pie_chart.chart,
+    },
+    [
+      {
+        data: sorted_budgets.map(budget => budget.used),
+        categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
+        backgroundColor: sorted_budgets.map(budget => budget.color),
+      },
+    ]
+  );
+}
+
+function format_budgets_for_charts(budgets) {
+  const COLORS = {
+    "default": "#E2E8F0",
+    "food-dining": "#FF6B6B",
+    "transportation": "#FFA502",
+    "shopping": "#FF9FF3",
+    "bills-utilities": "#FF4757",
+    "entertainment": "#A29BFE",
+    "healthcare": "#2ED573",
+    "travel": "#70A1FF",
+    "other": "#CED6E0",
+  };
+  const formatted_budgets = [];
+  for (const budget of budgets) {
+    let { category, amount, used, currency, recurrence } = budget;
+    if (currency !== "usd") {
+      amount = Utils.convert_currency(amount, currency, "usd");
+      used = Utils.convert_currency(used, currency, "usd");
+    }
+    amount = Math.round(amount);
+    used = Math.round(used);
+    formatted_budgets.push({ category, amount, used, recurrence, color: COLORS[category] });
+  }
+  return formatted_budgets;
 }
 
 export default {
