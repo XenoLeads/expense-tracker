@@ -6,8 +6,12 @@ function get_transaction_icon(transaction_type, icon_name) {
   });
 }
 
-function import_icon(icon_path) {
-  return import(`../assets/icons/${icon_path}`).then(module => module.default);
+async function import_icon(relative_icon_path) {
+  try {
+    return await import(`../assets/icons/${relative_icon_path}`).then(module => module.default);
+  } catch (error) {
+    return null;
+  }
 }
 
 export default {
