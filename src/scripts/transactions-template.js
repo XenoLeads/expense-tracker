@@ -1,8 +1,8 @@
 import Card from "./card.js";
 import Main from "./main.js";
 import Transaction from "./transaction.js";
-import clear_search_icon from "../assets/icons/clear.svg";
 import Utils from "./utils.js";
+import clear_search_icon from "../assets/icons/light/clear.svg";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 const Filters = {
@@ -16,7 +16,7 @@ function get_transactions_template() {
         <div class="search-bar-container">
             <input type="text" name="search-bar" class="search-bar" />
             <button class="button clear-search-button">
-              <img src="${clear_search_icon}" alt="" class="icon clear-search-icon" />
+              <img src="${clear_search_icon}" alt="" class="icon clear-search-icon" data-name="clear"/>
             </button>
           </div>
           <div class="card transaction-filters">
@@ -175,6 +175,9 @@ function refresh() {
     clearTimeout(timer.id);
     timer.id = setTimeout(() => display_transactions(), timer.delay);
   });
+
+  const clear_search_icon = document.getElementsByClassName("clear-search-icon")[0];
+  Utils.set_icon_url(clear_search_icon, Main.is_dark_theme);
 }
 
 export default {

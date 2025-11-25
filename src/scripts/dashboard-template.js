@@ -176,6 +176,7 @@ function refresh() {
 }
 
 function display_chart(transactions) {
+  const chart_border_color = getComputedStyle(document.documentElement).getPropertyValue("--chart-border-color");
   const expense_pie_chart = document.getElementsByClassName("expense-pie-chart")[0];
   const ctx = expense_pie_chart.getContext("2d");
   const formatted_transactions = format_transaction_for_charts(transactions);
@@ -193,6 +194,7 @@ function display_chart(transactions) {
         data: expense.values,
         categoryList: expense.labels,
         backgroundColor: expense.colors,
+        borderColor: chart_border_color,
         borderWidth: 2,
         hoverOffset: 10,
       },
@@ -201,6 +203,7 @@ function display_chart(transactions) {
         data: income.values,
         categoryList: income.labels,
         backgroundColor: income.colors,
+        borderColor: chart_border_color,
         borderWidth: 2,
       },
     ],
@@ -226,17 +229,19 @@ function display_chart(transactions) {
 }
 
 function update_chart(transactions) {
+  const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
   const formatted_transactions = format_transaction_for_charts(transactions);
   const expense = formatted_transactions.expense;
   const income = formatted_transactions.income;
 
-  Chart.update({ chart: pie_chart.chart }, [format_transaction_for_chart_datasets(expense), format_transaction_for_chart_datasets(income)]);
+  Chart.update(pie_chart, [format_transaction_for_chart_datasets(expense), format_transaction_for_chart_datasets(income)]);
 
   function format_transaction_for_chart_datasets(transactions) {
     return {
       data: transactions.values,
       categoryList: transactions.labels,
       backgroundColor: transactions.colors,
+      borderColor: chart_border_color,
     };
   }
 }

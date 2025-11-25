@@ -1,4 +1,5 @@
 import "chartjs-adapter-moment";
+import Utils from "./utils.js";
 import Chart from "chart.js/auto";
 
 function display_chart(
@@ -6,9 +7,9 @@ function display_chart(
   type,
   chart_obj,
   datasets,
-  { legend = { display: false }, tooltip_callbacks = {}, global_labels = [], options_config = {}, plugins = {} }
+  { legend = { display: false }, tooltip_callbacks = {}, global_labels = [], options_config = {}, plugins = {}, layout_padding = 10 } = {}
 ) {
-  const primary_text_color = getComputedStyle(document.documentElement).getPropertyValue("--primary-text-color");
+  const primary_text_color = Utils.get_css_property_value(document.getElementById("container"), "primary-text-color");
 
   Chart.defaults.color = primary_text_color;
 
@@ -27,9 +28,7 @@ function display_chart(
       ...options_config,
       responsive: true,
       radius: "80%",
-      layout: {
-        padding: 10,
-      },
+      layout: { padding: layout_padding },
       plugins: {
         ...plugins,
         legend,
@@ -43,12 +42,21 @@ function display_chart(
   });
 }
 
-function update_chart(chart_obj = null, updated_datasets, updated_global_labels = null) {
+function update_chart(chart_obj = null, updated_datasets, updated_global_labels = null, { options_config = {} } = {}) {
   if (!chart_obj) return;
 
   updated_datasets.forEach((dataset, index) => {
     for (const property in dataset) chart_obj.chart.data.datasets[index][property] = dataset[property];
   });
+
+  if (options_config) {
+    const new_x_color = options_config?.scales?.x?.ticks?.color;
+    const new_y_color = options_config?.scales?.y?.ticks?.color;
+    const new_legend_color = options_config?.plugins?.legend?.labels?.color;
+    if (new_x_color) chart_obj.chart.options.scales.x.ticks.color = new_x_color;
+    if (new_y_color) chart_obj.chart.options.scales.y.ticks.color = new_y_color;
+    if (new_legend_color) chart_obj.chart.options.plugins.legend.labels.color = new_legend_color;
+  }
 
   if (updated_global_labels) chart_obj.chart.data.labels = updated_global_labels;
 

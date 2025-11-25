@@ -203,6 +203,7 @@ async function refresh() {
 }
 
 function display_pie_chart(budgets) {
+  const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
   const budget_pie_chart = document.getElementsByClassName("budget-pie-chart")[0];
   const ctx = budget_pie_chart.getContext("2d");
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
@@ -221,6 +222,7 @@ function display_pie_chart(budgets) {
         data: sorted_budgets.map(budget => budget.used),
         categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
         backgroundColor: sorted_budgets.map(budget => budget.color),
+        borderColor: chart_border_color,
         borderWidth: 2,
         hoverOffset: 10,
       },
@@ -251,6 +253,7 @@ function display_pie_chart(budgets) {
 }
 
 function update_chart(budgets) {
+  const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budgets = format_budgets_for_charts(filtered_budgets);
   const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
@@ -266,6 +269,7 @@ function update_chart(budgets) {
         data: sorted_budgets.map(budget => budget.used),
         categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
         backgroundColor: sorted_budgets.map(budget => budget.color),
+        borderColor: chart_border_color,
       },
     ]
   );

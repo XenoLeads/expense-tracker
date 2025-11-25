@@ -1,3 +1,4 @@
+import Icon from "./icon";
 import Transaction from "./transaction";
 
 const CURRENCY_SYMBOLS = {
@@ -258,6 +259,19 @@ function group_transactions(transactions, time_filter = "day") {
   );
 }
 
+function set_icon_url(icon_element, dark_icon = false) {
+  const icon_path = icon_element.dataset.path;
+  const icon_name = icon_element.dataset.name;
+  const relative_icon_path = `${icon_path ? icon_path + "/" : ""}${dark_icon ? "dark" : "light"}/${icon_name}.svg`;
+  Icon.import(relative_icon_path).then(icon_url => {
+    icon_element.src = icon_url;
+  });
+}
+
+function get_css_property_value(element, property_name) {
+  return getComputedStyle(element).getPropertyValue("--" + property_name);
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -271,4 +285,6 @@ export default {
   summarise_transactions,
   format_currency,
   group_transactions,
+  set_icon_url,
+  get_css_property_value,
 };

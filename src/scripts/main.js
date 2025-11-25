@@ -9,6 +9,7 @@ import Budget_Template from "./budget-template.js";
 import Budget from "./budget.js";
 import Statistics_Template from "./statistics-template.js";
 
+const container = document.getElementById("container");
 const main = document.getElementsByClassName("main")[0];
 const main_content = document.getElementsByClassName("main-content")[0];
 const content_overlay = document.getElementById("content-overlay");
@@ -40,6 +41,7 @@ const add_transaction_input_category = document.getElementById("add-transaction-
 const budget_input_discard_button = document.getElementsByClassName("budget-input-discard-button")[0];
 const budget_input_confirm_button = document.getElementsByClassName("budget-input-confirm-button")[0];
 const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
+const theme_toggle_button = document.getElementsByClassName("theme-toggle-button")[0];
 
 const NAVIGATION_KEYMAP = {
   dashboard: Dashboard_Template,
@@ -122,6 +124,15 @@ function init() {
       budget_input_panel_container.classList.remove("visible");
       refresh_current_tab();
     }
+  });
+
+  theme_toggle_button.addEventListener("click", () => {
+    container.classList.toggle("dark-mode");
+    const toggleable_icons = [...document.getElementsByClassName("icon dark-light")];
+    toggleable_icons.forEach(icon => {
+      Utils.set_icon_url(icon, container.classList.contains("dark-mode"));
+    });
+    refresh_current_tab();
   });
 
   init_mobile_add_transaction_inputs();
@@ -480,5 +491,8 @@ export default {
   panel: {
     edit_transaction: show_edit_transaction_panel,
     edit_budget: show_edit_budget_panel,
+  },
+  get is_dark_theme() {
+    return container.classList.contains("dark-mode");
   },
 };

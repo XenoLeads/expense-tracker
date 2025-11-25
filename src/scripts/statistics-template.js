@@ -4,6 +4,7 @@ import Chart from "./chart.js";
 import Transaction from "./transaction.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+const container = document.getElementById("container");
 
 const line_chart = {
   chart: null,
@@ -80,6 +81,7 @@ function init_statistics_template() {
 }
 
 function display_line_chart(transactions = Transaction.get()) {
+  const line_chart_border_color = getComputedStyle(container).getPropertyValue("--bar-chart-border-color");
   const statistics_line_chart = document.getElementsByClassName("statistics-line-chart")[0];
   const statistics_line_chart_ctx = statistics_line_chart.getContext("2d");
   const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
@@ -104,14 +106,17 @@ function display_line_chart(transactions = Transaction.get()) {
       {
         label: " Balance",
         data: points,
-        backgroundColor: "#73C7E7",
-        borderColor: "#C2E6F5",
+        backgroundColor: "#5ab4d2",
+        borderColor: line_chart_border_color,
         borderWidth: 3,
-        pointRadius: 2,
+        pointRadius: 3,
         tension: 0.2,
       },
     ],
     {
+      layout_padding: {
+        top: 40,
+      },
       tooltip_callbacks: {
         title(context) {
           const date = new Date(context[0].parsed.x);
@@ -157,6 +162,8 @@ function display_line_chart(transactions = Transaction.get()) {
 }
 
 function update_line_chart(transactions = Transaction.get()) {
+  const primary_text_color = Utils.get_css_property_value(container, "primary-text-color");
+  const line_chart_border_color = Utils.get_css_property_value(container, "bar-chart-border-color");
   const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
   const sorted_transactions = Utils.sort_transactions(filtered_transactions, undefined, false);
   let balance_over_time = 0;
@@ -171,11 +178,24 @@ function update_line_chart(transactions = Transaction.get()) {
     points.push({ x: transaction.time, y: balance_over_time });
   }
 
-  Chart.update(line_chart, [
+  Chart.update(
+    line_chart,
+    [
+      {
+        data: points,
+        borderColor: line_chart_border_color,
+      },
+    ],
+    null,
     {
-      data: points,
-    },
-  ]);
+      options_config: {
+        scales: {
+          x: { ticks: { color: primary_text_color } },
+          y: { ticks: { color: primary_text_color } },
+        },
+      },
+    }
+  );
 }
 
 function format_time_label(time, is_title = false) {
@@ -205,6 +225,7 @@ function format_time_label(time, is_title = false) {
 }
 
 function display_bar_chart(transactions = Transaction.get()) {
+  const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
   const chart_canvas = document.getElementsByClassName("statistics-bar-chart")[0];
   const chart_ctx = chart_canvas.getContext("2d");
   const grouped_transactions = Utils.group_transactions(transactions, time_filter);
@@ -242,6 +263,9 @@ function display_bar_chart(transactions = Transaction.get()) {
       },
     ],
     {
+      layout_padding: {
+        top: 40,
+      },
       legend: {
         display: true,
         position: "bottom",
@@ -275,6 +299,7 @@ function display_bar_chart(transactions = Transaction.get()) {
               maxTicksLimit: 5,
               callback: time => format_time_label(time),
             },
+            color: chart_border_color,
           },
           y: {
             stacked: false,
@@ -285,6 +310,7 @@ function display_bar_chart(transactions = Transaction.get()) {
                 return num < 0 ? "-$" + Math.abs(num).toLocaleString() : "$" + num.toLocaleString();
               },
             },
+            color: chart_border_color,
           },
         },
       },
@@ -293,6 +319,7 @@ function display_bar_chart(transactions = Transaction.get()) {
 }
 
 function update_bar_chart(transactions = Transaction.get()) {
+  const primary_text_color = Utils.get_css_property_value(container, "primary-text-color");
   const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
   const grouped_transactions = Utils.group_transactions(filtered_transactions, time_filter);
   const sorted_transactions = grouped_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
@@ -308,14 +335,27 @@ function update_bar_chart(transactions = Transaction.get()) {
     expense_points.push({ x: transaction.x, y: expense_over_time });
   }
 
-  Chart.update(bar_chart, [
+  Chart.update(
+    bar_chart,
+    [
+      {
+        data: income_points,
+      },
+      {
+        data: expense_points,
+      },
+    ],
+    undefined,
     {
-      data: income_points,
-    },
-    {
-      data: expense_points,
-    },
-  ]);
+      options_config: {
+        scales: {
+          x: { ticks: { color: primary_text_color } },
+          y: { ticks: { color: primary_text_color } },
+        },
+        plugins: { legend: { labels: { color: primary_text_color } } },
+      },
+    }
+  );
 }
 
 function refresh() {
