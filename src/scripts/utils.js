@@ -272,6 +272,10 @@ function get_css_property_value(element, property_name) {
   return getComputedStyle(element).getPropertyValue("--" + property_name);
 }
 
+function get_rem(multiplier = 1) {
+  return parseFloat(getComputedStyle(document.documentElement).fontSize.slice(0,-2)) * multiplier;
+}
+
 export default {
   capitalize,
   format_transaction_time,
@@ -287,4 +291,5 @@ export default {
   group_transactions,
   set_icon_url,
   get_css_property_value,
+  get_rem,
 };

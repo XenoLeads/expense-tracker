@@ -136,7 +136,10 @@ function init() {
     refresh_current_tab();
   });
 
-  window.addEventListener("resize", () => set_current_ui_class(window.innerWidth));
+  window.addEventListener("resize", () => {
+    set_current_ui_class(window.innerWidth);
+    refresh_current_tab();
+  });
 
   init_mobile_add_transaction_inputs();
   init_budget_panel();

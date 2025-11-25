@@ -12,6 +12,8 @@ function display_chart(
   const primary_text_color = Utils.get_css_property_value(document.getElementById("container"), "primary-text-color");
 
   Chart.defaults.color = primary_text_color;
+  Chart.defaults.font.size = Utils.get_rem(0.8);
+
 
   if (chart_obj.chart) {
     chart_obj.chart.destroy();
@@ -59,7 +61,8 @@ function update_chart(chart_obj = null, updated_datasets, updated_global_labels 
   }
 
   if (updated_global_labels) chart_obj.chart.data.labels = updated_global_labels;
-
+  
+  Chart.defaults.font.size = Utils.get_rem(0.8);
   chart_obj.chart.update();
 }
 
