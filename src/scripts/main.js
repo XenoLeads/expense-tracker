@@ -58,6 +58,7 @@ const CATEGORIES = {
 function init() {
   render_tab(Dashboard_Template);
 
+  set_current_ui_class(window.innerWidth);
   navigation_buttons.map(button => {
     button.addEventListener("click", () => {
       if (button.classList.contains("selected")) return;
@@ -135,9 +136,24 @@ function init() {
     refresh_current_tab();
   });
 
+  window.addEventListener("resize", () => set_current_ui_class(window.innerWidth));
+
   init_mobile_add_transaction_inputs();
   init_budget_panel();
   content_overlay.removeAttribute("style");
+}
+
+function set_current_ui_class(window_width) {
+  const set_class = class_name => {
+    if (container.classList.contains(class_name + "-ui")) return;
+    const ui_classes = ["mobile", "tablet", "desktop"];
+    ui_classes.forEach(ui_class => container.classList.remove(ui_class + "-ui"));
+    container.classList.add(class_name + "-ui");
+  };
+
+  if (window_width < 768) set_class("mobile");
+  else if (window_width >= 768 && window_width < 1440) set_class("tablet");
+  else if (window_width >= 1440) set_class("desktop");
 }
 
 function get_budget_inputs() {
