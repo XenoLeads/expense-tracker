@@ -58,20 +58,12 @@ function get_dashboard_template() {
               <div class="top-incomes-container">
                 <h2 class="top-incomes-heading">Top Incomes</h2>
                 <div class="separator"></div>
-                <div class="top-incomes">
-                  <p class="top-income">Freelance: $123</p>
-                  <p class="top-income">Salary: $123</p>
-                  <p class="top-income">Commission: $123</p>
-                </div>
+                <div class="top-incomes"></div>
               </div>
               <div class="top-expenses-container">
                 <h2 class="top-expenses-heading">Top Expenses</h2>
                 <div class="separator"></div>
-                <div class="top-expenses">
-                  <p class="top-income">Rent: $123</p>
-                  <p class="top-income">Grocery: $123</p>
-                  <p class="top-income">Transportation: $123</p>
-                </div>
+                <div class="top-expenses"></div>
               </div>
             </div>
           </div>
@@ -95,20 +87,12 @@ function init_dashboard_template(callback) {
             <div class="top-incomes-container">
               <h2 class="top-incomes-heading">Top Incomes</h2>
               <div class="separator"></div>
-              <div class="top-incomes">
-                <p class="top-income">Freelance: $123</p>
-                <p class="top-income">Salary: $123</p>
-                <p class="top-income">Commission: $123</p>
-              </div>
+              <div class="top-incomes"></div>
             </div>
             <div class="top-expenses-container">
               <h2 class="top-expenses-heading">Top Expenses</h2>
               <div class="separator"></div>
-              <div class="top-expenses">
-                <p class="top-income">Rent: $123</p>
-                <p class="top-income">Groceries: $123</p>
-                <p class="top-income">Transportation: $123</p>
-              </div>
+              <div class="top-expenses"></div>
             </div>
           </div>
 `;
@@ -117,6 +101,7 @@ function init_dashboard_template(callback) {
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 
   display_chart(Transaction.get());
+  display_top_incomes_expenses();
 }
 
 async function display_transactions(transactions) {
@@ -310,6 +295,31 @@ function format_transaction_for_charts(transactions) {
       colors: income_colors,
     },
   };
+}
+
+function display_top_incomes_expenses(transactions = Transaction.get()) {
+  const top_incomes_containers = [...document.getElementsByClassName("top-incomes")];
+  const top_expenses_containers = [...document.getElementsByClassName("top-expenses")];
+  top_incomes_containers.forEach(container => (container.innerHTML = ""));
+  top_expenses_containers.forEach(container => (container.innerHTML = ""));
+  const summarised_transactions = Utils.summarise_transactions(transactions);
+  const destructre = Utils.destructure_object_into_an_array;
+  const sort = array => array.sort((a, b) => b.amount - a.amount);
+  const incomes = sort(destructre(summarised_transactions.income)).slice(0, 3);
+  const expenses = sort(destructre(summarised_transactions.expense)).slice(0, 3);
+  const incomes_expenses = [...incomes, ...expenses];
+  incomes_expenses.forEach(incomes_expense => {
+    const { type, category, amount } = incomes_expense;
+    if (type === "income") top_incomes_containers.forEach(container => container.appendChild(create_text(type, category, amount)));
+    else if (type === "expense") top_expenses_containers.forEach(container => container.appendChild(create_text(type, category, amount)));
+  });
+
+  function create_text(type, category, amount) {
+    const container = document.createElement("p");
+    container.className = `top-${type}`;
+    container.textContent = `${Utils.capitalize(category, " & ")}: ${Utils.format_currency(amount, "USD")}`;
+    return container;
+  }
 }
 
 export default {

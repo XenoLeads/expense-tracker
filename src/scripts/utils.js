@@ -273,7 +273,13 @@ function get_css_property_value(element, property_name) {
 }
 
 function get_rem(multiplier = 1) {
-  return parseFloat(getComputedStyle(document.documentElement).fontSize.slice(0,-2)) * multiplier;
+  return parseFloat(getComputedStyle(document.documentElement).fontSize.slice(0, -2)) * multiplier;
+}
+
+function destructure_object_into_an_array(object) {
+  const array = [];
+  for (const property in object) array.push(object[property]);
+  return array;
 }
 
 export default {
@@ -292,4 +298,5 @@ export default {
   set_icon_url,
   get_css_property_value,
   get_rem,
+  destructure_object_into_an_array,
 };
