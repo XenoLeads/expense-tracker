@@ -1049,6 +1049,9 @@ body {
 .navigation-button:not(.navigation-button-add).desktop > .icon {
   width: unset;
 }
+.navigation-button-text{
+  font-size: 0.8rem;
+}
 .statistics-line-pie-chart-container {
   display: flex;
   justify-content: space-between;
