@@ -156,6 +156,7 @@ function refresh() {
   display_expense_overview(transactions);
   update_chart(transactions);
   display_top_incomes_expenses();
+  update_line_chart();
 }
 
 function display_chart(transactions) {
@@ -414,26 +415,24 @@ function display_line_chart(transactions = Transaction.get()) {
 }
 
 function update_line_chart(transactions = Transaction.get()) {
-  const line_chart_border_color = Utils.get_css_property_value(container, "bar-chart-border-color");
-  const sorted_transactions = Utils.sort_transactions(transactions, undefined, false);
-  let balance_over_time = 0;
-  const points = [];
-  for (let index = 0; index < sorted_transactions.length; index++) {
-    const transaction = sorted_transactions[index];
-    let amount = transaction.amount;
-    if (transaction.currency !== "usd") amount = Utils.convert_currency(transaction.amount, transaction.currency, "usd");
-    amount = Math.round(amount);
-    if (transaction.type === "income") balance_over_time += amount;
-    else balance_over_time -= amount;
-    points.push({ x: transaction.time, y: balance_over_time });
-  }
+  const group_transactions = Utils.group_transactions(transactions, "this-year");
+  const sorted_transactions = group_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
+  const labels = [...sorted_transactions.map(transaction => transaction.x)];
+  const incomes = [...sorted_transactions.map(transaction => transaction.income)];
+  const expenses = [...sorted_transactions.map(transaction => transaction.expense)];
 
-  Chart.update(line_chart, [
-    {
-      data: points,
-      borderColor: line_chart_border_color,
-    },
-  ]);
+  Chart.update(
+    line_chart,
+    [
+      {
+        data: incomes,
+      },
+      {
+        data: expenses,
+      },
+    ],
+    labels
+  );
 }
 
 export default {
