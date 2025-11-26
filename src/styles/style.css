@@ -481,7 +481,7 @@ body {
 }
 
 /* Tab - Budget */
-.add-new-budget-button {
+.opnen-budget-panel-button {
   background-color: var(--button-background-color);
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
@@ -743,7 +743,7 @@ body {
 }
 
 /* Transaction Input Panel */
-.add-transaction-panel-container {
+.transaction-panel-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -755,13 +755,17 @@ body {
   z-index: 15;
   pointer-events: none;
 }
-.add-transaction-panel {
+.transaction-panel {
   height: var(--panel-height);
   width: var(--panel-width);
   border-bottom-left-radius: unset;
   border-bottom-right-radius: unset;
   pointer-events: none;
   transform: translateY(-150%);
+}
+.transaction-panel.visible {
+  transform: translateY(0);
+  pointer-events: all;
 }
 .add-transaction-inputs {
   display: flex;
@@ -872,16 +876,6 @@ body {
   background-color: var(--primary-button-color);
 }
 
-@media (max-width: 767px) {
-  .add-transaction-panel.visible {
-    transform: translateY(0);
-    pointer-events: all;
-  }
-  .budget-input-panel-container.visible {
-    display: flex;
-  }
-}
-
 /* Budget Input Panel */
 .budget-input-panel-container {
   position: fixed;
@@ -905,6 +899,9 @@ body {
   align-items: stretch;
   gap: 0.4rem;
   padding: 1rem;
+}
+.budget-input-panel-container.visible {
+  display: flex;
 }
 .filter-container {
   display: flex;
@@ -1319,7 +1316,7 @@ body {
   .transaction-filters,
   .statistics-time-filter-container,
   .remaining-budget-overview-pie-chart,
-  .add-new-budget-button {
+  .opnen-budget-panel-button {
     display: none;
   }
   .statistics-horizontal-bar-chart {

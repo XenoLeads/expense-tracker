@@ -21,9 +21,9 @@ const statistics_button = [...document.getElementsByClassName("navigation-button
 const navigation_buttons = [...dashboard_button, ...transactions_button, ...budget_button, ...statistics_button];
 const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-button")[0];
 const navigation_sidebar = [...document.getElementsByClassName("navigation-sidebar")];
-const add_transaction_panel = document.getElementsByClassName("add-transaction-panel")[0];
-const mobile_add_transaction_navigation_button = document.getElementsByClassName("navigation-button-add mobile")[0];
-const mobile_add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
+const add_transaction_panel = document.getElementsByClassName("transaction-panel")[0];
+const open_transaction_panel_button = [...document.getElementsByClassName("navigation-button-add")];
+const add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
 const mobile_discard_transaction_button = document.getElementsByClassName("discard-transaction-button")[0];
 const income_option = document.getElementById("transaction-input-type-income");
 const expense_option = document.getElementById("transaction-input-type-expense");
@@ -70,16 +70,18 @@ function init() {
   });
   toggle_sidebar_button.addEventListener("click", () => navigation_sidebar.map(sidebar => sidebar.classList.toggle("visible")));
 
-  mobile_add_transaction_navigation_button.addEventListener("click", () => {
-    add_transaction_panel.classList.add("visible");
-    add_transaction_panel.dataset.actionMode = "add";
-    reset_add_transaction_inputs();
-    amount.select();
-  });
+  open_transaction_panel_button.map(button =>
+    button.addEventListener("click", () => {
+      add_transaction_panel.classList.add("visible");
+      add_transaction_panel.dataset.actionMode = "add";
+      reset_transaction_panel_inputs();
+      amount.focus();
+    })
+  );
   mobile_discard_transaction_button.addEventListener("click", () => {
     add_transaction_panel.classList.remove("visible");
   });
-  mobile_add_transaction_button.addEventListener("click", () => {
+  add_transaction_button.addEventListener("click", () => {
     const transaction_type = get_selected_input_type();
     const { amount, currency, description, method, category, time } = get_transaction_inputs();
     if (![transaction_type, currency, amount, method, category, time].some(input => input === "") && parseFloat(amount) !== 0) {
@@ -210,7 +212,7 @@ function get_transaction_inputs() {
   }
 }
 
-function reset_add_transaction_inputs() {
+function reset_transaction_panel_inputs() {
   set_transaction_panel_input_values();
   refresh_inputs();
 }
@@ -322,7 +324,7 @@ function set_edit_transaction_panel(transaction) {
 
 function set_transaction_panel_input_values(
   type_value = "expense",
-  amount_value = 0,
+  amount_value = "",
   currency_value = "usd",
   description_value = "",
   method_value = "cash",
@@ -333,7 +335,7 @@ function set_transaction_panel_input_values(
 ) {
   const heading_element = document.getElementsByClassName("add-transaction-heading")[0];
   heading_element.textContent = heading_text;
-  mobile_add_transaction_button.textContent = action_button_text;
+  add_transaction_button.textContent = action_button_text;
   if (type_value === "income") {
     income_option.checked = true;
     transaction_preview_container.classList.remove("expense");

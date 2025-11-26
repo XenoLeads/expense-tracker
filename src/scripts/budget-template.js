@@ -21,7 +21,7 @@ let budget_recurrences = null;
 
 function get_budget_template() {
   return `
-  <button class="button add-new-budget-button">Add New Budget</button>
+  <button class="button opnen-budget-panel-button">Add New Budget</button>
         <div class="card remaining-budget-overview-pie-chart">
           <div class="remaining-budget-overview">
             <div class="remaining-budget-overview-heading-separator">
@@ -58,8 +58,8 @@ function get_budget_template() {
 }
 
 function init_budget_template() {
-  const add_new_budget_button = document.getElementsByClassName("add-new-budget-button")[0];
-  add_new_budget_button.addEventListener("click", show_add_budget_panel);
+  const open_budget_panel_button = document.getElementsByClassName("opnen-budget-panel-button")[0];
+  open_budget_panel_button.addEventListener("click", show_budget_panel);
 
   desktop_quick_view_actions_sidebar.innerHTML = `
   <div class="desktop-budget-quick-view-actions">
@@ -123,7 +123,7 @@ function init_budget_template() {
   display_pie_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
 }
 
-function show_add_budget_panel() {
+function show_budget_panel() {
   reset_budget_inputs();
   const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
   const budget_panel_heading = document.getElementsByClassName("heading budget-input-panel-heading")[0];

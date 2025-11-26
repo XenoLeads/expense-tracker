@@ -259,10 +259,14 @@ function group_transactions(transactions, time_filter = "day") {
   );
 }
 
+function get_icon_url(icon_name, dark_icon = false, icon_path) {
+  return `${icon_path ? icon_path + "/" : ""}${dark_icon ? "dark" : "light"}/${icon_name}.svg`;
+}
+
 function set_icon_url(icon_element, dark_icon = false) {
   const icon_path = icon_element.dataset.path;
   const icon_name = icon_element.dataset.name;
-  const relative_icon_path = `${icon_path ? icon_path + "/" : ""}${dark_icon ? "dark" : "light"}/${icon_name}.svg`;
+  const relative_icon_path = get_icon_url(icon_name, dark_icon, icon_path);
   Icon.import(relative_icon_path).then(icon_url => {
     icon_element.src = icon_url;
   });
@@ -296,6 +300,7 @@ export default {
   format_currency,
   group_transactions,
   set_icon_url,
+  get_icon_url,
   get_css_property_value,
   get_rem,
   destructure_object_into_an_array,
