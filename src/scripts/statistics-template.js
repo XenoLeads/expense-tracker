@@ -220,7 +220,6 @@ function format_time_label(time, is_title = false) {
 }
 
 function display_bar_chart(transactions = Transaction.get()) {
-  const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
   const chart_canvas = document.getElementsByClassName("statistics-bar-chart")[0];
   const chart_ctx = chart_canvas.getContext("2d");
   const grouped_transactions = Utils.group_transactions(transactions, time_filter);

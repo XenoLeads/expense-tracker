@@ -5,7 +5,12 @@ import Tracker from "./tracker.js";
 import Chart from "./chart.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+
 let pie_chart = {
+  chart: null,
+};
+
+const line_chart = {
   chart: null,
 };
 
@@ -44,15 +49,6 @@ function get_dashboard_template() {
                   <canvas class="expense-pie-chart"></canvas>
                 </div>
               </div>
-              <div class="card budget-overview">
-                <h2 class="heading budget-overview-heading">Budget Overview</h2>
-                <div class="separator"></div>
-                <div class="budget-overviews-container">
-                  <p class="budget-overview">Food: $123</p>
-                  <p class="budget-overview">Travel: $123</p>
-                  <p class="budget-overview">Grocery: $123</p>
-                </div>
-              </div>
             </div>
             <div class="card top-incomes-top-expenses">
               <div class="top-incomes-container">
@@ -67,8 +63,8 @@ function get_dashboard_template() {
               </div>
             </div>
           </div>
-          <div class="card balance-line-chart-container">
-            <div class="balance-line-chart"></div>
+          <div class="card income-expense-line-chart-container">
+            <canvas class="income-expense-line-chart"></canvas>
           </div>
           <div class="card recent-transactions-container">
             <div class="recent-transactions-heading">
@@ -101,6 +97,7 @@ function init_dashboard_template(callback) {
   if (see_all_transactions_button && callback) see_all_transactions_button.addEventListener("click", callback);
 
   display_chart(Transaction.get());
+  display_line_chart();
   display_top_incomes_expenses();
 }
 
@@ -327,6 +324,116 @@ function display_top_incomes_expenses(transactions = Transaction.get()) {
     container.textContent = `${Utils.capitalize(category, " & ")}: ${Utils.format_currency(amount, "USD")}`;
     return container;
   }
+}
+
+function display_line_chart(transactions = Transaction.get()) {
+  const line_chart_canvas = document.getElementsByClassName("income-expense-line-chart")[0];
+  const line_chart_ctx = line_chart_canvas.getContext("2d");
+  const group_transactions = Utils.group_transactions(transactions, "this-year");
+  const sorted_transactions = group_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
+  const labels = [...sorted_transactions.map(transaction => transaction.x)];
+  const incomes = [...sorted_transactions.map(transaction => transaction.income)];
+  const expenses = [...sorted_transactions.map(transaction => transaction.expense)];
+
+  Chart.create(
+    line_chart_ctx,
+    "line",
+    line_chart,
+    [
+      {
+        label: " Income",
+        data: incomes,
+        backgroundColor: "rgba(46, 255, 46, 0.8)",
+        borderColor: "rgba(46, 255, 46, 1)",
+        borderWidth: 3,
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        pointHitRadius: 20,
+        tension: 0.2,
+      },
+      {
+        label: " Expense",
+        data: expenses,
+        backgroundColor: "rgba(255, 46, 46, 0.8)",
+        borderColor: "rgba(255, 46, 46, 1)",
+        borderWidth: 3,
+        pointRadius: 3,
+        pointHoverRadius: 5,
+        pointHitRadius: 20,
+        tension: 0.2,
+      },
+    ],
+    {
+      global_labels: labels,
+      layout_padding: {
+        top: 40,
+      },
+      tooltip_callbacks: {
+        title(context) {
+          const date = new Date(context[0].parsed.x);
+          const month = date.toLocaleDateString("default", { month: "short" });
+          const year = date.getFullYear();
+          return `${month} ${year}`;
+        },
+        label(context) {
+          const label = context.dataset.label;
+          const value = context.raw;
+          const formatted_value = Utils.format_currency(value);
+          return `${label}: ${formatted_value}`;
+        },
+      },
+      options_config: {
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: "time",
+            time: {
+              displayFormats: {
+                day: "MMM d",
+                month: "MMM yyyy",
+              },
+            },
+            unit: "day",
+            ticks: {
+              maxTicksLimit: 5,
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback(value) {
+                const num = Number(value);
+                return num < 0 ? "-$" + Math.abs(num).toLocaleString() : "$" + num.toLocaleString();
+              },
+            },
+          },
+        },
+      },
+    }
+  );
+}
+
+function update_line_chart(transactions = Transaction.get()) {
+  const line_chart_border_color = Utils.get_css_property_value(container, "bar-chart-border-color");
+  const sorted_transactions = Utils.sort_transactions(transactions, undefined, false);
+  let balance_over_time = 0;
+  const points = [];
+  for (let index = 0; index < sorted_transactions.length; index++) {
+    const transaction = sorted_transactions[index];
+    let amount = transaction.amount;
+    if (transaction.currency !== "usd") amount = Utils.convert_currency(transaction.amount, transaction.currency, "usd");
+    amount = Math.round(amount);
+    if (transaction.type === "income") balance_over_time += amount;
+    else balance_over_time -= amount;
+    points.push({ x: transaction.time, y: balance_over_time });
+  }
+
+  Chart.update(line_chart, [
+    {
+      data: points,
+      borderColor: line_chart_border_color,
+    },
+  ]);
 }
 
 export default {

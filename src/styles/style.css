@@ -1115,6 +1115,7 @@ body {
 .main-content {
   flex: 1;
   padding: 1rem;
+  overflow-x: hidden;
 }
 .desktop-navigation-sidebar {
   position: fixed;
@@ -1258,7 +1259,7 @@ body {
   font-weight: normal;
   text-align: center;
 }
-.budget-overviews-container {
+.budget-overview-container {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -1271,15 +1272,13 @@ body {
   gap: 0.2rem;
   font-size: 0.9rem;
 }
-.balance-line-chart-container {
+.income-expense-line-chart-container {
   display: none;
-}
-.balance-line-chart {
   height: 16rem;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 0.4rem;
 }
+
 @media (min-width: 1440px) {
   html {
     font-size: 24px;
@@ -1321,7 +1320,7 @@ body {
   .budget-overview {
     display: flex;
   }
-  .balance-line-chart-container {
+  .income-expense-line-chart-container {
     display: flex;
   }
   .transaction-filters,
