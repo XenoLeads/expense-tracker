@@ -97,6 +97,7 @@ body {
 .icon {
   aspect-ratio: 1/1;
   object-fit: contain;
+  pointer-events: none;
 }
 .button {
   border: none;
@@ -382,13 +383,23 @@ body {
 }
 
 .card-action-button {
-  font-size: 0.8rem;
+  height: 1.3rem;
+  font-size: 0.7rem;
   background-color: var(--selected-button-background-color);
-  padding: 0.2rem 1rem;
+  padding: 0 0.6rem;
   border-radius: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
 }
 .card-action-button-remove {
   background-color: rgba(255, 0, 0, 0.4);
+}
+.card-action-button .icon {
+  height: 100%;
+  aspect-ratio: 1/1;
+  padding: 0.25rem;
 }
 
 /* Tab - Transactions */

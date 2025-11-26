@@ -5,12 +5,45 @@ import Main from "./main.js";
 import Budget from "./budget.js";
 
 function get_card_action_buttons() {
-  return `
-              <div class="card-action-buttons-container">
-                <button class="button card-action-button card-action-button-edit" data-action="edit">Edit</button>
-                <button class="button card-action-button card-action-button-remove" data-action="remove">Remove</button>
-              </div>
-  `;
+  const container = document.createElement("div");
+  container.className = "card-action-buttons-container";
+
+  const edit_button = document.createElement("button");
+  edit_button.className = "button card-action-button card-action-button-edit";
+  edit_button.dataset.action = "edit";
+
+  const edit_button_icon = document.createElement("img");
+  edit_button_icon.className = "icon dark-light";
+  edit_button_icon.src = "#";
+  edit_button_icon.alt = "";
+
+  const edit_button_text = document.createElement("p");
+  edit_button_text.textContent = "Edit";
+
+  edit_button.appendChild(edit_button_icon);
+  edit_button.appendChild(edit_button_text);
+  Icon.import(Utils.get_icon_url("edit", Main.is_dark_theme)).then(icon_url => (edit_button_icon.src = icon_url));
+
+  const remove_button = document.createElement("button");
+  remove_button.className = "button card-action-button card-action-button-remove";
+  remove_button.dataset.action = "remove";
+
+  const remove_button_icon = document.createElement("img");
+  remove_button_icon.className = "icon dark-light";
+  remove_button_icon.src = "#";
+  remove_button_icon.alt = "";
+
+  const remove_button_text = document.createElement("p");
+  remove_button_text.textContent = "Remove";
+
+  remove_button.appendChild(remove_button_icon);
+  remove_button.appendChild(remove_button_text);
+  Icon.import(Utils.get_icon_url("clear", Main.is_dark_theme)).then(icon_url => (remove_button_icon.src = icon_url));
+
+  container.appendChild(edit_button);
+  container.appendChild(remove_button);
+
+  return container;
 }
 
 async function create_transaction_card(transaction, editable = false) {
@@ -42,11 +75,17 @@ async function create_transaction_card(transaction, editable = false) {
     transaction.currency
   )}${parseFloat(transaction.amount)}</p>
             </div>
-            ${editable ? `<div class="separator"></div>` + get_card_action_buttons() : ""}
       `;
 
   card.innerHTML = card_content;
-  if (editable) card.addEventListener("click", handle_action_buttons);
+
+  if (editable) {
+    const separator = document.createElement("div");
+    separator.className = "separator";
+    card.appendChild(separator);
+    card.appendChild(get_card_action_buttons());
+    card.addEventListener("click", handle_action_buttons);
+  }
 
   return card;
 }
@@ -122,11 +161,14 @@ async function create_budget_card(budget) {
               </div>
               <p class="budget-remaining-amount">${currency_symbol}${remaining_amount}</p>
             </div>
-            <div class="separator"></div>
-            ${get_card_action_buttons()}
   `;
 
   card.innerHTML = card_content;
+
+  const separator = document.createElement("div");
+  separator.className = "separator";
+  card.appendChild(separator);
+  card.appendChild(get_card_action_buttons());
   card.addEventListener("click", handle_action_buttons);
 
   return card;
