@@ -337,7 +337,7 @@ function update_bar_chart(transactions = Transaction.get()) {
   ]);
 }
 
-function display_horizontal_bar_chart(tracker = Tracker.recalculate()) {
+function display_horizontal_bar_chart(tracker = Tracker.recalculate(Utils.filter_transactions(Transaction.get(), { time: time_filter }))) {
   const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
   const chart_canvas = document.getElementsByClassName("statistics-horizontal-bar-chart")[0];
   const chart_ctx = chart_canvas.getContext("2d");
@@ -387,7 +387,7 @@ function display_horizontal_bar_chart(tracker = Tracker.recalculate()) {
   );
 }
 
-function update_horizontal_bar_chart(tracker = Tracker.recalculate()) {
+function update_horizontal_bar_chart(tracker = Tracker.recalculate(Utils.filter_transactions(Transaction.get(), { time: time_filter }))) {
   const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
   const values = [];
 

@@ -29,7 +29,7 @@ function Tracker(transactions) {
     get expense() {
       return tracker.expense;
     },
-    recalculate() {
+    recalculate(transactions = Transaction.get()) {
       refresh_transactions(tracker, transactions);
       return {
         balance: tracker.income - tracker.expense,
