@@ -158,6 +158,7 @@ function refresh() {
   display_transactions_overview_amounts(Tracker.recalculate());
   display_expense_overview(transactions);
   update_chart(transactions);
+  display_top_incomes_expenses();
 }
 
 function display_chart(transactions) {
