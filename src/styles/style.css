@@ -1049,17 +1049,23 @@ body {
 .navigation-button:not(.navigation-button-add).desktop > .icon {
   width: unset;
 }
-.navigation-button-text{
+.navigation-button-text {
   font-size: 0.8rem;
 }
-.statistics-line-pie-chart-container {
+.statistics-line-horizontal-bar-chart-container {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   gap: 1rem;
   width: 100%;
 }
-.statistics-pie-chart {
+.statistics-line-chart-container {
+  width: 100%;
+}
+.statistics-horizontal-bar-chart-container {
+  display: none;
+}
+.statistics-horizontal-bar-chart {
   display: none;
 }
 
@@ -1082,8 +1088,12 @@ body {
   .tablet-navigation-sidebar.visible {
     transform: translateX(0);
   }
-  .statistics-pie-chart {
+  .statistics-horizontal-bar-chart-container {
     display: block;
+    width: 50%;
+  }
+  .statistics-line-chart-container {
+    width: 50%;
   }
 }
 
@@ -1312,7 +1322,7 @@ body {
   .add-new-budget-button {
     display: none;
   }
-  .statistics-pie-chart {
+  .statistics-horizontal-bar-chart {
     display: flex;
   }
   .export-statistics-button {
