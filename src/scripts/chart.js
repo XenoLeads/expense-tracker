@@ -9,16 +9,17 @@ function display_chart(
   datasets,
   { legend = { display: false }, tooltip_callbacks = {}, global_labels = [], options_config = {}, plugins = {}, layout_padding = 10 } = {}
 ) {
-  const primary_text_color = Utils.get_css_property_value(document.getElementById("container"), "primary-text-color");
+  const primary_text_color = get_primary_text_color();
 
   Chart.defaults.color = primary_text_color;
   Chart.defaults.font.size = Utils.get_rem(0.8);
-
 
   if (chart_obj.chart) {
     chart_obj.chart.destroy();
     chart_obj.chart = null;
   }
+
+  set_label_color({ options_config, color: primary_text_color });
 
   chart_obj.chart = new Chart(context, {
     type,
@@ -51,19 +52,35 @@ function update_chart(chart_obj = null, updated_datasets, updated_global_labels 
     for (const property in dataset) chart_obj.chart.data.datasets[index][property] = dataset[property];
   });
 
-  if (options_config) {
-    const new_x_color = options_config?.scales?.x?.ticks?.color;
-    const new_y_color = options_config?.scales?.y?.ticks?.color;
-    const new_legend_color = options_config?.plugins?.legend?.labels?.color;
-    if (new_x_color) chart_obj.chart.options.scales.x.ticks.color = new_x_color;
-    if (new_y_color) chart_obj.chart.options.scales.y.ticks.color = new_y_color;
-    if (new_legend_color) chart_obj.chart.options.plugins.legend.labels.color = new_legend_color;
-  }
-
   if (updated_global_labels) chart_obj.chart.data.labels = updated_global_labels;
-  
+
   Chart.defaults.font.size = Utils.get_rem(0.8);
+  const primary_text_color = get_primary_text_color();
+  Chart.defaults.color = primary_text_color;
+  set_label_color({ chart: chart_obj.chart, color: primary_text_color });
+
   chart_obj.chart.update();
+}
+
+function get_primary_text_color() {
+  return Utils.get_css_property_value(document.getElementById("container"), "primary-text-color");
+}
+
+function set_label_color({ options_config = "", color = "#FFFFFF", chart = null }) {
+  if (chart) set_color(chart.options, color);
+  if (options_config) set_color(options_config, color);
+
+  function set_color(object, color) {
+    object.scales ??= {};
+    object.scales.x ??= {};
+    object.scales.y ??= {};
+
+    object.scales.x.ticks ??= {};
+    object.scales.y.ticks ??= {};
+
+    object.scales.x.ticks.color = color;
+    object.scales.y.ticks.color = color;
+  }
 }
 
 export default {

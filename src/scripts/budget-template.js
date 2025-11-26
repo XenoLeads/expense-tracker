@@ -231,6 +231,10 @@ function display_pie_chart(budgets) {
     {
       options_config: {
         maintainAspectRatio: false,
+        scales: {
+          x: { display: false },
+          y: { display: false },
+        },
       },
       tooltip_callbacks: {
         title(tooltip_items) {

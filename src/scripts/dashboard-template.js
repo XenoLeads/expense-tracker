@@ -209,6 +209,12 @@ function display_chart(transactions) {
           return ` ${type}: ${formatted_value}`;
         },
       },
+      options_config: {
+        scales: {
+          x: { display: false },
+          y: { display: false },
+        },
+      },
     }
   );
 }

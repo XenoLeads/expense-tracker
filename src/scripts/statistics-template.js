@@ -1,3 +1,4 @@
+import Tracker from "./tracker.js";
 import CSV from "./csv.js";
 import Utils from "./utils.js";
 import Chart from "./chart.js";
@@ -14,6 +15,10 @@ const bar_chart = {
   chart: null,
 };
 
+const horizontal_bar_chart = {
+  chart: null,
+};
+
 let time_filter = "all";
 
 function get_statistics_template() {
@@ -27,11 +32,13 @@ function get_statistics_template() {
             <button class="button statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
           </div>
         </div>
-        <div class="statistics-line-pie-chart-container">
-        <div class="statistics-chart-container statistics-line-chart-container">
-          <canvas class="card statistics-chart statistics-line-chart"></canvas>
-        </div>
-          <div class="card statistics-chart statistics-pie-chart"></div>
+        <div class="statistics-line-horizontal-bar-chart-container">
+          <div class="statistics-chart-container statistics-line-chart-container">
+            <canvas class="card statistics-chart statistics-line-chart"></canvas>
+          </div>
+          <div class="statistics-chart statistics-horizontal-bar-chart-container">
+            <canvas class="card statistics-chart statistics-horizontal-bar-chart"></canvas>
+          </div>
         </div>
         <div class="statistics-chart-container statistics-bar-chart-container">
           <canvas class="card statistics-chart statistics-bar-chart"></canvas>
@@ -78,6 +85,7 @@ function init_statistics_template() {
 
   display_line_chart();
   display_bar_chart();
+  display_horizontal_bar_chart();
 }
 
 function display_line_chart(transactions = Transaction.get()) {
@@ -162,7 +170,6 @@ function display_line_chart(transactions = Transaction.get()) {
 }
 
 function update_line_chart(transactions = Transaction.get()) {
-  const primary_text_color = Utils.get_css_property_value(container, "primary-text-color");
   const line_chart_border_color = Utils.get_css_property_value(container, "bar-chart-border-color");
   const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
   const sorted_transactions = Utils.sort_transactions(filtered_transactions, undefined, false);
@@ -178,24 +185,12 @@ function update_line_chart(transactions = Transaction.get()) {
     points.push({ x: transaction.time, y: balance_over_time });
   }
 
-  Chart.update(
-    line_chart,
-    [
-      {
-        data: points,
-        borderColor: line_chart_border_color,
-      },
-    ],
-    null,
+  Chart.update(line_chart, [
     {
-      options_config: {
-        scales: {
-          x: { ticks: { color: primary_text_color } },
-          y: { ticks: { color: primary_text_color } },
-        },
-      },
-    }
-  );
+      data: points,
+      borderColor: line_chart_border_color,
+    },
+  ]);
 }
 
 function format_time_label(time, is_title = false) {
@@ -299,7 +294,6 @@ function display_bar_chart(transactions = Transaction.get()) {
               maxTicksLimit: 5,
               callback: time => format_time_label(time),
             },
-            color: chart_border_color,
           },
           y: {
             stacked: false,
@@ -310,7 +304,6 @@ function display_bar_chart(transactions = Transaction.get()) {
                 return num < 0 ? "-$" + Math.abs(num).toLocaleString() : "$" + num.toLocaleString();
               },
             },
-            color: chart_border_color,
           },
         },
       },
@@ -319,7 +312,6 @@ function display_bar_chart(transactions = Transaction.get()) {
 }
 
 function update_bar_chart(transactions = Transaction.get()) {
-  const primary_text_color = Utils.get_css_property_value(container, "primary-text-color");
   const filtered_transactions = Utils.filter_transactions(transactions, { time: time_filter });
   const grouped_transactions = Utils.group_transactions(filtered_transactions, time_filter);
   const sorted_transactions = grouped_transactions.sort((a, b) => new Date(a.x) - new Date(b.x));
@@ -335,32 +327,84 @@ function update_bar_chart(transactions = Transaction.get()) {
     expense_points.push({ x: transaction.x, y: expense_over_time });
   }
 
-  Chart.update(
-    bar_chart,
+  Chart.update(bar_chart, [
+    {
+      data: income_points,
+    },
+    {
+      data: expense_points,
+    },
+  ]);
+}
+
+function display_horizontal_bar_chart(tracker = Tracker.recalculate()) {
+  const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
+  const chart_canvas = document.getElementsByClassName("statistics-horizontal-bar-chart")[0];
+  const chart_ctx = chart_canvas.getContext("2d");
+  const labels = [];
+  const values = [];
+
+  for (const property in tracker) {
+    labels.push(Utils.capitalize(property));
+    values.push(tracker[property]);
+  }
+
+  Chart.create(
+    chart_ctx,
+    "bar",
+    horizontal_bar_chart,
     [
       {
-        data: income_points,
-      },
-      {
-        data: expense_points,
+        label: "",
+        data: values,
+        backgroundColor: ["#E7E7E7", "rgba(46, 255, 46, 0.8)", "rgba(255, 46, 46, 0.8)"],
+        borderColor: chart_border_color,
+        borderWidth: 2,
       },
     ],
-    undefined,
     {
-      options_config: {
-        scales: {
-          x: { ticks: { color: primary_text_color } },
-          y: { ticks: { color: primary_text_color } },
+      tooltip_callbacks: {
+        label(context) {
+          return " " + Utils.format_currency(context.raw);
         },
-        plugins: { legend: { labels: { color: primary_text_color } } },
+      },
+      global_labels: labels,
+      options_config: {
+        maintainAspectRatio: false,
+        indexAxis: "y",
+        startAtZero: true,
+        scales: {
+          x: {
+            ticks: {
+              callback(context) {
+                return Utils.format_currency(context);
+              },
+            },
+          },
+        },
       },
     }
   );
 }
 
+function update_horizontal_bar_chart(tracker = Tracker.recalculate()) {
+  const chart_border_color = getComputedStyle(container).getPropertyValue("--chart-border-color");
+  const values = [];
+
+  for (const property in tracker) values.push(tracker[property]);
+
+  Chart.update(horizontal_bar_chart, [
+    {
+      data: values,
+      borderColor: chart_border_color,
+    },
+  ]);
+}
+
 function refresh() {
   update_line_chart();
   update_bar_chart();
+  update_horizontal_bar_chart();
 }
 
 export default {
