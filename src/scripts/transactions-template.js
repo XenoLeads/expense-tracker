@@ -72,7 +72,7 @@ function init_transactions_template() {
               <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
               <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="separator"></div>
-              <button class="button transaction-filter transaction-category-filter-income-expense selected" data-type="category" data-value="all">Income/Expense</button>
+              <div class="transaction-filters-category"></div>
             </div>
           </div>
   `;
@@ -101,7 +101,7 @@ function handle_transaction_filters(filter) {
 }
 
 function update_filter_ui(filter_type, filter_value) {
-  const category_filters_container = document.getElementsByClassName("transaction-filters-category")[0];
+  const category_filters_container = [...document.getElementsByClassName("transaction-filters-category")];
   const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
   const time_filters = transaction_filters.filter(transaction => transaction.dataset.type === "time");
   const type_filters = transaction_filters.filter(transaction => transaction.dataset.type === "type");
@@ -121,7 +121,7 @@ function update_filter_ui(filter_type, filter_value) {
   }
 
   if (filter_type === "type") {
-    category_filters_container.innerHTML = "";
+    category_filters_container.map(container => (container.innerHTML = ""));
     function create_category_button(category_name) {
       return `<button class="button transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
         category_name,
@@ -133,19 +133,21 @@ function update_filter_ui(filter_type, filter_value) {
     const only_show_selected_type_of_transactions = filter_value !== "all";
     if (only_show_selected_type_of_transactions) {
       Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
-      category_filters_container.insertAdjacentHTML("beforeend", create_category_button("all"));
+      category_filters_container.map(container => container.insertAdjacentHTML("beforeend", create_category_button("all")));
     }
-    category_filters_container.insertAdjacentHTML("beforeend", category_buttons);
+    category_filters_container.map(container => container.insertAdjacentHTML("beforeend", category_buttons));
 
     // Add event listener to newly created category filters
-    const all_category_filters = [...category_filters_container.children];
+    const all_category_filters = [];
+    category_filters_container.forEach(container => [...container.children].forEach(child => all_category_filters.push(child)));
     all_category_filters.map(filter => {
       filter.classList.remove("selected");
       filter.addEventListener("click", () => {
         handle_transaction_filters(filter);
       });
     });
-    if (only_show_selected_type_of_transactions) all_category_filters[0].classList.add("selected");
+    if (only_show_selected_type_of_transactions)
+      all_category_filters.filter(filter => filter.dataset.value === "all").map(filter => filter.classList.add("selected"));
   }
 }
 
