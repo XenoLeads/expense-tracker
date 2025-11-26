@@ -228,14 +228,12 @@ function refresh_inputs() {
   });
 }
 
-function get_current_iso_formatted_time() {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
+function get_iso_formatted_time(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
@@ -329,7 +327,7 @@ function set_transaction_panel_input_values(
   description_value = "",
   method_value = "cash",
   category_value = "default",
-  time_value = get_current_iso_formatted_time(),
+  time_value = null,
   heading_text = "New Transaction",
   action_button_text = "Add"
 ) {
@@ -352,7 +350,7 @@ function set_transaction_panel_input_values(
   description.value = description_value;
   method.value = method_value;
   category.value = category_value;
-  time.value = time_value;
+  time.value = get_iso_formatted_time(time_value ? new Date(time_value) : undefined);
 }
 
 function show_edit_budget_panel(budget) {
