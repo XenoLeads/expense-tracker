@@ -118,6 +118,8 @@ function display_line_chart(transactions = Transaction.get()) {
         borderColor: line_chart_border_color,
         borderWidth: 3,
         pointRadius: 3,
+        pointHoverRadius: 5,
+        pointHitRadius: 20,
         tension: 0.2,
       },
     ],
