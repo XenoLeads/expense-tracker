@@ -68,7 +68,12 @@ function init() {
       if (tab) render_tab(tab);
     });
   });
-  toggle_sidebar_button.addEventListener("click", () => navigation_sidebar.map(sidebar => sidebar.classList.toggle("visible")));
+  toggle_sidebar_button.addEventListener("click", () => {
+    navigation_sidebar.map(sidebar => {
+      const sidebar_type = sidebar.dataset.sidebar;
+      if (container.classList.contains(sidebar_type + "-ui")) sidebar.classList.toggle("visible");
+    });
+  });
 
   open_transaction_panel_button.map(button =>
     button.addEventListener("click", () => {
