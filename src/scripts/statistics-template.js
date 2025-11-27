@@ -79,7 +79,7 @@ function init_statistics_template() {
 
 function init_filters() {
   const filter_elemets = [...document.getElementsByClassName("statistics-time-filter")];
-  
+
   filter_elemets.forEach(filter => {
     const filter_value = filter.dataset.value;
     if (filter_value === time_filter) filter.classList.add("selected");
@@ -150,6 +150,7 @@ function display_line_chart(transactions = Transaction.get()) {
       },
       options_config: {
         maintainAspectRatio: false,
+        startAtZero: true,
         scales: {
           x: {
             type: "time",
@@ -166,7 +167,7 @@ function display_line_chart(transactions = Transaction.get()) {
             },
           },
           y: {
-            beginAtZero: false,
+            beginAtZero: true,
             ticks: {
               callback(value) {
                 const num = Number(value);
@@ -382,7 +383,6 @@ function display_horizontal_bar_chart(tracker = Tracker.recalculate(Utils.filter
       options_config: {
         maintainAspectRatio: false,
         indexAxis: "y",
-        startAtZero: true,
         scales: {
           x: {
             ticks: {
@@ -391,6 +391,7 @@ function display_horizontal_bar_chart(tracker = Tracker.recalculate(Utils.filter
               },
             },
           },
+          y: { beginAtZero: true},
         },
       },
     }
