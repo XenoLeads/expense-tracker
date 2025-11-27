@@ -960,6 +960,26 @@ body {
   width: unset;
 }
 
+.navigation-sidebar {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 18%;
+  height: var(--dynamic-content-height, --content-height);
+  z-index: 10;
+  border-radius: unset;
+  overflow-x: hidden;
+  max-width: 0;
+  gap: 0.8rem;
+  padding: unset;
+}
+.navigation-sidebar {
+  transform: translateX(-101%);
+  left: 0;
+}
+
 /* Tablet */
 .toggle-sidebar-button {
   display: none;
@@ -976,13 +996,6 @@ body {
   justify-content: flex-start;
   align-items: center;
   gap: 0.4rem;
-}
-.navigation-button-add.tablet {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  transform: translate(-45%, -45%);
 }
 .balance-income-expense-expense-overview-top-icomes-top-expenses {
   display: flex;
@@ -1034,23 +1047,6 @@ body {
   display: none;
 }
 /* Tablet Navigation Sidebar */
-.tablet-navigation-sidebar {
-  position: fixed;
-  top: var(--dynamic-header-height, --header-height);
-  left: 0;
-  z-index: 10;
-  height: 100%;
-  width: 28%;
-  border-radius: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 0.6rem;
-  transform: translateX(-101%);
-  overflow-x: hidden;
-  box-shadow: 0.4rem 0 0.5rem -0.25rem rgba(0, 0, 0, 0.2);
-}
 .navigation-button:not(.navigation-button-add).tablet,
 .navigation-button:not(.navigation-button-add).desktop {
   display: flex;
@@ -1113,6 +1109,13 @@ body {
   .main-content {
     margin-bottom: unset;
   }
+  .navigation-sidebar.tablet-visible {
+    display: flex;
+    max-width: none;
+    padding: 1rem;
+    transform: translateX(0);
+    width: 30%;
+  }
 }
 
 /* Desktop */
@@ -1122,29 +1125,10 @@ body {
   padding: unset;
   gap: unset;
 }
-.desktop-navigation-sidebar {
-  position: fixed;
-  display: none;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  width: 18%;
-  height: var(--dynamic-content-height, --content-height);
-  z-index: 10;
-  border-radius: unset;
-  overflow-x: hidden;
-  max-width: 0;
-  gap: 0.8rem;
-  padding: unset;
-}
-.desktop-navigation-sidebar {
-  transform: translateX(-101%);
-  left: 0;
-}
 .navigation-button:not(.navigation-button-add).desktop {
   height: 2.2rem;
 }
-.desktop-add-transaction-button,
+.show-add-transaction-panel-button.desktop,
 .desktop-add-budget-button,
 .desktop-export-statistics-button {
   text-align: center;
@@ -1307,10 +1291,10 @@ body {
   .footer {
     display: none;
   }
-  .desktop-navigation-sidebar {
+  .navigation-sidebar {
     display: flex;
   }
-  .desktop-navigation-sidebar.visible {
+  .navigation-sidebar.desktop-visible {
     max-width: none;
     padding: 1rem;
     transform: translateX(0);
@@ -1322,10 +1306,10 @@ body {
     padding: 1rem 0.5rem;
     margin-bottom: unset;
   }
-  .desktop-navigation-sidebar.visible ~ .main-content {
+  .navigation-sidebar.desktop-visible ~ .main-content {
     margin-left: 18.5%;
   }
-  .desktop-navigation-sidebar ~ .main-content {
+  .navigation-sidebar ~ .main-content {
     margin-right: 18.5%;
   }
   .desktop-quick-view-actions-sidebar > .top-incomes-top-expenses {

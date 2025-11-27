@@ -20,7 +20,7 @@ const budget_button = [...document.getElementsByClassName("navigation-button-bud
 const statistics_button = [...document.getElementsByClassName("navigation-button-statistics")];
 const navigation_buttons = [...dashboard_button, ...transactions_button, ...budget_button, ...statistics_button];
 const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-button")[0];
-const navigation_sidebar = [...document.getElementsByClassName("navigation-sidebar")];
+const navigation_sidebar = document.getElementsByClassName("navigation-sidebar")[0];
 const add_transaction_panel = document.getElementsByClassName("transaction-panel")[0];
 const open_transaction_panel_button = [...document.getElementsByClassName("navigation-button-add")];
 const add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
@@ -56,7 +56,7 @@ const CATEGORIES = {
 };
 
 function init() {
-  render_tab(Budget_Template);
+  render_tab(Dashboard_Template);
 
   set_current_ui_class(window.innerWidth);
   navigation_buttons.map(button => {
@@ -69,10 +69,8 @@ function init() {
     });
   });
   toggle_sidebar_button.addEventListener("click", () => {
-    navigation_sidebar.map(sidebar => {
-      const sidebar_type = sidebar.dataset.sidebar;
-      if (container.classList.contains(sidebar_type + "-ui")) sidebar.classList.toggle("visible");
-    });
+    if (container.classList.contains("desktop-ui")) navigation_sidebar.classList.toggle("desktop-visible");
+    else if (container.classList.contains("tablet-ui")) navigation_sidebar.classList.toggle("tablet-visible");
   });
 
   open_transaction_panel_button.map(button =>
