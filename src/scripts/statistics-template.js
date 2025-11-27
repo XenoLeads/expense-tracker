@@ -49,7 +49,7 @@ function get_statistics_template() {
 function init_statistics_template() {
   desktop_quick_view_actions_sidebar.innerHTML = `
           <div class="deskto-statistics-quick-view-actions-container">
-            <button class="button desktop-export-statistics-button">Export</button>
+            <button class="button export-statistics-button desktop">Export</button>
             <div class="card statistics-time-filter-container">
               <h2 class="statistics-time-filter-heading">Time</h2>
               <div class="separator"></div>
@@ -65,11 +65,13 @@ function init_statistics_template() {
 
   init_filters();
 
-  const export_statistics_button = document.getElementsByClassName("export-statistics-button")[0];
-  export_statistics_button.addEventListener("click", () => {
-    const transactions = Utils.filter_transactions(Transaction.get(), { time: time_filter });
-    if (transactions.length < 1) console.error(new Error("No Transactions Available."));
-    else CSV.export(transactions);
+  const export_statistics_button = [...document.getElementsByClassName("export-statistics-button")];
+  export_statistics_button.forEach(button => {
+    button.addEventListener("click", () => {
+      const transactions = Utils.filter_transactions(Transaction.get(), { time: time_filter });
+      if (transactions.length < 1) console.error(new Error("No Transactions Available."));
+      else CSV.export(transactions);
+    });
   });
 
   display_line_chart();
@@ -391,7 +393,7 @@ function display_horizontal_bar_chart(tracker = Tracker.recalculate(Utils.filter
               },
             },
           },
-          y: { beginAtZero: true},
+          y: { beginAtZero: true },
         },
       },
     }

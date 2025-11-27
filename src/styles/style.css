@@ -1126,7 +1126,7 @@ body {
 }
 .show-add-transaction-panel-button.desktop,
 .desktop-add-budget-button,
-.desktop-export-statistics-button {
+.export-statistics-button.desktop {
   text-align: center;
   width: 100%;
   background-color: rgba(184, 219, 217, 0.3);
@@ -1334,7 +1334,7 @@ body {
   .statistics-horizontal-bar-chart {
     display: flex;
   }
-  .export-statistics-button {
+  .export-statistics-button:not(.desktop) {
     display: none;
   }
   .budget-pie-chart-container {
