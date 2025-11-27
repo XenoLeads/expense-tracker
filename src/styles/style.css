@@ -401,6 +401,9 @@ body {
   align-items: center;
   gap: 0.4rem;
 }
+.card-action-button-text {
+  pointer-events: none;
+}
 .card-action-button-remove {
   background-color: rgba(255, 0, 0, 0.4);
 }

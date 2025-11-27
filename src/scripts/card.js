@@ -19,6 +19,7 @@ function get_card_action_buttons() {
 
   const edit_button_text = document.createElement("p");
   edit_button_text.textContent = "Edit";
+  edit_button_text.className = "card-action-button-text";
 
   edit_button.appendChild(edit_button_icon);
   edit_button.appendChild(edit_button_text);
@@ -35,6 +36,7 @@ function get_card_action_buttons() {
 
   const remove_button_text = document.createElement("p");
   remove_button_text.textContent = "Remove";
+  remove_button_text.className = "card-action-button-text";
 
   remove_button.appendChild(remove_button_icon);
   remove_button.appendChild(remove_button_text);
