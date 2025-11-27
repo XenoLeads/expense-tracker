@@ -57,7 +57,7 @@ function init_transactions_template() {
                 <h2 class="desktop-transaction-filters-time-heading">Time</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-time-filter-all selected" data-type="time" data-value="all">All Time</button>
+              <button class="button transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
               <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
               <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
               <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
@@ -68,7 +68,7 @@ function init_transactions_template() {
                 <h2 class="desktop-transaction-filters-type-heading">Category</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-category-filter-all selected" data-type="type" data-value="all">All</button>
+              <button class="button transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
               <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
               <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="separator"></div>
