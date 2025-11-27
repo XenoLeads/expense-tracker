@@ -1125,7 +1125,7 @@ body {
   height: 2.2rem;
 }
 .show-add-transaction-panel-button.desktop,
-.desktop-add-budget-button,
+.open-budget-panel-button.desktop,
 .export-statistics-button.desktop {
   text-align: center;
   width: 100%;
@@ -1328,7 +1328,7 @@ body {
   .transaction-filters,
   .statistics-time-filter-container,
   .remaining-budget-overview-pie-chart,
-  .open-budget-panel-button {
+  .open-budget-panel-button:not(.desktop) {
     display: none;
   }
   .statistics-horizontal-bar-chart {

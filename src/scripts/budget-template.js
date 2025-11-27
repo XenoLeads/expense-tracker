@@ -56,12 +56,9 @@ function get_budget_template() {
 }
 
 function init_budget_template() {
-  const open_budget_panel_button = document.getElementsByClassName("open-budget-panel-button")[0];
-  open_budget_panel_button.addEventListener("click", show_budget_panel);
-
   desktop_quick_view_actions_sidebar.innerHTML = `
   <div class="desktop-budget-quick-view-actions">
-            <button class="button desktop-add-budget-button">Add New Budget</button>
+            <button class="button open-budget-panel-button desktop">Add New Budget</button>
             <div class="desktop-most-used-budget-overview-container">
               <div class="card desktop-most-used-budget-overview-chart">
                 <div class="desktop-most-used-budget-overview">
@@ -76,6 +73,9 @@ function init_budget_template() {
             </div>
           </div>
   `;
+
+  const open_budget_panel_button = [...document.getElementsByClassName("open-budget-panel-button")];
+  open_budget_panel_button.forEach(button => button.addEventListener("click", show_budget_panel));
 
   const budget_filters = [...document.getElementsByClassName("budget-filter")];
   init_filters(budget_filters, Filters);
