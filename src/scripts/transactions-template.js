@@ -21,7 +21,7 @@ function get_transactions_template() {
           </div>
           <div class="card transaction-filters">
             <div class="transaction-filters-time">
-              <button class="button transaction-filter transaction-time-filter-all selected" data-type="time" data-value="all">All Time</button>
+              <button class="button transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
               <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
               <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
               <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">
@@ -31,7 +31,7 @@ function get_transactions_template() {
             </div>
             <div class="separator"></div>
             <div class="transaction-filters-type">
-              <button class="button transaction-filter transaction-category-filter-all selected" data-type="type" data-value="all">All</button>
+              <button class="button transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
               <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
               <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="vertical-separator"></div>
@@ -77,6 +77,8 @@ function init_transactions_template() {
           </div>
   `;
 
+  const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
+  init_filters(transaction_filters, Filters);
   const clear_search_button = document.getElementsByClassName("clear-search-icon")[0];
   if (clear_search_button) {
     clear_search_button.addEventListener("click", () => {
@@ -87,6 +89,15 @@ function init_transactions_template() {
       }
     });
   }
+}
+
+function init_filters(filter_elemets, filters) {
+  if (filters.type !== "all") update_filter_ui("type", filters.type);
+  filter_elemets.forEach(filter => {
+    const filter_type = filter.dataset.type;
+    const filter_value = filter.dataset.value;
+    if (filter_type in filters && filters[filter_type] === filter_value) filter.classList.add("selected");
+  });
 }
 
 function handle_transaction_filters(filter) {
