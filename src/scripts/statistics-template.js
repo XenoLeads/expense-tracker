@@ -26,7 +26,7 @@ function get_statistics_template() {
         <button class="button export-statistics-button">Export</button>
         <div class="card statistics-time-filter-container">
           <div class="statistics-time-filters">
-            <button class="button statistics-time-filter statistics-time-filter-all-time selected" data-type="time" data-value="all">All Time</button>
+            <button class="button statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
             <button class="button statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
             <button class="button statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
             <button class="button statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
@@ -54,7 +54,7 @@ function init_statistics_template() {
               <h2 class="statistics-time-filter-heading">Time</h2>
               <div class="separator"></div>
               <div class="statistics-time-filters">
-                <button class="button statistics-time-filter statistics-time-filter-all-time selected" data-type="time" data-value="all">All Time</button>
+                <button class="button statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
                 <button class="button statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
                 <button class="button statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
                 <button class="button statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
@@ -63,17 +63,7 @@ function init_statistics_template() {
           </div>
   `;
 
-  const statistics_time_filter = [...document.getElementsByClassName("statistics-time-filter")];
-  statistics_time_filter.map(filter => {
-    filter.addEventListener("click", () => {
-      if (filter.classList.contains("selected")) return;
-      statistics_time_filter.map(filter => filter.classList.remove("selected"));
-      filter.classList.add("selected");
-      const filter_value = filter.dataset.value;
-      time_filter = filter_value;
-      refresh();
-    });
-  });
+  init_filters();
 
   const export_statistics_button = document.getElementsByClassName("export-statistics-button")[0];
   export_statistics_button.addEventListener("click", () => {
@@ -85,6 +75,26 @@ function init_statistics_template() {
   display_line_chart();
   display_bar_chart();
   display_horizontal_bar_chart();
+}
+
+function init_filters() {
+  const filter_elemets = [...document.getElementsByClassName("statistics-time-filter")];
+  
+  filter_elemets.forEach(filter => {
+    const filter_value = filter.dataset.value;
+    if (filter_value === time_filter) filter.classList.add("selected");
+  });
+
+  filter_elemets.forEach(filter => {
+    filter.addEventListener("click", () => {
+      if (filter.classList.contains("selected")) return;
+      filter_elemets.forEach(filter => filter.classList.remove("selected"));
+      filter.classList.add("selected");
+      const filter_value = filter.dataset.value;
+      time_filter = filter_value;
+      refresh();
+    });
+  });
 }
 
 function display_line_chart(transactions = Transaction.get()) {
