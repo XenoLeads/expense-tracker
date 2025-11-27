@@ -504,7 +504,7 @@ body {
 }
 
 /* Tab - Budget */
-.opnen-budget-panel-button {
+.open-budget-panel-button {
   background-color: var(--button-background-color);
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
@@ -1328,7 +1328,7 @@ body {
   .transaction-filters,
   .statistics-time-filter-container,
   .remaining-budget-overview-pie-chart,
-  .opnen-budget-panel-button {
+  .open-budget-panel-button {
     display: none;
   }
   .statistics-horizontal-bar-chart {
