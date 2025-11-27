@@ -1099,13 +1099,6 @@ body {
   .tablet-navigation-sidebar.visible {
     transform: translateX(0);
   }
-  .statistics-horizontal-bar-chart-container {
-    display: block;
-    width: 50%;
-  }
-  .statistics-line-chart-container {
-    width: 50%;
-  }
   .main-content {
     margin-bottom: unset;
   }
@@ -1345,6 +1338,13 @@ body {
     height: unset;
     width: 100%;
     aspect-ratio: 1/1;
+  }
+  .statistics-horizontal-bar-chart-container {
+    display: block;
+    width: 50%;
+  }
+  .statistics-line-chart-container {
+    width: 50%;
   }
 }
 
