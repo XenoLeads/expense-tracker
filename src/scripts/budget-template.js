@@ -7,9 +7,7 @@ import Utils from "./utils.js";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
 
-const pie_chart = {
-  chart: null,
-};
+const doughnut_charts = [];
 
 const Filters = {
   sort: "most-used",
@@ -71,22 +69,13 @@ function init_budget_template() {
                   <div class="separator"></div>
                   <div class="most-used-budgets"></div>
                 </div>
-                <div class="desktop-most-used-budget-chart budget-pie-chart"></div>
+                <div class="budget-pie-chart-container">
+                  <canvas class="desktop-most-used-budget-chart budget-pie-chart"></canvas>
+                </div>
               </div>
             </div>
           </div>
   `;
-
-  //                   <div class="remaining-budget">
-  //                     <img src="${"#"}" alt="" class="icon remaining-budget-icon" />
-  //                     <div class="remaining-budget-type-amount-progress-bar">
-  //                       <div class="remaining-budget-type-amount">
-  //                         <p class="remaining-budget-type">Grocery</p>
-  //                         <p class="remaining-budget-amount">$123</p>
-  //                       </div>
-  //                       <progress value="30" max="100" style="accent-color: greenyellow" class="remaining-budget-progress-bar">30%</progress>
-  //                     </div>
-  //                   </div>
 
   const budget_filters = [...document.getElementsByClassName("budget-filter")];
   budget_filters.forEach(budget_filter => {
@@ -102,7 +91,7 @@ function init_budget_template() {
     });
   });
 
-  display_pie_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
+  display_doughnut_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
 }
 
 function show_budget_panel() {
@@ -182,64 +171,69 @@ async function refresh() {
   for (const budget of sorted_budgets) all_budgets_container.appendChild(await Card.budget(budget));
   for (const budget of sorted_budgets.slice(0, 3))
     most_used_budgets.map(most_used_budget => Card.remaining_budget(budget).then(card => most_used_budget.appendChild(card)));
-  update_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
+
+  update_charts(Utils.set_used_budget(Budget.get(), Transaction.get()));
 }
 
-function display_pie_chart(budgets) {
+function display_doughnut_chart(budgets) {
   const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
-  const budget_pie_chart = document.getElementsByClassName("budget-pie-chart")[0];
-  const ctx = budget_pie_chart.getContext("2d");
+  const budget_doughnut_chart = [...document.getElementsByClassName("budget-pie-chart")];
+  const contexts = budget_doughnut_chart.map(chart => chart.getContext("2d"));
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budgets = format_budgets_for_charts(filtered_budgets);
   const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
   budget_amounts = sorted_budgets.map(budget => budget.amount);
   budget_recurrences = sorted_budgets.map(budget => budget.recurrence);
 
-  Chart.create(
-    ctx,
-    "doughnut",
-    pie_chart,
-    // Datasets
-    [
-      {
-        data: sorted_budgets.map(budget => budget.used),
-        categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
-        backgroundColor: sorted_budgets.map(budget => budget.color),
-        borderColor: chart_border_color,
-        borderWidth: 2,
-        hoverOffset: 10,
-      },
-    ],
-    // Tooltip Callbacks
-    {
-      options_config: {
-        maintainAspectRatio: false,
-        scales: {
-          x: { display: false },
-          y: { display: false },
-        },
-      },
-      tooltip_callbacks: {
-        title(tooltip_items) {
-          const item = tooltip_items[0];
-          const dataset = item.dataset;
-          const index = item.dataIndex;
+  contexts.forEach((context, index) => {
+    if (doughnut_charts[index] === undefined) doughnut_charts[index] = { chart: null };
 
-          return dataset.categoryList[index];
+    Chart.create(
+      context,
+      "doughnut",
+      doughnut_charts[index],
+      // Datasets
+      [
+        {
+          data: sorted_budgets.map(budget => budget.used),
+          categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
+          backgroundColor: sorted_budgets.map(budget => budget.color),
+          borderColor: chart_border_color,
+          borderWidth: 2,
+          hoverOffset: 10,
         },
-        label(context) {
-          const value = context.raw;
-          const formatted_value = Utils.format_currency(value);
-          const budget_amount = Utils.format_currency(budget_amounts[context.dataIndex]);
-          const budget_recurrence = Utils.capitalize(budget_recurrences[context.dataIndex].slice(5)) + "ly";
-          return [` ${budget_recurrence}`, `${formatted_value} / ${budget_amount}`];
+      ],
+      // Tooltip Callbacks
+      {
+        options_config: {
+          maintainAspectRatio: false,
+          scales: {
+            x: { display: false },
+            y: { display: false },
+          },
         },
-      },
-    }
-  );
+        tooltip_callbacks: {
+          title(tooltip_items) {
+            const item = tooltip_items[0];
+            const dataset = item.dataset;
+            const index = item.dataIndex;
+
+            return dataset.categoryList[index];
+          },
+          label(context) {
+            const value = context.raw;
+            const formatted_value = Utils.format_currency(value);
+            const budget_amount = Utils.format_currency(budget_amounts[context.dataIndex]);
+            const budget_recurrence = Utils.capitalize(budget_recurrences[context.dataIndex].slice(5)) + "ly";
+            return [` ${budget_recurrence}`, `${formatted_value} / ${budget_amount}`];
+          },
+        },
+      }
+    );
+  });
 }
 
-function update_chart(budgets) {
+function update_charts(budgets) {
   const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budgets = format_budgets_for_charts(filtered_budgets);
@@ -247,18 +241,15 @@ function update_chart(budgets) {
   budget_amounts = sorted_budgets.map(budget => budget.amount);
   budget_recurrences = sorted_budgets.map(budget => budget.recurrence);
 
-  Chart.update(
-    {
-      chart: pie_chart.chart,
-    },
-    [
+  doughnut_charts.forEach(doughnut_chart_obj =>
+    Chart.update(doughnut_chart_obj, [
       {
         data: sorted_budgets.map(budget => budget.used),
         categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
         backgroundColor: sorted_budgets.map(budget => budget.color),
         borderColor: chart_border_color,
       },
-    ]
+    ])
   );
 }
 

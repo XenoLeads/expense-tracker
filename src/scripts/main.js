@@ -56,7 +56,7 @@ const CATEGORIES = {
 };
 
 function init() {
-  render_tab(Dashboard_Template);
+  render_tab(Budget_Template);
 
   set_current_ui_class(window.innerWidth);
   navigation_buttons.map(button => {
