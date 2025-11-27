@@ -39,12 +39,12 @@ function get_budget_template() {
           </div>
           <div class="all-budgets-filters-container">
               <div class="all-budgets-filters all-budgets-sort-filters">
-              <button class="button budget-filter all-budget-filter-button-most-used selected" data-type="sort" data-value="most-used">Most Used</button>
+              <button class="button budget-filter all-budget-filter-button-most-used" data-type="sort" data-value="most-used">Most Used</button>
               <button class="button budget-filter all-budget-filter-button-least-used" data-type="sort" data-value="least-used">Least Used</button>
               </div>
             <div class="vertical-separator"></div>
               <div class="all-budgets-filters all-budgets-time-filters">
-                <button class="button budget-filter all-budget-filter-button-weekly selected" data-type="time" data-value="all">All Time</button>
+                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="all">All Time</button>
                 <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="this-week">Weekly</button>
                 <button class="button budget-filter all-budget-filter-button-monthly" data-type="time" data-value="this-month">Monthly</button>
                 <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="this-year">Yearly</button>
@@ -78,20 +78,30 @@ function init_budget_template() {
   `;
 
   const budget_filters = [...document.getElementsByClassName("budget-filter")];
-  budget_filters.forEach(budget_filter => {
-    budget_filter.addEventListener("click", () => {
-      if (budget_filter.classList.contains("selected")) return;
-      highlight_selected_filter(budget_filter);
-      const budget_type = budget_filter.dataset.type;
-      const budget_value = budget_filter.dataset.value;
+  init_filters(budget_filters, Filters);
+
+  display_doughnut_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
+}
+
+function init_filters(filter_elemets, filters) {
+  filter_elemets.forEach(filter => {
+    const filter_type = filter.dataset.type;
+    const filter_value = filter.dataset.value;
+    if (filter_type in filters && filters[filter_type] === filter_value) filter.classList.add("selected");
+  });
+
+  filter_elemets.forEach(filter => {
+    filter.addEventListener("click", () => {
+      if (filter.classList.contains("selected")) return;
+      highlight_selected_filter(filter);
+      const budget_type = filter.dataset.type;
+      const budget_value = filter.dataset.value;
       if (budget_type in Filters && Filters[budget_type] !== budget_value) Filters[budget_type] = budget_value;
       if (budget_type === "sort")
         document.getElementsByClassName("remaining-budget-overview-heading")[0].textContent = Utils.capitalize(budget_value, " ");
       refresh();
     });
   });
-
-  display_doughnut_chart(Utils.set_used_budget(Budget.get(), Transaction.get()));
 }
 
 function show_budget_panel() {
