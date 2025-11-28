@@ -77,8 +77,7 @@ function init_transactions_template() {
           </div>
   `;
 
-  const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
-  init_filters(transaction_filters, Filters);
+  init_filters(Filters);
   const clear_search_button = document.getElementsByClassName("clear-search-button")[0];
   if (clear_search_button) {
     clear_search_button.addEventListener("click", () => {
@@ -91,8 +90,9 @@ function init_transactions_template() {
   }
 }
 
-function init_filters(filter_elemets, filters) {
+function init_filters(filters) {
   if (filters.type !== "all") update_filter_ui("type", filters.type);
+  const filter_elemets = [...document.getElementsByClassName("transaction-filter")];
   filter_elemets.forEach(filter => {
     const filter_type = filter.dataset.type;
     const filter_value = filter.dataset.value;
@@ -158,7 +158,7 @@ function update_filter_ui(filter_type, filter_value) {
       });
     });
     if (only_show_selected_type_of_transactions)
-      all_category_filters.filter(filter => filter.dataset.value === "all").map(filter => filter.classList.add("selected"));
+      all_category_filters.filter(filter => filter.dataset.value === filter_value).map(filter => filter.classList.add("selected"));
   }
 }
 
