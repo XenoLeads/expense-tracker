@@ -49,11 +49,12 @@ function get_card_action_buttons() {
 }
 
 async function create_transaction_card(transaction, editable = false) {
-  const icon_url = await Icon.get(transaction.type, transaction.category);
+  const { type, category, amount, currency, description, time, method, id } = transaction;
+  const icon_url = await Icon.get(type, category);
   const card = document.createElement("div");
-  card.classList.add("transaction-card", transaction.type);
-  card.dataset.id = transaction.id;
-  card.title = transaction.description;
+  card.classList.add("transaction-card", type);
+  card.dataset.id = id;
+  card.title = description;
   card.dataset.card = "transaction";
   const card_content = `
             <div class="transaction-card-content">
@@ -62,20 +63,16 @@ async function create_transaction_card(transaction, editable = false) {
                   <img src="${icon_url}" alt="" />
                 </div>
                 <div class="transaction-category-method-time-container">
-                  <p class="transaction-category">${
-                    transaction.category === "default" ? Utils.capitalize(transaction.type) : Utils.capitalize(transaction.category, " & ")
-                  }</p>
-                  <p class="transaction-description">${transaction.description}</p>
+                  <p class="transaction-category">${category === "default" ? Utils.capitalize(type) : Utils.capitalize(category, " & ")}</p>
+                  <p class="transaction-description">${description}</p>
                   <div class="transaction-method-time-container">
-                    <p class="transaction-method">${Utils.capitalize(transaction.method)}</p>
+                    <p class="transaction-method">${Utils.capitalize(method)}</p>
                     <p>-</p>
-                    <p class="transaction-time">${Utils.format_transaction_time(transaction.time)}</p>
+                    <p class="transaction-time">${Utils.format_transaction_time(time)}</p>
                   </div>
                 </div>
               </div>
-              <p class="transaction-amount">${transaction.type === "income" ? "+" : "-"}${Utils.get_currency_symbol(
-    transaction.currency
-  )}${parseFloat(transaction.amount)}</p>
+              <p class="transaction-amount">${type === "income" ? "+" : "-"}${format_amount(amount, currency)}</p>
             </div>
       `;
 
