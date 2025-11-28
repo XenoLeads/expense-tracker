@@ -27,13 +27,13 @@ const add_transaction_button = document.getElementsByClassName("add-transaction-
 const mobile_discard_transaction_button = document.getElementsByClassName("discard-transaction-button")[0];
 const income_option = document.getElementById("transaction-input-type-income");
 const expense_option = document.getElementById("transaction-input-type-expense");
-const amount = document.getElementById("add-transaction-input-amount");
+const transaction_input_amount = document.getElementById("add-transaction-input-amount");
 const currency = document.getElementById("add-transaction-input-currency");
 const description = document.getElementById("add-transaction-input-description");
 const method = document.getElementById("add-transaction-input-method");
 const category = document.getElementById("add-transaction-input-category");
 const time = document.getElementById("add-transaction-input-time");
-const transaction_inputs = [amount, currency, description, method, category, time];
+const transaction_inputs = [transaction_input_amount, currency, description, method, category, time];
 const transaction_preview = [...document.getElementsByClassName("transaction-preview")];
 const transaction_preview_container = document.querySelector(".add-transaction-input-preview > .transaction-card");
 const transaction_icon_preview = document.getElementsByClassName("transaction-icon-preview")[0];
@@ -78,7 +78,7 @@ function init() {
       add_transaction_panel.classList.add("visible");
       add_transaction_panel.dataset.actionMode = "add";
       reset_transaction_panel_inputs();
-      amount.focus();
+      transaction_input_amount.focus();
     })
   );
   mobile_discard_transaction_button.addEventListener("click", () => {
@@ -87,6 +87,10 @@ function init() {
   add_transaction_button.addEventListener("click", () => {
     const transaction_type = get_selected_input_type();
     const { amount, currency, description, method, category, time } = get_transaction_inputs();
+    if (amount === "") {
+      show_custom_input_message(transaction_input_amount, "Amount cannot be empty!");
+      return;
+    }
     if (![transaction_type, currency, amount, method, category, time].some(input => input === "") && parseFloat(amount) !== 0) {
       const action_mode = add_transaction_panel.dataset.actionMode;
       const transaction_id = add_transaction_panel.dataset.transactionId;
@@ -225,7 +229,7 @@ function refresh_current_tab() {
 
 function get_transaction_inputs() {
   const [amount_value, currency_value, description_value, method_value, category_value, time_value] = [
-    get_value(amount),
+    get_value(transaction_input_amount),
     get_value(currency),
     get_value(description),
     get_value(method),
@@ -318,7 +322,7 @@ function refresh_preview(input, preview_input) {
   function refresh_amount() {
     const amount_preview = transaction_preview.find(preview => preview.classList.contains("transaction-amount", "transaction-preview"));
     const selected_input_type = get_selected_input_type();
-    const amount_value = parseInt(amount.value) || 0;
+    const amount_value = parseInt(transaction_input_amount.value) || 0;
     amount_preview.textContent = `${selected_input_type === "income" ? "+" : selected_input_type === "expense" ? "-" : ""}${Utils.get_currency_symbol(
       currency.value
     )}${amount_value === "" ? 0 : amount_value}`;
@@ -380,7 +384,7 @@ function set_transaction_panel_input_values(
     transaction_preview_container.classList.add("expense");
     set_category("expense");
   }
-  amount.value = amount_value;
+  transaction_input_amount.value = amount_value;
   currency.value = currency_value;
   description.value = description_value;
   method.value = method_value;
