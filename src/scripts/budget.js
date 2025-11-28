@@ -116,7 +116,7 @@ const budgets = [
     id: "5c6d7e8f-9a0b-1234-9012-345678901234",
     category: "other",
     amount: 100.0,
-    currency: "jpy",
+    currency: "usd",
     recurrence: "this-month",
     creation: "2025-09-10T15:20:00.000Z",
   },

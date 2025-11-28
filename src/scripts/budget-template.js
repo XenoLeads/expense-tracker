@@ -14,6 +14,7 @@ const Filters = {
   time: "all",
 };
 
+let budget_used_amounts = null;
 let budget_amounts = null;
 let budget_recurrences = null;
 
@@ -191,7 +192,8 @@ function display_doughnut_chart(budgets) {
   const contexts = budget_doughnut_chart.map(chart => chart.getContext("2d"));
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budgets = format_budgets_for_charts(filtered_budgets);
-  const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
+  const sorted_budgets = formatted_budgets.sort((a, b) => b.used_percentage - a.used_percentage);
+  budget_used_amounts = sorted_budgets.map(budget => budget.used);
   budget_amounts = sorted_budgets.map(budget => budget.amount);
   budget_recurrences = sorted_budgets.map(budget => budget.recurrence);
 
@@ -205,7 +207,7 @@ function display_doughnut_chart(budgets) {
       // Datasets
       [
         {
-          data: sorted_budgets.map(budget => budget.used),
+          data: sorted_budgets.map(budget => budget.used_percentage),
           categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
           backgroundColor: sorted_budgets.map(budget => budget.color),
           borderColor: chart_border_color,
@@ -231,11 +233,12 @@ function display_doughnut_chart(budgets) {
             return dataset.categoryList[index];
           },
           label(context) {
-            const value = context.raw;
-            const formatted_value = Utils.format_currency(value);
-            const budget_amount = Utils.format_currency(budget_amounts[context.dataIndex]);
-            const budget_recurrence = Utils.capitalize(budget_recurrences[context.dataIndex].slice(5)) + "ly";
-            return [` ${budget_recurrence}`, `${formatted_value} / ${budget_amount}`];
+            const index = context.dataIndex;
+            const used_percentage = context.raw;
+            const budget_amount = Utils.format_currency(budget_amounts[index]);
+            const budget_used_amount = Utils.format_currency(budget_used_amounts[index]);
+            const budget_recurrence = Utils.capitalize(budget_recurrences[index].slice(5)) + "ly";
+            return [` ${budget_recurrence}`, `${used_percentage}% (${budget_used_amount} / ${budget_amount})`];
           },
         },
       }
@@ -247,14 +250,15 @@ function update_charts(budgets) {
   const chart_border_color = getComputedStyle(document.getElementById("container")).getPropertyValue("--chart-border-color");
   const filtered_budgets = Utils.filter_budgets(budgets, Filters);
   const formatted_budgets = format_budgets_for_charts(filtered_budgets);
-  const sorted_budgets = formatted_budgets.sort((a, b) => b.used - a.used);
+  const sorted_budgets = formatted_budgets.sort((a, b) => b.used_percentage - a.used_percentage);
+  budget_used_amounts = sorted_budgets.map(budget => budget.used);
   budget_amounts = sorted_budgets.map(budget => budget.amount);
   budget_recurrences = sorted_budgets.map(budget => budget.recurrence);
 
   doughnut_charts.forEach(doughnut_chart_obj =>
     Chart.update(doughnut_chart_obj, [
       {
-        data: sorted_budgets.map(budget => budget.used),
+        data: sorted_budgets.map(budget => budget.used_percentage),
         categoryList: sorted_budgets.map(budget => Utils.capitalize(budget.category, " & ")),
         backgroundColor: sorted_budgets.map(budget => budget.color),
         borderColor: chart_border_color,
@@ -284,7 +288,7 @@ function format_budgets_for_charts(budgets) {
     }
     amount = Math.round(amount);
     used = Math.round(used);
-    formatted_budgets.push({ category, amount, used, recurrence, color: COLORS[category] });
+    formatted_budgets.push({ category, amount, used, recurrence, color: COLORS[category], used_percentage: Math.round((used / amount) * 100) });
   }
   return formatted_budgets;
 }
