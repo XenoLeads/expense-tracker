@@ -159,6 +159,8 @@ function show_budget_panel() {
       }
     }
   }
+
+  document.getElementById("budget-input-amount").focus();
 }
 
 function highlight_selected_filter(filter) {
