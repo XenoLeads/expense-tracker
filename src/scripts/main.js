@@ -92,7 +92,7 @@ function init() {
       const transaction_id = add_transaction_panel.dataset.transactionId;
       if (action_mode === "edit") {
         Transaction.edit(transaction_id, {
-          transaction_type,
+          type: transaction_type,
           amount,
           currency,
           description,
