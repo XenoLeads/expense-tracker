@@ -1167,6 +1167,7 @@ function Transaction(type, currency, amount, description, method, category, time
 }
 
 function add_transaction(type, currency, amount, description, method, category, time) {
+  if (time.slice(0, -4) !== ":00Z") time += ":00Z";
   transactions.push(Transaction(type, currency, amount, description, method, category, time));
 }
 
