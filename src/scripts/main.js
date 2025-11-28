@@ -116,7 +116,11 @@ function init() {
 
   budget_input_confirm_button.addEventListener("click", () => {
     const budget_input_values = get_budget_inputs();
-    if (budget_input_values === null) return;
+    if (budget_input_values === null) {
+      const budget_input_amount = document.getElementById("budget-input-amount");
+      show_custom_input_message(budget_input_amount, "Amount cannot be empty!");
+      return;
+    }
     const action_mode = budget_input_panel_container.dataset.actionMode;
     let success = false;
     if (action_mode === "add") {
@@ -129,7 +133,8 @@ function init() {
     if (success) {
       budget_input_panel_container.classList.remove("visible");
       refresh_current_tab();
-    }
+      show_budget_message();
+    } else show_budget_message("Unable to create budget:", "a budget with the same category and recurrence already exists.");
   });
 
   theme_toggle_button.addEventListener("click", () => {
@@ -149,6 +154,33 @@ function init() {
   init_mobile_add_transaction_inputs();
   init_budget_panel();
   content_overlay.removeAttribute("style");
+}
+
+function show_custom_input_message(input, message) {
+  input.setCustomValidity(message);
+  input.reportValidity();
+  input.focus();
+  input.addEventListener("input", () => input.setCustomValidity(""), { once: true });
+}
+
+function show_budget_message(...message) {
+  const budget_input_message_container = document.getElementsByClassName("budget-input-message-container")[0];
+  budget_input_message_container.innerHTML = "";
+  if (!message) {
+    budget_input_message_container.classList.remove("error");
+    return;
+  }
+  budget_input_message_container.classList.add("error");
+
+  if (Array.isArray(message)) message.forEach(msg => budget_input_message_container.appendChild(create_message(msg)));
+  else budget_input_message_container.appendChild(create_message(message));
+
+  function create_message(message) {
+    const paragraph = document.createElement("p");
+    paragraph.className = "budget-input-message";
+    paragraph.textContent = message;
+    return paragraph;
+  }
 }
 
 function set_current_ui_class(window_width) {
@@ -449,6 +481,7 @@ function init_budget_panel() {
   budget_input_discard_button.addEventListener("click", () => {
     const budget_input_panel_container = document.getElementsByClassName("budget-input-panel-container")[0];
     budget_input_panel_container.classList.remove("visible");
+    show_budget_message();
   });
 }
 
