@@ -207,7 +207,7 @@ function update_line_chart(transactions = Transaction.get()) {
   ]);
 }
 
-function format_time_label(time, is_title = false) {
+function format_time_label(time, is_title = false, is_bar_chart = false) {
   const TIME_FILTERS = {
     "all": {
       year: "numeric",
@@ -225,7 +225,8 @@ function format_time_label(time, is_title = false) {
   };
 
   if (is_title) {
-    delete TIME_FILTERS.all.year;
+    if (is_bar_chart) delete TIME_FILTERS["this-year"].day;
+    else delete TIME_FILTERS.all.year;
     TIME_FILTERS["this-week"].weekday = "long";
     TIME_FILTERS["this-month"].weekday = "long";
     TIME_FILTERS["this-year"].month = "long";
@@ -281,7 +282,7 @@ function display_bar_chart(transactions = Transaction.get()) {
       tooltip_callbacks: {
         title(context) {
           const date = new Date(context[0].parsed.x);
-          return format_time_label(date, true);
+          return format_time_label(date, true, true);
         },
         label(context) {
           const label = context.dataset.label;
