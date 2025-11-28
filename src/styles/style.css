@@ -777,6 +777,10 @@ body {
   z-index: 15;
   pointer-events: none;
 }
+.transaction-panel-container:has(.transaction-panel.visible) {
+  pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 .transaction-panel {
   height: var(--panel-height);
   width: var(--panel-width);
@@ -909,6 +913,10 @@ body {
   justify-content: center;
   align-items: flex-end;
   z-index: 20;
+}
+.budget-input-panel-container.visible{
+  pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .budget-input-panel {
   height: var(--panel-height);
