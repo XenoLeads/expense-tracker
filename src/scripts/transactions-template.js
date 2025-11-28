@@ -79,7 +79,7 @@ function init_transactions_template() {
 
   const transaction_filters = [...document.getElementsByClassName("transaction-filter")];
   init_filters(transaction_filters, Filters);
-  const clear_search_button = document.getElementsByClassName("clear-search-icon")[0];
+  const clear_search_button = document.getElementsByClassName("clear-search-button")[0];
   if (clear_search_button) {
     clear_search_button.addEventListener("click", () => {
       const search_input = document.getElementsByClassName("search-bar")[0];
