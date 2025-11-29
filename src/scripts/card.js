@@ -186,7 +186,7 @@ async function create_remaining_budget_card(budget) {
                 <div class="remaining-budget-type-amount-progress-bar">
                   <div class="remaining-budget-type-amount">
                     <p class="remaining-budget-type">${Utils.capitalize(category, " & ")}</p>
-                    <p class="remaining-budget-amount">${format_amount(amount - used, Utils.get_currency_symbol(currency))}</p>
+                    <p class="remaining-budget-amount">${format_amount(amount - used, currency)}</p>
                   </div>
                   <progress value="${used}" max="${amount}" style="accent-color: ${get_progress_bar_color(
     used_budget_percentage
