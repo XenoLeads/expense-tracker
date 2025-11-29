@@ -697,6 +697,7 @@ body {
 }
 .budget-remaining-amount:not(.budget-preview-input) {
   width: 5rem;
+  text-align: end;
 }
 .budget-progress-amount-used,
 .budget-progress-amount-total {
