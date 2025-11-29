@@ -1105,7 +1105,7 @@ body {
   display: none;
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
+@media (min-width: 768px) and (max-width: 1335px) {
   html {
     font-size: 20px;
   }
@@ -1299,13 +1299,13 @@ body {
   border-radius: 0.4rem;
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1336px) {
   :root {
     --panel-height: 90%;
     --panel-width: 50%;
   }
   html {
-    font-size: 24px;
+    font-size: 20px;
   }
   .toggle-sidebar-button {
     display: block;
