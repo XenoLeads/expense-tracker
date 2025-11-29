@@ -196,8 +196,8 @@ function set_current_ui_class(window_width) {
   };
 
   if (window_width < 768) set_class("mobile");
-  else if (window_width >= 768 && window_width < 1440) set_class("tablet");
-  else if (window_width >= 1440) set_class("desktop");
+  else if (window_width >= 768 && window_width < 1336) set_class("tablet");
+  else if (window_width >= 1336) set_class("desktop");
 }
 
 function get_budget_inputs() {
