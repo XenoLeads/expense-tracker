@@ -1436,3 +1436,12 @@ body {
 .main-content {
   transition: margin-left var(--transition-time) ease-out;
 }
+.button {
+  transition: background-color var(--transition-hover-config);
+}
+.transaction-filter:not(.selected):hover,
+.filter:not(.selected):hover,
+.budget-filter:not(.selected):hover,
+.statistics-time-filter:not(.selected):hover {
+  background-color: var(--button-hover-background-color);
+}
