@@ -12,6 +12,7 @@
   --separator-color: rgba(255, 255, 255, 0.4);
   --icon-background-color: rgba(255, 255, 255, 0.1);
   --button-background-color: rgba(184, 219, 217, 0.1);
+  --button-hover-background-color: rgba(184, 219, 217, 0.2);
   --button-text-color: #ffffff;
   --selected-button-background-color: rgba(184, 219, 217, 0.3);
   --primary-button-text-color: #ffffff;
@@ -48,7 +49,8 @@ body {
   --separator-color: rgba(0, 0, 0, 0.4);
   --icon-background-color: rgba(0, 0, 0, 0.1);
   --primary-button-background-color: rgba(0, 0, 0, 0.25);
-  --button-background-color: var(--primary-button-background-color);
+  --button-background-color: rgba(0, 0, 0, 0.25);
+  --button-hover-background-color: rgba(0, 0, 0, 0.35);
   --selected-button-background-color: rgba(0, 0, 0, 0.3);
   --chart-border-color: #000000;
   --bar-chart-border-color: #009dd6;
@@ -742,13 +744,8 @@ body {
 .navigation-button {
   height: 2.4rem;
   padding: 0.4rem;
-  color: var(--button-text-color);
-  background-color: var(--button-background-color);
   border-radius: 0.4rem;
   aspect-ratio: 1/1;
-}
-.navigation-button.selected {
-  background-color: var(--selected-button-background-color);
 }
 .navigation-button-dashboard {
   padding: 0.5rem;
@@ -1404,6 +1401,7 @@ body {
 /* Transition Animations */
 :root {
   --transtion-cofig: 0.4s ease;
+  --transition-hover-config: 0.25s ease;
 }
 .transaction-panel-container,
 .budget-input-panel-container {
@@ -1417,4 +1415,15 @@ body {
 .transaction-panel-container.visible > .transaction-panel,
 .budget-input-panel-container.visible > .budget-input-panel {
   transform: translateY(0);
+}
+.navigation-button {
+  transition: background-color var(--transition-hover-config);
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+}
+.navigation-button.selected {
+  background-color: var(--selected-button-background-color);
+}
+.navigation-button:not(.selected):hover {
+  background-color: var(--button-hover-background-color);
 }
