@@ -159,6 +159,7 @@ function init() {
   init_mobile_add_transaction_inputs();
   init_budget_panel();
   content_overlay.removeAttribute("style");
+  content_overlay.removeAttribute("class");
 }
 
 function show_custom_input_message(input, message) {
