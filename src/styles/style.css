@@ -831,6 +831,7 @@ body {
   background-color: var(--button-background-color);
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
+  cursor: pointer;
 }
 .income-expense-label:has(#transaction-input-type-income:checked),
 .income-expense-label:has(#transaction-input-type-expense:checked) {
