@@ -877,11 +877,11 @@ body {
 .add-transaction-select-input,
 .drop-down-input {
   background: none;
-  background-color: rgba(184, 219, 217, 0.2);
-  color: var(--primary-text-color);
+  background-color: var(--primary-button-background-color);
+  color: var(--primary-button-text-color);
   border-radius: 0.1rem;
-  border-color: var(--primary-text-color);
   border: 0.1rem solid;
+  border-color: var(--primary-text-color);
   font-size: 1rem;
   outline: none;
 }
@@ -891,14 +891,19 @@ body {
 }
 #container.light-mode .add-transaction-select-input > option,
 #container.light-mode .drop-down-input > option {
+  color: var(--primary-text-color);
   background-color: #e0e0e0;
 }
 .add-transaction-input,
 #add-transaction-input-currency {
   height: 1.6rem;
 }
+#add-transaction-input-time::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
 #add-transaction-input-time {
-  background-color: rgba(184, 219, 217, 0.2);
+  color: var(--primary-button-text-color);
+  background-color: var(--primary-button-background-color);
 }
 .add-transaction-action-buttons-container {
   display: flex;
