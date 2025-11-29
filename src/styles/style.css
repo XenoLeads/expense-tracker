@@ -693,6 +693,7 @@ body {
 .budget-remaining-amount {
   overflow-x: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .budget-remaining-amount:not(.budget-preview-input) {
   width: 5rem;
