@@ -20,7 +20,7 @@
   --primary-button-background-color: rgba(184, 219, 217, 0.2);
   --primary-button-hover-background-color: rgba(184, 219, 217, 0.3);
   --primary-button-active-background-color: rgba(184, 219, 217, 0.4);
-  --secondary-button-color: rgba(184, 219, 217, 0.5);
+  --secondary-button-border-color: rgba(184, 219, 217, 0.5);
   --secondary-button-hover-color: rgba(184, 219, 217, 0.6);
   --secondary-button-active-color: rgba(184, 219, 217, 0.7);
   --expense-amount-color: red;
@@ -54,12 +54,17 @@ body {
   --separator-color: rgba(0, 0, 0, 0.4);
   --icon-background-color: rgba(0, 0, 0, 0.1);
   --primary-button-background-color: rgba(0, 0, 0, 0.25);
+  --primary-button-hover-background-color: rgba(0, 0, 0, 0.3);
+  --primary-button-active-background-color: rgba(0, 0, 0, 0.4);
   --button-background-color: rgba(0, 0, 0, 0.25);
   --button-hover-background-color: rgba(0, 0, 0, 0.35);
-  --selected-button-background-color: rgba(0, 0, 0, 0.3);
+  --button-active-background-color: rgba(0, 0, 0, 0.45);
+  --selected-button-background-color: rgba(0, 0, 0, 0.4);
   --chart-border-color: #000000;
   --bar-chart-border-color: #009dd6;
-  --secondary-button-color: rgba(101, 120, 119, 0.5);
+  --secondary-button-border-color: rgba(101, 120, 119, 0.5);
+  --secondary-button-hover-color: rgba(101, 120, 119, 0.6);
+  --secondary-button-active-color: rgba(101, 120, 119, 0.7);
 }
 .header {
   position: fixed;
@@ -1461,7 +1466,7 @@ body {
   border-color: var(--secondary-button-active-color);
 }
 .secondary-button {
-  border: 0.14rem solid var(--secondary-button-color);
+  border: 0.14rem solid var(--secondary-button-border-color);
   transition: border-color var(--transition-hover-config), background-color var(--transition-hover-config);
 }
 .secondary-button:hover {
