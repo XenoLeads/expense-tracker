@@ -416,6 +416,7 @@ body {
   gap: 0.4rem;
 }
 .card-action-button-text {
+  color: var(--primary-button-text-color);
   pointer-events: none;
 }
 .card-action-button-remove {
