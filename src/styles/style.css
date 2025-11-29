@@ -889,8 +889,8 @@ body {
 .drop-down-input > option {
   background-color: #1c1c1c;
 }
-#container.dark-mode .add-transaction-select-input > option,
-#container.dark-mode .drop-down-input > option {
+#container.light-mode .add-transaction-select-input > option,
+#container.light-mode .drop-down-input > option {
   background-color: #e0e0e0;
 }
 .add-transaction-input,
