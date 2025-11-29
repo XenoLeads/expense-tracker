@@ -1402,7 +1402,8 @@ body {
 
 /* Transition Animations */
 :root {
-  --transtion-config: 0.4s ease;
+  --transition-time: 0.4s;
+  --transtion-config: var(--transition-time) ease;
   --transition-hover-config: 0.25s ease;
 }
 .transaction-panel-container,
@@ -1431,4 +1432,7 @@ body {
 }
 .navigation-sidebar {
   transition: transform var(--transtion-config);
+}
+.main-content {
+  transition: margin-left var(--transition-time) ease-out;
 }
