@@ -1402,16 +1402,16 @@ body {
 
 /* Transition Animations */
 :root {
-  --transtion-cofig: 0.4s ease;
+  --transtion-config: 0.4s ease;
   --transition-hover-config: 0.25s ease;
 }
 .transaction-panel-container,
 .budget-input-panel-container {
-  transition: background-color var(--transtion-cofig);
+  transition: background-color var(--transtion-config);
 }
 .transaction-panel,
 .budget-input-panel {
-  transition: transform var(--transtion-cofig);
+  transition: transform var(--transtion-config);
   transform: translateY(150%);
 }
 .transaction-panel-container.visible > .transaction-panel,
@@ -1430,5 +1430,5 @@ body {
   background-color: var(--button-hover-background-color);
 }
 .navigation-sidebar {
-  transition: transform var(--transtion-cofig);
+  transition: transform var(--transtion-config);
 }
