@@ -21,6 +21,7 @@ const statistics_button = [...document.getElementsByClassName("navigation-button
 const navigation_buttons = [...dashboard_button, ...transactions_button, ...budget_button, ...statistics_button];
 const toggle_sidebar_button = document.getElementsByClassName("toggle-sidebar-button")[0];
 const navigation_sidebar = document.getElementsByClassName("navigation-sidebar")[0];
+const transaction_panel_container = document.getElementsByClassName("transaction-panel-container")[0];
 const add_transaction_panel = document.getElementsByClassName("transaction-panel")[0];
 const open_transaction_panel_button = [...document.getElementsByClassName("navigation-button-add")];
 const add_transaction_button = document.getElementsByClassName("add-transaction-button")[0];
@@ -75,14 +76,14 @@ function init() {
 
   open_transaction_panel_button.map(button =>
     button.addEventListener("click", () => {
-      add_transaction_panel.classList.add("visible");
+      transaction_panel_container.classList.add("visible");
       add_transaction_panel.dataset.actionMode = "add";
       reset_transaction_panel_inputs();
       transaction_input_amount.focus();
     })
   );
   mobile_discard_transaction_button.addEventListener("click", () => {
-    add_transaction_panel.classList.remove("visible");
+    transaction_panel_container.classList.remove("visible");
   });
   add_transaction_button.addEventListener("click", () => {
     const transaction_type = get_selected_input_type();
@@ -108,7 +109,7 @@ function init() {
         Transaction.add(transaction_type, currency, parseInt(amount), description, method, category, time);
       }
       refresh_current_tab();
-      add_transaction_panel.classList.remove("visible");
+      transaction_panel_container.classList.remove("visible");
     }
   });
 
@@ -339,7 +340,7 @@ function set_category(type) {
 
 function show_edit_transaction_panel(transaction) {
   set_edit_transaction_panel(transaction);
-  add_transaction_panel.classList.add("visible");
+  transaction_panel_container.classList.add("visible");
   add_transaction_panel.dataset.actionMode = "edit";
   add_transaction_panel.dataset.transactionId = transaction.id;
 }

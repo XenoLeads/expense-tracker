@@ -781,7 +781,7 @@ body {
   z-index: 15;
   pointer-events: none;
 }
-.transaction-panel-container:has(.transaction-panel.visible) {
+.transaction-panel-container.visible {
   pointer-events: all;
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -791,10 +791,8 @@ body {
   border-bottom-left-radius: unset;
   border-bottom-right-radius: unset;
   pointer-events: none;
-  transform: translateY(-150%);
 }
-.transaction-panel.visible {
-  transform: translateY(0);
+.transaction-panel-container.visible > .transaction-panel {
   pointer-events: all;
 }
 .add-transaction-inputs {
@@ -915,10 +913,11 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: flex-end;
   z-index: 20;
+  pointer-events: none;
 }
 .budget-input-panel-container.visible {
   pointer-events: all;
@@ -935,9 +934,6 @@ body {
   align-items: stretch;
   gap: 0.4rem;
   padding: 1rem;
-}
-.budget-input-panel-container.visible {
-  display: flex;
 }
 .filter-container {
   display: flex;
@@ -1403,4 +1399,22 @@ body {
 
 #content-overlay:not([style]) {
   visibility: hidden;
+}
+
+/* Transition Animations */
+:root {
+  --transtion-cofig: 0.4s ease;
+}
+.transaction-panel-container,
+.budget-input-panel-container {
+  transition: background-color var(--transtion-cofig);
+}
+.transaction-panel,
+.budget-input-panel {
+  transition: transform var(--transtion-cofig);
+  transform: translateY(150%);
+}
+.transaction-panel-container.visible > .transaction-panel,
+.budget-input-panel-container.visible > .budget-input-panel {
+  transform: translateY(0);
 }
