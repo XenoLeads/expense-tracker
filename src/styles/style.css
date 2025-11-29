@@ -21,6 +21,8 @@
   --primary-button-hover-background-color: rgba(184, 219, 217, 0.3);
   --primary-button-active-background-color: rgba(184, 219, 217, 0.4);
   --secondary-button-color: rgba(184, 219, 217, 0.5);
+  --secondary-button-hover-color: rgba(184, 219, 217, 0.6);
+  --secondary-button-active-color: rgba(184, 219, 217, 0.7);
   --expense-amount-color: red;
   --income-amount-color: lime;
   --panel-height: 95%;
@@ -891,9 +893,6 @@ body {
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
 }
-.secondary-button {
-  border: 0.14rem solid var(--secondary-button-color);
-}
 
 /* Budget Input Panel */
 .budget-input-panel-container {
@@ -1447,4 +1446,16 @@ body {
 }
 .primary-button:active {
   background-color: var(--primary-button-active-background-color);
+}
+.secondary-button {
+  border: 0.14rem solid var(--secondary-button-color);
+  transition: border-color var(--transition-hover-config), background-color var(--transition-hover-config);
+}
+.secondary-button:hover {
+  border-color: var(--secondary-button-hover-color);
+  background-color: var(--button-background-color);
+}
+.secondary-button:active {
+  border-color: var(--secondary-button-active-color);
+  background-color: var(--button-hover-background-color);
 }
