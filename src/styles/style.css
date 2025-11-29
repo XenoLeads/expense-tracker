@@ -888,7 +888,7 @@ body {
   align-items: stretch;
   gap: 1rem;
 }
-.add-transaction-action-button {
+.transaction-action-button {
   flex: 1;
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
@@ -1446,6 +1446,19 @@ body {
 }
 .primary-button:active {
   background-color: var(--primary-button-active-background-color);
+}
+.add-transaction-button,
+.budget-input-confirm-button {
+  border: 0.14rem solid rgba(0, 0, 0, 0);
+  transition: border-color var(--transition-hover-config), background-color var(--transition-hover-config);
+}
+.add-transaction-button:hover,
+.budget-input-confirm-button:hover {
+  border-color: var(--secondary-button-hover-color);
+}
+.add-transaction-button:active,
+.budget-input-confirm-button:active {
+  border-color: var(--secondary-button-active-color);
 }
 .secondary-button {
   border: 0.14rem solid var(--secondary-button-color);
