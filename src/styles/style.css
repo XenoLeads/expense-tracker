@@ -331,7 +331,8 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.add-transaction-input-preview > .transaction-card > .transaction-amount {
+.add-transaction-input-preview > .transaction-card > .transaction-amount,
+.transaction-card.expense .transaction-amount {
   max-width: 6rem;
   overflow: hidden;
   text-overflow: ellipsis;
