@@ -1126,12 +1126,14 @@ body {
   .main-content {
     margin-bottom: unset;
   }
-  .navigation-sidebar.tablet-visible {
+  .navigation-sidebar {
     display: flex;
     max-width: none;
     padding: 1rem;
-    transform: translateX(0);
     width: 30%;
+  }
+  .navigation-sidebar.tablet-visible {
+    transform: translateX(0);
   }
 }
 
@@ -1315,10 +1317,10 @@ body {
   }
   .navigation-sidebar {
     display: flex;
-  }
-  .navigation-sidebar.desktop-visible {
     max-width: none;
     padding: 1rem;
+  }
+  .navigation-sidebar.desktop-visible {
     transform: translateX(0);
   }
   .desktop-quick-view-actions-sidebar {
@@ -1426,4 +1428,7 @@ body {
 }
 .navigation-button:not(.selected):hover {
   background-color: var(--button-hover-background-color);
+}
+.navigation-sidebar {
+  transition: transform var(--transtion-cofig);
 }
