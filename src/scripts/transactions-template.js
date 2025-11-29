@@ -190,7 +190,7 @@ function refresh() {
   });
 
   const clear_search_icon = document.getElementsByClassName("clear-search-icon")[0];
-  Utils.set_icon_url(clear_search_icon, Main.is_dark_theme);
+  Utils.set_icon_url(clear_search_icon, Main.is_light_theme);
 }
 
 export default {

@@ -38,7 +38,7 @@ body {
   --chart-border-color: #ffffff;
   --bar-chart-border-color: #c2e6f5;
 }
-#container.dark-mode {
+#container.light-mode {
   --background-gradient-colors: #b8c2c8, #9faab2;
   --background-gradient: linear-gradient(45deg, var(--background-gradient-colors));
   --card-background-gradient: linear-gradient(135deg, var(--background-gradient-colors));

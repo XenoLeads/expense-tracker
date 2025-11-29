@@ -142,10 +142,10 @@ function init() {
   });
 
   theme_toggle_button.addEventListener("click", () => {
-    container.classList.toggle("dark-mode");
+    container.classList.toggle("light-mode");
     const toggleable_icons = [...document.getElementsByClassName("icon dark-light")];
     toggleable_icons.forEach(icon => {
-      Utils.set_icon_url(icon, container.classList.contains("dark-mode"));
+      Utils.set_icon_url(icon, container.classList.contains("light-mode"));
     });
     refresh_current_tab();
   });
@@ -551,7 +551,7 @@ export default {
     edit_transaction: show_edit_transaction_panel,
     edit_budget: show_edit_budget_panel,
   },
-  get is_dark_theme() {
-    return container.classList.contains("dark-mode");
+  get is_light_theme() {
+    return container.classList.contains("light-mode");
   },
 };

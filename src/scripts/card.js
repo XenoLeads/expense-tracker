@@ -23,7 +23,7 @@ function get_card_action_buttons() {
 
   edit_button.appendChild(edit_button_icon);
   edit_button.appendChild(edit_button_text);
-  Icon.import(Utils.get_icon_url("edit", Main.is_dark_theme)).then(icon_url => (edit_button_icon.src = icon_url));
+  Icon.import(Utils.get_icon_url("edit", Main.is_light_theme)).then(icon_url => (edit_button_icon.src = icon_url));
 
   const remove_button = document.createElement("button");
   remove_button.className = "button card-action-button card-action-button-remove";
@@ -40,7 +40,7 @@ function get_card_action_buttons() {
 
   remove_button.appendChild(remove_button_icon);
   remove_button.appendChild(remove_button_text);
-  Icon.import(Utils.get_icon_url("clear", Main.is_dark_theme)).then(icon_url => (remove_button_icon.src = icon_url));
+  Icon.import(Utils.get_icon_url("clear", Main.is_light_theme)).then(icon_url => (remove_button_icon.src = icon_url));
 
   container.appendChild(edit_button);
   container.appendChild(remove_button);
