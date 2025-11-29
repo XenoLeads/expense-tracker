@@ -16,7 +16,8 @@
   --button-text-color: #ffffff;
   --selected-button-background-color: rgba(184, 219, 217, 0.3);
   --primary-button-text-color: #ffffff;
-  --primary-button-background-color: rgba(184, 219, 217, 0.3);
+  --primary-button-background-color: rgba(184, 219, 217, 0.2);
+  --primary-button-hover-background-color: rgba(184, 219, 217, 0.3);
   --secondary-button-color: rgba(184, 219, 217, 0.5);
   --expense-amount-color: red;
   --income-amount-color: lime;
@@ -711,7 +712,6 @@ body {
 
 /* Tab - Statistics */
 .export-statistics-button {
-  background-color: var(--button-background-color);
   padding: 0.4rem 1rem;
   border-radius: 0.4rem;
   align-self: flex-end;
@@ -891,10 +891,6 @@ body {
 }
 .secondary-button {
   border: 0.14rem solid var(--secondary-button-color);
-}
-.primary-button {
-  color: var(--primary-button-text-color);
-  background-color: var(--primary-button-background-color);
 }
 
 /* Budget Input Panel */
@@ -1146,8 +1142,6 @@ body {
 .export-statistics-button.desktop {
   text-align: center;
   width: 100%;
-  color: var(--primary-button-text-color);
-  background-color: var(--primary-button-background-color);
   padding: 0.4rem 0.4rem;
   border-radius: 0.4rem;
   margin-bottom: 1rem;
@@ -1435,4 +1429,11 @@ body {
 }
 .filter:not(.selected):hover {
   background-color: var(--button-hover-background-color);
+}
+.primary-button {
+  color: var(--primary-button-text-color);
+  background-color: var(--primary-button-background-color);
+}
+.primary-button:hover {
+  background-color: var(--primary-button-hover-background-color);
 }

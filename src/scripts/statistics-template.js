@@ -23,7 +23,7 @@ let time_filter = "all";
 
 function get_statistics_template() {
   return `
-        <button class="button export-statistics-button">Export</button>
+        <button class="button primary-button export-statistics-button">Export</button>
         <div class="card statistics-time-filter-container">
           <div class="statistics-time-filters">
             <button class="button filter statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
@@ -49,7 +49,7 @@ function get_statistics_template() {
 function init_statistics_template() {
   desktop_quick_view_actions_sidebar.innerHTML = `
           <div class="deskto-statistics-quick-view-actions-container">
-            <button class="button export-statistics-button desktop">Export</button>
+            <button class="button primary-button export-statistics-button desktop">Export</button>
             <div class="card statistics-time-filter-container">
               <h2 class="statistics-time-filter-heading">Time</h2>
               <div class="separator"></div>

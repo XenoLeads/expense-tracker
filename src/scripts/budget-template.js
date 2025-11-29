@@ -20,7 +20,7 @@ let budget_recurrences = null;
 
 function get_budget_template() {
   return `
-  <button class="button open-budget-panel-button">Add New Budget</button>
+  <button class="button primary-button open-budget-panel-button">Add New Budget</button>
         <div class="card remaining-budget-overview-pie-chart">
           <div class="remaining-budget-overview">
             <div class="remaining-budget-overview-heading-separator">
@@ -59,7 +59,7 @@ function get_budget_template() {
 function init_budget_template() {
   desktop_quick_view_actions_sidebar.innerHTML = `
   <div class="desktop-budget-quick-view-actions">
-            <button class="button open-budget-panel-button desktop">Add New Budget</button>
+            <button class="button primary-button open-budget-panel-button desktop">Add New Budget</button>
             <div class="desktop-most-used-budget-overview-container">
               <div class="card desktop-most-used-budget-overview-chart">
                 <div class="desktop-most-used-budget-overview">
