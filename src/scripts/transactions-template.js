@@ -21,19 +21,19 @@ function get_transactions_template() {
           </div>
           <div class="card transaction-filters">
             <div class="transaction-filters-time">
-              <button class="button transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
-              <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
-              <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
-              <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">
+              <button class="button filter transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
+              <button class="button filter transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">
                 This Month
               </button>
-              <button class="button transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
             </div>
             <div class="separator"></div>
             <div class="transaction-filters-type">
-              <button class="button transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
-              <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
-              <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
+              <button class="button filter transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
+              <button class="button filter transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
+              <button class="button filter transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="vertical-separator"></div>
               <div class="transaction-filters-category"></div>
             </div>
@@ -57,20 +57,20 @@ function init_transactions_template() {
                 <h2 class="desktop-transaction-filters-time-heading">Time</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
-              <button class="button transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
-              <button class="button transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
-              <button class="button transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
-              <button class="button transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
+              <button class="button filter transaction-filter transaction-time-filter-all" data-type="time" data-value="all">All Time</button>
+              <button class="button filter transaction-filter transaction-time-filter-today" data-type="time" data-value="today">Today</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
+              <button class="button filter transaction-filter transaction-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
             </div>
             <div class="card transaction-filters-type">
               <div class="desktop-transaction-filters-type-heading-separator">
                 <h2 class="desktop-transaction-filters-type-heading">Category</h2>
                 <div class="separator"></div>
               </div>
-              <button class="button transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
-              <button class="button transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
-              <button class="button transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
+              <button class="button filter transaction-filter transaction-category-filter-all" data-type="type" data-value="all">All</button>
+              <button class="button filter transaction-filter transaction-category-filter-income" data-type="type" data-value="income">Income</button>
+              <button class="button filter transaction-filter transaction-category-filter-expense" data-type="type" data-value="expense">Expense</button>
               <div class="separator"></div>
               <div class="transaction-filters-category"></div>
             </div>
@@ -134,7 +134,7 @@ function update_filter_ui(filter_type, filter_value) {
   if (filter_type === "type") {
     category_filters_container.map(container => (container.innerHTML = ""));
     function create_category_button(category_name) {
-      return `<button class="button transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
+      return `<button class="button filter transaction-filter transaction-category-filter-${category_name}" data-type="category" data-value="${category_name}">${Utils.capitalize(
         category_name,
         " & "
       )}</button>`;

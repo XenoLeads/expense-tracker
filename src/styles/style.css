@@ -477,10 +477,7 @@ body {
 .transaction-filters-category {
   overflow-x: visible;
 }
-.transaction-filter,
-.filter,
-.budget-filter,
-.statistics-time-filter {
+.filter {
   color: var(--button-text-color);
   background-color: var(--button-background-color);
   white-space: nowrap;
@@ -488,10 +485,7 @@ body {
   border-radius: 0.4rem;
   font-size: 0.8rem;
 }
-.transaction-filter.selected,
-.filter.selected,
-.budget-filter.selected,
-.statistics-time-filter.selected {
+.filter.selected {
   background-color: var(--selected-button-background-color);
 }
 
@@ -1439,9 +1433,6 @@ body {
 .button {
   transition: background-color var(--transition-hover-config);
 }
-.transaction-filter:not(.selected):hover,
-.filter:not(.selected):hover,
-.budget-filter:not(.selected):hover,
-.statistics-time-filter:not(.selected):hover {
+.filter:not(.selected):hover {
   background-color: var(--button-hover-background-color);
 }

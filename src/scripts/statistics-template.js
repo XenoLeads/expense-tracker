@@ -26,10 +26,10 @@ function get_statistics_template() {
         <button class="button export-statistics-button">Export</button>
         <div class="card statistics-time-filter-container">
           <div class="statistics-time-filters">
-            <button class="button statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
-            <button class="button statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
-            <button class="button statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
-            <button class="button statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
+            <button class="button filter statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
+            <button class="button filter statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+            <button class="button filter statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
+            <button class="button filter statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
           </div>
         </div>
         <div class="statistics-line-horizontal-bar-chart-container">
@@ -54,10 +54,10 @@ function init_statistics_template() {
               <h2 class="statistics-time-filter-heading">Time</h2>
               <div class="separator"></div>
               <div class="statistics-time-filters">
-                <button class="button statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
-                <button class="button statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
-                <button class="button statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
-                <button class="button statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
+                <button class="button filter statistics-time-filter statistics-time-filter-all-time" data-type="time" data-value="all">All Time</button>
+                <button class="button filter statistics-time-filter statistics-time-filter-this-week" data-type="time" data-value="this-week">This Week</button>
+                <button class="button filter statistics-time-filter statistics-time-filter-this-month" data-type="time" data-value="this-month">This Month</button>
+                <button class="button filter statistics-time-filter statistics-time-filter-this-year" data-type="time" data-value="this-year">This Year</button>
               </div>
             </div>
           </div>

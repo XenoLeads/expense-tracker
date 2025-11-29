@@ -40,15 +40,15 @@ function get_budget_template() {
           </div>
           <div class="all-budgets-filters-container">
               <div class="all-budgets-filters all-budgets-sort-filters">
-              <button class="button budget-filter all-budget-filter-button-most-used" data-type="sort" data-value="most-used">Most Used</button>
-              <button class="button budget-filter all-budget-filter-button-least-used" data-type="sort" data-value="least-used">Least Used</button>
+              <button class="button filter budget-filter all-budget-filter-button-most-used" data-type="sort" data-value="most-used">Most Used</button>
+              <button class="button filter budget-filter all-budget-filter-button-least-used" data-type="sort" data-value="least-used">Least Used</button>
               </div>
             <div class="vertical-separator"></div>
               <div class="all-budgets-filters all-budgets-time-filters">
-                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="all">All Time</button>
-                <button class="button budget-filter all-budget-filter-button-weekly" data-type="time" data-value="this-week">Weekly</button>
-                <button class="button budget-filter all-budget-filter-button-monthly" data-type="time" data-value="this-month">Monthly</button>
-                <button class="button budget-filter all-budget-filter-button-yearly" data-type="time" data-value="this-year">Yearly</button>
+                <button class="button filter budget-filter all-budget-filter-button-weekly" data-type="time" data-value="all">All Time</button>
+                <button class="button filter budget-filter all-budget-filter-button-weekly" data-type="time" data-value="this-week">Weekly</button>
+                <button class="button filter budget-filter all-budget-filter-button-monthly" data-type="time" data-value="this-month">Monthly</button>
+                <button class="button filter budget-filter all-budget-filter-button-yearly" data-type="time" data-value="this-year">Yearly</button>
               </div>
           </div>
           <div class="all-budgets"></div>
