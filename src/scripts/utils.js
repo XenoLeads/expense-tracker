@@ -123,7 +123,7 @@ function sort_budgets(budgets, filters = { sort: "most-used" }) {
 }
 
 function filter_transactions(transactions, filters, search_text = null) {
-  const now = new Date();
+  const now = new Date("2025-11-22T09:30:00Z");
   if (search_text) transactions = Transaction.search(search_text, transactions);
   return transactions.filter(tx => {
     const txTime = new Date(tx.time);
