@@ -1087,6 +1087,23 @@ body {
   gap: 0.6rem;
   margin-top: 0.5rem;
 }
+.top-incomes::after,
+.top-expenses::after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+.top-incomes::after {
+  content: "There has been no income yet.";
+}
+.top-expenses::after {
+  content: "There has been no expense yet.";
+}
+.top-incomes:has(.top-income)::after,
+.top-expenses:has(.top-expense)::after {
+  display: none;
+}
 .top-incomes-top-expenses {
   display: none;
 }
