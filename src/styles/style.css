@@ -184,8 +184,6 @@ body {
   text-align: center;
   top: 0;
   color: var(--primary-text-color);
-  border-bottom: 0.05rem solid var(--primary-text-color);
-  padding-bottom: 0.35rem;
 }
 .budget-pie-chart-container::after {
   content: "Budgets Overview";
