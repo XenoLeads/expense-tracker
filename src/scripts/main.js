@@ -59,7 +59,12 @@ const CATEGORIES = {
 
 function init() {
   Storage.set();
-  render_tab(Dashboard_Template);
+  Storage.set_state();
+  const current_tab = main.dataset.tab;
+  render_tab(NAVIGATION_KEYMAP[current_tab]);
+  navigation_buttons.map(button =>
+    button.dataset.navigationTab === current_tab ? button.classList.add("selected") : button.classList.remove("selected")
+  );
 
   set_current_ui_class(window.innerWidth);
   navigation_buttons.map(button => {
@@ -69,6 +74,7 @@ function init() {
 
       const tab = NAVIGATION_KEYMAP[button.dataset.navigationTab];
       if (tab) render_tab(tab);
+      Storage.save_state();
     });
   });
   toggle_sidebar_button.addEventListener("click", () => {
@@ -544,20 +550,9 @@ async function set_budget_preview(budget = {}) {
 init();
 
 export default {
-  categories: {
-    get income() {
-      return CATEGORIES.income;
-    },
-    get expense() {
-      return CATEGORIES.expense;
-    },
-  },
   refresh: refresh_current_tab,
   panel: {
     edit_transaction: show_edit_transaction_panel,
     edit_budget: show_edit_budget_panel,
-  },
-  get is_light_theme() {
-    return container.classList.contains("light-mode");
   },
 };

@@ -1,3 +1,4 @@
+import Storage from "./storage.js";
 import Chart from "./chart.js";
 import Card from "./card.js";
 import Budget from "./budget.js";
@@ -100,6 +101,7 @@ function init_filters(filter_elemets, filters) {
       if (budget_type in Filters && Filters[budget_type] !== budget_value) Filters[budget_type] = budget_value;
       if (budget_type === "sort")
         document.getElementsByClassName("remaining-budget-overview-heading")[0].textContent = Utils.capitalize(budget_value, " ");
+      Storage.save_state();
       refresh();
     });
   });
@@ -300,4 +302,11 @@ export default {
   get: get_budget_template,
   init: init_budget_template,
   refresh,
+  get filters() {
+    return Filters;
+  },
+  set filters(new_filters_object) {
+    for (const new_filter in new_filters_object)
+      if (new_filter in Filters && typeof Filters[new_filter] === "string") Filters[new_filter] = new_filters_object[new_filter];
+  },
 };

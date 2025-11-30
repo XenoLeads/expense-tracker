@@ -1,3 +1,4 @@
+import Storage from "./storage.js";
 import Card from "./card.js";
 import Main from "./main.js";
 import Transaction from "./transaction.js";
@@ -5,6 +6,12 @@ import Utils from "./utils.js";
 import clear_search_icon from "../assets/icons/light/clear.svg";
 
 const desktop_quick_view_actions_sidebar = document.getElementsByClassName("desktop-quick-view-actions-sidebar")[0];
+const container = document.getElementById("container");
+
+const CATEGORIES = {
+  income: ["default", "salary", "freelance", "investments", "other"],
+  expense: ["default", "food-dining", "transportation", "shopping", "bills-utilities", "entertainment", "healthcare", "travel", "other"],
+};
 const Filters = {
   time: "all",
   type: "all",
@@ -108,6 +115,7 @@ function handle_transaction_filters(filter) {
     if (filter_type === "type") Filters.category = "all";
     update_filter_ui(filter_type, filter_value);
     display_transactions(undefined, Filters);
+    Storage.save_state();
   }
 }
 
@@ -143,7 +151,7 @@ function update_filter_ui(filter_type, filter_value) {
     let category_buttons = "";
     const only_show_selected_type_of_transactions = filter_value !== "all";
     if (only_show_selected_type_of_transactions) {
-      Main.categories[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
+      CATEGORIES[Filters.type].forEach(category_name => (category_buttons += create_category_button(category_name)));
       category_filters_container.map(container => container.insertAdjacentHTML("beforeend", create_category_button("all")));
     }
     category_filters_container.map(container => container.insertAdjacentHTML("beforeend", category_buttons));
@@ -190,7 +198,7 @@ function refresh() {
   });
 
   const clear_search_icon = document.getElementsByClassName("clear-search-icon")[0];
-  Utils.set_icon_url(clear_search_icon, Main.is_light_theme);
+  Utils.set_icon_url(clear_search_icon, container.classList.contains("light-mode"));
 }
 
 export default {
@@ -198,4 +206,11 @@ export default {
   get: get_transactions_template,
   init: init_transactions_template,
   refresh,
+  get filters() {
+    return Filters;
+  },
+  set filters(new_filters_object) {
+    for (const new_filter in new_filters_object)
+      if (new_filter in Filters && typeof Filters[new_filter] === "string") Filters[new_filter] = new_filters_object[new_filter];
+  },
 };

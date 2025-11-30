@@ -1,3 +1,4 @@
+import Storage from "./storage.js";
 import Tracker from "./tracker.js";
 import CSV from "./csv.js";
 import Utils from "./utils.js";
@@ -94,6 +95,7 @@ function init_filters() {
       filter.classList.add("selected");
       const filter_value = filter.dataset.value;
       time_filter = filter_value;
+      Storage.save_state();
       refresh();
     });
   });
@@ -426,4 +428,10 @@ export default {
   get: get_statistics_template,
   refresh,
   init: init_statistics_template,
+  get time_filter() {
+    return time_filter;
+  },
+  set time_filter(new_time_filter) {
+    if (typeof new_time_filter === "string") time_filter = new_time_filter;
+  },
 };
