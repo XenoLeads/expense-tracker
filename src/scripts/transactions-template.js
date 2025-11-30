@@ -160,7 +160,9 @@ function update_filter_ui(filter_type, filter_value) {
     const all_category_filters = [];
     category_filters_container.forEach(container => [...container.children].forEach(child => all_category_filters.push(child)));
     all_category_filters.map(filter => {
-      filter.classList.remove("selected");
+      const filter_value = filter.dataset.value;
+      if (Filters.category === filter_value) filter.classList.add("selected");
+      else filter.classList.remove("selected");
       filter.addEventListener("click", () => {
         handle_transaction_filters(filter);
       });
