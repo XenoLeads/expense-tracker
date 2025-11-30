@@ -1,5 +1,6 @@
 import "../styles/style.css";
 
+import Storage from "./storage.js";
 import Icon from "./icon.js";
 import Utils from "./utils.js";
 import Dashboard_Template from "./dashboard-template.js";
@@ -57,6 +58,7 @@ const CATEGORIES = {
 };
 
 function init() {
+  Storage.set();
   render_tab(Dashboard_Template);
 
   set_current_ui_class(window.innerWidth);
@@ -108,6 +110,7 @@ function init() {
       } else {
         Transaction.add(transaction_type, currency, parseInt(amount), description, method, category, time);
       }
+      Storage.save();
       refresh_current_tab();
       transaction_panel_container.classList.remove("visible");
     }
@@ -136,9 +139,10 @@ function init() {
       success = Budget.edit(budget_input_values, budget_id);
     }
     if (success) {
-      budget_input_panel_container.classList.remove("visible");
+      Storage.save();
       refresh_current_tab();
       show_budget_message();
+      budget_input_panel_container.classList.remove("visible");
     } else show_budget_message("Unable to create budget:", "a budget with the same category and recurrence already exists.");
   });
 

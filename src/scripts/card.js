@@ -1,3 +1,4 @@
+import Storage from "./storage.js";
 import Transaction from "./transaction.js";
 import Icon from "./icon.js";
 import Utils from "./utils.js";
@@ -102,6 +103,7 @@ function handle_action_buttons(event) {
         console.group("Removed Transaction:");
         console.log(removed_transaction);
         console.groupEnd();
+        Storage.save();
         Main.refresh();
       } else if (action === "edit") {
         Main.panel.edit_transaction(Transaction.find(card_id).item);
@@ -112,6 +114,7 @@ function handle_action_buttons(event) {
         console.group("Removed Budget:");
         console.log(removed_budget);
         console.groupEnd();
+        Storage.save();
         Main.refresh();
       } else if (action === "edit") {
         Main.panel.edit_budget(Budget.find(card_id).item);
